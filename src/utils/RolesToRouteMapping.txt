@@ -1,0 +1,24 @@
+Role	Allowed Routes	Allowed Subroutes Masters	Allowed Subroutes Transactions	Allowed Subroutes Reports
+Admin	home,master,transactions,reports	Company_Information,Employee_Master,Account_Master,Item_Master,Workstation_Master,Machine_Master,General_Work_List	Work_Order,Daily_Work_Report,Job_Work_Order,Job_Work_Receipt,Sale_Challan,Payment,Rejection	Work_Book,Work_Order_Register,Pay_Slip,Salary_Ledger,Production_Ledger,Account_Ledger
+Manager	home,reports			Work_Book,Work_Order_Register,Pay_Slip,Salary_Ledger,Production_Ledger,Account_Ledger
+Employee	home,transactions		Daily_Work_Report	
+Guest	home			
+
+
+
+
+
+
+
+id	ID	Email	Access_Category
+
+
+={"id";ArrayFormula(if(C2:C<>"",row(A2:A)-1,""))}
+
+={"ID";ArrayFormula(if(C2:C<>"",row(B2:B)-1,""))}
+
+
+=UNIQUE(IMPORTRANGE(files.db_master,"EMPLOYEE_MASTER!L:L"))
+
+
+=UNIQUE(IMPORTRANGE(files.db_master,"USER_DETAILS!F:F"))

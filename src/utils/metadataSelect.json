@@ -1,0 +1,473 @@
+{
+    "GENERAL_WORK_DETAILS": {
+        "Misc_Work": [
+            "No Electricity",
+            "No Work",
+            "Machine Defect"
+        ]
+    },
+    "ITEM_MASTER": {
+        "Material_Handling_Charges": [
+            "1%",
+            "2%",
+            "3%",
+            "4%",
+            "5%",
+            "6%",
+            "7%",
+            "8%",
+            "9%",
+            "10%",
+            "11%",
+            "12%",
+            "13%",
+            "14%",
+            "15%",
+            "16%",
+            "17%",
+            "18%",
+            "19%",
+            "20%",
+            "21%",
+            "22%",
+            "23%",
+            "24%",
+            "25%",
+            "26%",
+            "27%",
+            "28%",
+            "29%",
+            "30%",
+            "31%",
+            "32%",
+            "33%",
+            "34%",
+            "35%",
+            "36%",
+            "37%",
+            "38%",
+            "39%",
+            "40%",
+            "41%",
+            "42%",
+            "43%",
+            "44%",
+            "45%",
+            "46%",
+            "47%",
+            "48%",
+            "49%",
+            "50%",
+            "51%",
+            "52%",
+            "53%",
+            "54%",
+            "55%",
+            "56%",
+            "57%",
+            "58%",
+            "59%",
+            "60%",
+            "61%",
+            "62%",
+            "63%",
+            "64%",
+            "65%",
+            "66%",
+            "67%",
+            "68%",
+            "69%",
+            "70%",
+            "71%",
+            "72%",
+            "73%",
+            "74%",
+            "75%",
+            "76%",
+            "77%",
+            "78%",
+            "79%",
+            "80%",
+            "81%",
+            "82%",
+            "83%",
+            "84%",
+            "85%",
+            "86%",
+            "87%",
+            "88%",
+            "89%",
+            "90%",
+            "91%",
+            "92%",
+            "93%",
+            "94%",
+            "95%",
+            "96%",
+            "97%",
+            "98%",
+            "99%",
+            "100%"
+        ],
+        "Item_Group": [
+            "Wilo",
+            "PHINIX"
+        ],
+        "UOM": [
+            "PCS"
+        ],
+        "Item_Material": [
+            "SS410"
+        ]
+    },
+    "PAYMENT_DETAILS": {
+        "Transaction Type": [
+            "Debit",
+            "Credit"
+        ],
+        "Payment_Mode": [],
+        "Account_Name": [
+            "OM000001",
+            "OM000002",
+            "OM000003",
+            "OM000004",
+            "OM000005",
+            "OM000006",
+            "OM000007",
+            "OM000008",
+            "OM000009",
+            "OM000010",
+            "OM000011",
+            "OM000012",
+            "OM000013",
+            "OM000014",
+            "WILO Mather And Platt Pumps Pvt. Ltd.",
+            "Brother Industries",
+            "Pumpsense Fluild Engineering Pvt. Ltd.",
+            "Phinix Engineers",
+            "Prithviraj Engg. Works",
+            "Vishal Industries",
+            "Ganraj Engineering Works"
+        ]
+    },
+    "WORK_ORDER": {
+        "Account_Name": [
+            "WILO Mather And Platt Pumps Pvt. Ltd.",
+            "Brother Industries",
+            "Pumpsense Fluild Engineering Pvt. Ltd.",
+            "Phinix Engineers",
+            "Prithviraj Engg. Works",
+            "Vishal Industries",
+            "Ganraj Engineering Works"
+        ],
+        "PO_Ref": [
+            "PO_WO000001",
+            "PO_WO000002",
+            "PO_WO000003",
+            "PO_WO000004",
+            "PO_WO000005",
+            "PO_WO000006",
+            "PO_WO000007",
+            "PO_WO000008",
+            "PO_WO000009"
+        ]
+    },
+    "USER_DETAILS": {
+        "Access_Category": [
+            "Admin",
+            "Manager",
+            "Employee",
+            "Guest"
+        ]
+    },
+    "BILL_OF_PROCESS": {
+        "Workstation": [
+            "Turning",
+            "Grinding",
+            "Keyway",
+            "Manual"
+        ],
+        "Opn_Name": [
+            "First Caunter",
+            "First Rough Turning",
+            "Second Caunter",
+            "Second Rough Turning",
+            "First Finish Turning",
+            "Second Finish Turning",
+            "Third Finish",
+            "Center Drilling",
+            "Threading",
+            "Grooves",
+            "Rough Grinding",
+            "First Side Grinding",
+            "Second Side Grinding",
+            "05-10mm Keyway",
+            "11-16mm Keyway",
+            "17-20mm Keyway",
+            "21-25mm Keyway",
+            "26-32mm Keyway",
+            "Taping",
+            "Inspection",
+            "Packing",
+            "Sleeve or Ring Fitting"
+        ]
+    },
+    "REJECTION_REPORT": {
+        "Account_Name": [
+            "OM000001",
+            "OM000002",
+            "OM000003",
+            "OM000004",
+            "OM000005",
+            "OM000006",
+            "OM000007",
+            "OM000008",
+            "OM000009",
+            "OM000010",
+            "OM000011",
+            "OM000012",
+            "OM000013",
+            "OM000014",
+            "WILO Mather And Platt Pumps Pvt. Ltd.",
+            "Brother Industries",
+            "Pumpsense Fluild Engineering Pvt. Ltd.",
+            "Phinix Engineers",
+            "Prithviraj Engg. Works",
+            "Vishal Industries"
+        ]
+    },
+    "SALE_CHALLAN_DETAILS": {
+        "Work_Order_No": [
+            "WO000001",
+            "WO000002",
+            "WO000003",
+            "WO000006"
+        ],
+        "PO_Ref": [
+            "PO_WO000001_01",
+            "PO_WO000001_02",
+            "PO_WO000002_01",
+            "PO_WO000002_02",
+            "PO_WO000002_03",
+            "PO_WO000001_03",
+            "PO_WO000003_01",
+            "PO_WO000003_02",
+            "PO_WO000006_09",
+            "PO_WO000006_10",
+            "PO_WO000006_11"
+        ],
+        "Drawing_Number": [
+            "2 0104 1801 0501 - SS410",
+            "2 0155 1800 001 - SS410",
+            "2 1415 1801 002 - SS410",
+            "3MP/P-2543/32 - SS410",
+            "IP 13487 C - SS410",
+            "IP 13488 C - SS410",
+            "IP 13494 D - SS410",
+            "IP 13495 D - SS410",
+            "IP 13504 D - SS410",
+            "IP 20679 C - SS410",
+            "IP 20680 C - SS410",
+            "IP 20681 C - SS410",
+            "P 20722 A2 - SS410",
+            "P 20723 A2 - SS410",
+            "P 21430 A2 - SS410",
+            "TEST_DRAWING_1234"
+        ],
+        "Work_Order_Sr_No": [
+            "WO000001/1",
+            "WO000001/2",
+            "WO000002/1",
+            "WO000002/2",
+            "WO000002/3",
+            "WO000001/3",
+            "WO000003/",
+            "WO000006/"
+        ]
+    },
+    "REJECTION_REPORT_DETAILS": {
+        "Drawing_No": [
+            "2 0104 1801 0501 - SS410",
+            "2 0155 1800 001 - SS410",
+            "2 1415 1801 002 - SS410",
+            "3MP/P-2543/32 - SS410",
+            "IP 13487 C - SS410",
+            "IP 13488 C - SS410",
+            "IP 13494 D - SS410",
+            "IP 13495 D - SS410",
+            "IP 13504 D - SS410",
+            "IP 20679 C - SS410",
+            "IP 20680 C - SS410",
+            "IP 20681 C - SS410",
+            "P 20722 A2 - SS410",
+            "P 20723 A2 - SS410",
+            "P 21430 A2 - SS410",
+            "TEST_DRAWING_1234"
+        ],
+        "Work_Order_No": [
+            "WO000001/1",
+            "WO000001/2",
+            "WO000002/1",
+            "WO000002/2",
+            "WO000002/3",
+            "WO000001/3",
+            "WO000003/",
+            "WO000006/"
+        ],
+        "Opn_Details": [
+            "11-15 mm Keyway",
+            "16-20 mm Keyway",
+            "5-10 mm Keyway",
+            "Center Drilling",
+            "First Caunter",
+            "First Finish Turning",
+            "First Rough Turning",
+            "First Side Grinding",
+            "Grooves",
+            "Inspection",
+            "Packing",
+            "Rough Grinding",
+            "Second Finish Turning",
+            "Second Rough Turning",
+            "Second Side Grinding",
+            "Taping",
+            "Third Finish",
+            "Threading",
+            "Sleeve / Ring Fitting"
+        ]
+    },
+    "WORK_ORDER_DETAILS": {
+        "Work_Details": [
+            "11-15 mm Keyway, 16-20 mm Keyway, 5-10 mm Keyway, Center Drilling, First Caunter, First Finish Turning, First Rough Turning, First Side Grinding, Grooves, Inspection, Packing, Rough Grinding, Second Finish Turning, Second Rough Turning, Second Side Grinding, Taping, Third Finish, Threading",
+            "5-10 mm Keyway, Center Drilling, First Caunter, First Finish Turning, First Rough Turning, First Side Grinding, Grooves, Inspection, Packing, Rough Grinding, Second Finish Turning, Second Rough Turning, Second Side Grinding, Taping, Third Finish, Threading",
+            "Center Drilling, First Caunter, Second Side Grinding, Taping",
+            "5-10 mm Keyway, Center Drilling, First Caunter, First Finish Turning, First Rough Turning, First Side Grinding, Grooves, Inspection, Packing, Second Finish Turning, Second Rough Turning, Second Side Grinding, Sleeve / Ring Fitting, Taping, Third Finish, Threading",
+            "5-10 mm Keyway, Center Drilling, First Caunter, First Finish Turning, First Rough Turning, First Side Grinding, Grooves, Inspection, Packing, Rough Grinding, Second Side Grinding, Taping, Threading",
+            "First Side Grinding, Grooves, Taping, Third Finish, Threading, Inspection",
+            "5-10 mm Keyway, First Side Grinding, Grooves",
+            "First Finish Turning, First Rough Turning, First Side Grinding",
+            "5-10 mm Keyway",
+            "First Finish Turning, First Rough Turning"
+        ],
+        "Drawing_Number": [
+            "2 0104 1801 0501 - SS410",
+            "2 0155 1800 001 - SS410",
+            "2 1415 1801 002 - SS410",
+            "3MP/P-2543/32 - SS410",
+            "IP 13487 C - SS410",
+            "IP 13488 C - SS410",
+            "IP 13494 D - SS410",
+            "IP 13495 D - SS410",
+            "IP 13504 D - SS410",
+            "IP 20679 C - SS410",
+            "IP 20680 C - SS410",
+            "IP 20681 C - SS410",
+            "P 20722 A2 - SS410",
+            "P 20723 A2 - SS410",
+            "P 21430 A2 - SS410",
+            "TEST_DRAWING_1234"
+        ]
+    },
+    "SALARY_DETAILS": {
+        "Designation": [
+            "Worker",
+            "Superviser"
+        ]
+    },
+    "MACHINE_MASTER": {
+        "Workstation": [
+            "Turning",
+            "Grinding",
+            "Keyway",
+            "Manual"
+        ]
+    },
+    "JOB_WORK_RECEIPT_DETAILS": {
+        "Work_Details": [
+            "5-10 mm Keyway, Center Drilling, First Caunter, First Finish Turning, First Rough Turning, First Side Grinding, Grooves, Inspection, Packing, Second Finish Turning, Second Rough Turning, Second Side Grinding, Sleeve / Ring Fitting, Taping, Third Finish, Threading"
+        ],
+        "PO_Ref": [],
+        "JWO_No": [
+            "JWO000001",
+            "JWO000002",
+            "JWO000003",
+            "JWO000004",
+            "JWO000005",
+            "JWO000006",
+            "JWO000007"
+        ]
+    },
+    "JOB_WORK_ORDER": {
+        "Drawing_Number": [
+            "2 0155 1800 001 - SS410",
+            "3MP/P-2543/32 - SS410",
+            "IP 13487 C - SS410",
+            "P 21430 A2 - SS410"
+        ],
+        "Account_Name": [
+            "WILO Mather And Platt Pumps Pvt. Ltd.",
+            "Brother Industries",
+            "Pumpsense Fluild Engineering Pvt. Ltd.",
+            "Phinix Engineers",
+            "Prithviraj Engg. Works",
+            "Vishal Industries",
+            "Ganraj Engineering Works"
+        ]
+    },
+    "JOB_WORK_ORDER_DETAILS": {
+        "Work_Details": [
+            "5-10 mm Keyway, Center Drilling, First Caunter, First Finish Turning, First Rough Turning, First Side Grinding, Grooves, Inspection, Packing, Rough Grinding, Second Finish Turning, Second Rough Turning, Second Side Grinding, Taping, Third Finish, Threading",
+            "5-10 mm Keyway, Center Drilling, First Caunter, First Finish Turning, First Rough Turning, First Side Grinding, Grooves, Inspection, Packing, Second Finish Turning, Second Rough Turning, Second Side Grinding, Sleeve / Ring Fitting, Taping, Third Finish, Threading"
+        ],
+        "PO_Ref": []
+    },
+    "JOB_WORK_RECEIPT": {
+        "Account_Name": [
+            "WILO Mather And Platt Pumps Pvt. Ltd.",
+            "Brother Industries",
+            "Pumpsense Fluild Engineering Pvt. Ltd.",
+            "Phinix Engineers",
+            "Prithviraj Engg. Works",
+            "Vishal Industries",
+            "Ganraj Engineering Works"
+        ]
+    },
+    "SALE_CHALLAN": {
+        "Account_Name": [
+            "WILO Mather And Platt Pumps Pvt. Ltd.",
+            "Brother Industries",
+            "Pumpsense Fluild Engineering Pvt. Ltd.",
+            "Phinix Engineers",
+            "Prithviraj Engg. Works",
+            "Vishal Industries",
+            "Ganraj Engineering Works"
+        ]
+    },
+    "EARNING_DETAILS": {
+        "Machine_Number": [
+            "M0",
+            "M1",
+            "M2",
+            "M3",
+            "M4",
+            "M5",
+            "M6"
+        ],
+        "Operation": [
+            "First Finish Turning",
+            "Threading",
+            "Inspection"
+        ],
+        "Drawing_Number": [
+            "2 0104 1801 0501 - SS410",
+            "2 0155 1800 001 - SS410",
+            "3MP/P-2543/32 - SS410",
+            "IP 13487 C - SS410",
+            "P 21430 A2 - SS410"
+        ],
+        "Work_Order_Number": [
+            "WO000002/2",
+            "WO000001/1"
+        ]
+    }
+}
