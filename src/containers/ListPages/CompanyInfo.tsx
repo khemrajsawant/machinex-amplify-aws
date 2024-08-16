@@ -25,10 +25,10 @@ import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 
-import { RootState } from "../../redux/tableStateGenForm/store";
+import { RootState,useAppDispatch } from "../../redux/tableStateGenForm/store";
 // const columns = columnsData.EMPLOYEE_MASTER;
 
-const CompanyInfo = (props) => {
+const CompanyInfo = (props:any) => {
   //states
 
   // metadata
@@ -38,7 +38,7 @@ const CompanyInfo = (props) => {
   );
 
   //states
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [notification, setNotification] = React.useState({
     open: false,
     severity: "error",
@@ -54,7 +54,7 @@ const CompanyInfo = (props) => {
   // handlers
 
   const setData = (k:any) => {
-    ////console.log("payload", k);
+    console.log("payload", k);
 
     dispatch(fetchMaster({payload:k, headerName:"COMPANY_INFORMATION"}));
   };
@@ -99,7 +99,7 @@ const CompanyInfo = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);

@@ -7,39 +7,40 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import { APP_NAME } from "../utils/constant";
-import { useSelector } from "react-redux";
-
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAuthData } from "../redux/tableStateGenForm/master/masterAction";
 import { RootState } from "../redux/tableStateGenForm/store";
 
-interface Props {
-  guest?: boolean;
-  isAuthenticatedUser: boolean;
-  onLoginModalOpen: (title: string) => void;
-  onLogout?: (state: boolean) => void;
-  pages: string[];
-}
+function ResponsiveAppBar(props:any) {
+  const [time, setTime] = React.useState("");
+  const [loginModalState, setLoginModalState] = React.useState(false);
+  const dispatch = useDispatch();
 
-const ResponsiveAppBar: React.FC<Props> = (props) => {
-  const [time, setTime] = React.useState<string>("");
-
-  let pages: string[];
+  let pages;
 
   if (props.guest === true) {
     pages = ["Home"];
   } else {
-    pages = useSelector((state: RootState) =>
+    pages = useSelector((state:RootState) =>
       state.master.AUTH_DATA.ROUTES.label
         ? state.master.AUTH_DATA.ROUTES.label[0]
         : ["Home"]
     );
   }
+  
+  const buttonTitle = props.isAuthenticatedUser?"Logout":"Login"
 
-  const buttonTitle = props.isAuthenticatedUser ? "Logout" : "Login";
+  const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   React.useEffect(() => {
     const interval = setInterval(
@@ -50,46 +51,48 @@ const ResponsiveAppBar: React.FC<Props> = (props) => {
       clearInterval(interval);
     };
   }, []);
-
-  const userName = useSelector((state: RootState) =>
+  const userName = useSelector((state:RootState) =>
     state.master.AUTH_DATA.userData
       ? state.master.AUTH_DATA.userData.userName
       : ""
   );
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-
-
-  const handleOpenModalClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    props.onLoginModalOpen(buttonTitle);
-    if (buttonTitle === "Logout") {
-      // props.onLogout(false);
-    }
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
+
+  const handleOpenModalClick = (e) => {
+    e.preventDefault();
+    props.onLoginModalOpen(buttonTitle)
+    if(buttonTitle=='Logout'){
+      props.onLogout(false)
+    }
+  }
 
   return (
     <AppBar sx={{ backgroundColor: "#2a5fa6" }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" >
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
 
           <Typography
             variant="h6"
             noWrap
+            // component="a"
+            // href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -105,7 +108,7 @@ const ResponsiveAppBar: React.FC<Props> = (props) => {
             </Link>
           </Typography>
           <Box
-        
+      
             sx={{
               border: 1,
               color: "#d7d9da",
@@ -165,6 +168,8 @@ const ResponsiveAppBar: React.FC<Props> = (props) => {
           <Typography
             variant="h5"
             noWrap
+            // component="a"
+            // href=""
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -200,13 +205,10 @@ const ResponsiveAppBar: React.FC<Props> = (props) => {
           </Box>
           <Box sx={{ flexGrow: 0, px: "10rem", color: "#d7d9da" }}>{time}</Box>
           <Box sx={{ flexGrow: 0, color: "#d7d9da" }}>{userName}</Box>
-          <Button onClick={handleOpenModalClick} color="inherit">
-            {buttonTitle}
-          </Button>
+          <Button onClick={handleOpenModalClick} color="inherit">{buttonTitle}</Button>
         </Toolbar>
       </Container>
     </AppBar>
   );
-};
-
+}
 export default ResponsiveAppBar;

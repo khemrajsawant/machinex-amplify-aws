@@ -114,6 +114,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = () => {
   console.log("authenticated", authenticated);
   return (
     <div>
+      
       {/* <MaintenanceToaster/> */}
       
       {authenticated ? (

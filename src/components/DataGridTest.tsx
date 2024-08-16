@@ -11,7 +11,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { title } from "../utils/cardsMetaData";
-import { RootState } from "../redux/tableStateGenForm/store";
+import { RootState,useAppDispatch } from "../redux/tableStateGenForm/store";
 
 import {
   GridRowModes,
@@ -70,7 +70,7 @@ export default function DataGridTest(props:any) {
   const initialRows:any = []
 
   const [rows, setRows] = React.useState(initialRows);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -306,9 +306,11 @@ columns.forEach((col:any) => {
                 {/* {//console.log("props.rows", id, props.rows[id - 1])} */}
                 <Link
                   // to={props.rows[id-1].isServer?generatePath(id):alert("save before")}
-                  to={generatePath()}
+                        // @ts-ignore
+                  to={generatePath(id)}
                   relative="path"
-                  // style={linkStyles} // to disable the link
+                        // @ts-ignore
+                  style={linkStyles} // to disable the link
                 >
                   <LinkIcon />
                 </Link>
@@ -351,9 +353,10 @@ columns.forEach((col:any) => {
           toolbar: EditToolbar,
         }}
         slotProps={{
-          // toolbar1: {
-          //   showQuickFilter: true,
-          // },
+                // @ts-ignore
+          toolbar1: {
+            showQuickFilter: true,
+          },
           toolbar: { setRows, setRowModesModel },
         }}
       />

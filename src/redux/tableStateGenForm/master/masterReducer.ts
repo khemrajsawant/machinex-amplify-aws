@@ -71,20 +71,20 @@ const masterReducer = createSlice({
         element.id === payload.id ? { ...element, ...payload } : element
       );
     },
-    retrieveMasters(state, action: PayloadAction<{ payload: any }>) {
-      console.log(`Setting isLoading to ${action.payload}`);
-      const payload: any = action.payload;
+    retrieveMasters(state, action: PayloadAction<any>) {
+      console.log("retrieveMasters" ,action.payload);
+      const payload: any = action.payload.payload;
       Object.keys(payload).forEach((key) => {
-        if (state[key]) {
+       
           state[key] = payload[key];
-        }
+        
       });
     },
     deleteAllMasters(state) {
       state.tableData = [];
     },
     updateMetaData(state, action: PayloadAction<any>) {
-      console.log("Dispatching updateMetaData with data:", action.payload);
+      console.log("updating Metadata", action.payload);
       state.APP_DATA = action.payload;
     },
     updateUserAuthDetails(state, action: PayloadAction<any>) {

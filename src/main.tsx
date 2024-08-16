@@ -12,6 +12,7 @@ import { BrowserRouter } from "react-router-dom";
 import store from "./redux/tableStateGenForm/store.ts";
 import InitData from "./components/InitData.tsx";
 
+
 Amplify.configure(outputs);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -20,7 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Provider store={store}>
           {/* <Authenticator> */}
-          <InitData/>
+         <InitData/>
             <AuthenticatedApp />
           {/* </Authenticator> */}
         </Provider>

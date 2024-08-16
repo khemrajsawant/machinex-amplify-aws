@@ -15,53 +15,35 @@ import {
 } from "../redux/tableStateGenForm/master/masterReducer";
 import { RootState, useAppDispatch } from "../redux/tableStateGenForm/store"; 
 
-interface UserAuthDetails {
-  Emp_ID: string;
-  Middle_Name: string;
-  isServer: boolean;
-  Email: string;
-  Joining_Date: string;
-  Address: string;
-  isNew: boolean;
-  Gender: string;
-  Aadhar_No: string;
-  First_Name: string;
-  isDeleted: boolean;
-  isModified: boolean;
-  Mobile_No: string;
-  Release_Date: string;
-  DOB: string;
-  id: number;
-  ID: string;
-  Surname: string;
-}
+
 
 
 const InitData: React.FC = () => {
   const dispatch = useAppDispatch()
-  const userEmail = useSelector<RootState, string>((state) =>
+  const userEmail = useSelector((state:RootState) =>
     state.master.AUTH_DATA.ROUTES?.label?.[3]?.email || ""
   );
 
-  const metaDataInStore = (data: typeof metadataLocal) => {
+  const metaDataInStore = (data:any) => {
     console.log("Dispatching updateMetaData with data:", data);
     dispatch(updateMetaData(data));
   };
 
-  const setUserInfo = (data: { userName: string; loggedInUserData: UserAuthDetails[] }) => {
+  const setUserInfo = (data: any) => {
     dispatch(updateUserAuthDetails(data));
   };
 
-  const setDropDowns = (data: typeof metadataSelect) => {
+  const setDropDowns = (data:any) => {
     dispatch(updateSelectMetaData(data));
   };
 
-  const setSelectedDropDowns = (data: typeof dynaDropdown) => {
+  const setSelectedDropDowns = (data:any) => {
     dispatch(createDynamicDropdown(data));
   };
 
   const setData = (k: any) => {
-    dispatch(retrieveMasters(k));
+    console.log("Dispatching retrieveMasters with data:", k);
+    dispatch(retrieveMasters({payload:k}));
   };
 
   const setNextEmpIDData = (k: any) => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Container, Stack, Box } from "@mui/material";
-// import CardComponentTile from "../components/CardComponentTile";
+import CardComponentTile from "../components/CardComponentTile";
 import FormHeader from "../components/FormHeader";
 import { Copyright } from "../components/Copyright";
 import { useSelector } from "react-redux";
@@ -78,7 +78,7 @@ function Master() {
         >
           {Masters.map((crd: any) => (
             <Box sx={{ m: 1 }} key={crd}>
-              {/* <CardComponentTile title={crd} page="master" type={"card"} /> */}
+              <CardComponentTile title={crd} page="master" type={"card"} />
             </Box>
           ))}
         </Stack>

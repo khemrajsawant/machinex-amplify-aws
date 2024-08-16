@@ -23,7 +23,7 @@ interface RejectionFormProps {
   isMaster: boolean;
 }
 
-const RejectionForm: React.FC<RejectionFormProps> = (props) => {
+const RejectionForm: React.FC<RejectionFormProps> = (props:any) => {
   // States
   const [notification, setNotification] = React.useState<Notification>({
     open: false,
