@@ -11,7 +11,7 @@ import { APP_NAME } from "../../utils/constant";
 
 // components
 
-const OpeningInfo = (props) => {
+const OpeningInfo = () => {
 
 
 

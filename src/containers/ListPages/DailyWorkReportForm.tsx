@@ -37,7 +37,7 @@ const DailyWorkReportForm = (props) => {
     EARNING_DETAILS: EARNING_DETAILS,
     DAILY_WORK_REPORT: DAILY_WORK_REPORT,
     GENERAL_WORK_DETAILS: GENERAL_WORK_DETAILS,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // //states
   const location = useLocation();
@@ -51,16 +51,16 @@ const DailyWorkReportForm = (props) => {
   const [enableSave, setEnableSave] = React.useState(true);
   const [open, setOpen] = React.useState(false);
 
-  const table = useSelector((state) => state.master);
+  const table = useSelector((state: RootState) => state.master);
 
   const { control } = useForm({ reValidateMode: "onBlur" });
 
   const [checked, setChecked] = React.useState(false);
   const tableDailyWorkReport = useSelector(
-    (state) => state.master.DAILY_WORK_REPORT
+    (state: RootState) => state.master.DAILY_WORK_REPORT
   );
   const SECTION_NAMES = APP_DATA.FORMDATA.DAILY_WORK_REPORT_FORM.SECTIONS;
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
   const userName = useSelector((state) =>
     state.master.AUTH_DATA.userData
       ? state.master.AUTH_DATA.userData.userName
@@ -165,7 +165,7 @@ const DailyWorkReportForm = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });
@@ -174,7 +174,7 @@ const DailyWorkReportForm = (props) => {
   var dailyReportPrefilled = { "Break [In Hour]": 1 };
 
   const loggedInUserData = useSelector(
-    (state) => state.master.AUTH_DATA.userData.loggedInUserData
+    (state: RootState) => state.master.AUTH_DATA.userData.loggedInUserData
   );
   DAILY_WORK_REPORT.columnsData.map((t) => {
     switch (t.headerName) {

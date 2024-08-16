@@ -8,7 +8,7 @@ import {
   createMaster,
   updateMaster,
   updateSelectedDropdown,
-} from "../redux/tableStateGenForm/master/masterAction";
+} from "../redux/tableStateGenForm/master/masterReducer";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
@@ -21,12 +21,13 @@ import TestAutocompleteForm from "./TestAutocompleteForm";
 import MultiSelectAutocomplete from "./MultiSelectAutoComplete";
 
 // import {calcCostHandler} from '../business/processBusinessLogic'
-import { useSelector } from "react-redux";
+
 import { processData } from "../business/processBusinessLogic";
 
 import FormHeader from "./FormHeader";
 import ControllerCompCheckbox from "../components/ControllerCompCheckbox";
 import ControllerCompTimeField from "./ControllerCompTimeField";
+import { RootState } from "../redux/tableStateGenForm/store";
 // var _ = require('lodash/fp');
 
 export default function FormComponent(props) {
@@ -47,7 +48,7 @@ export default function FormComponent(props) {
   const masterData = props.primarykey ? props.primarykey : {};
   const enableButton = props.enableButton;
   const isMaster = props.isMaster;
-  const tableFormData = useSelector((state) => state.master);
+  const tableFormData = useSelector((state: RootState) => state.master);
   const inputObject = props.items;
 
   var OperationMapper = {

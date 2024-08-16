@@ -32,11 +32,11 @@ const AccountMaster = (props) => {
   // metadata
 
   const { ACCOUNT_MASTER_FORM: ACCOUNT_MASTER_FORM } = useSelector(
-    (state) => state.master.APP_DATA
+    (state: RootState) => state.master.APP_DATA
   );
 
   // states
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const [notification, setNotification] = React.useState({
     open: false,
@@ -52,7 +52,7 @@ const AccountMaster = (props) => {
     setChecked((prev) => !prev);
   };
   const tableAccountMaster = useSelector(
-    (state) => state.master.ACCOUNT_MASTER_FORM
+    (state: RootState) => state.master.ACCOUNT_MASTER_FORM
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
@@ -148,7 +148,7 @@ const AccountMaster = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

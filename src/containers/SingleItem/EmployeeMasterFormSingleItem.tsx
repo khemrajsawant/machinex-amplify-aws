@@ -35,26 +35,26 @@ import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 // const columns = columnsData.EMPLOYEE_MASTER;
 const EmployeeMasterFormSingleItem = (props) => {
   //states
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
   const {
     EMPLOYEE_MASTER: EMPLOYEE_MASTER,
     USER_DETAILS: USER_DETAILS,
     SALARY_DETAILS: SALARY_DETAILS,
     BANK_DETAILS: BANK_DETAILS,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   const dispatch = useDispatch();
 
   const tableEmployeeMaster = useSelector(
-    (state) => state.master.EMPLOYEE_MASTER
+    (state: RootState) => state.master.EMPLOYEE_MASTER
   );
 
-  const tableBankDetails = useSelector((state) => state.master.BANK_DETAILS);
+  const tableBankDetails = useSelector((state: RootState) => state.master.BANK_DETAILS);
 
-  const tableUserDetails = useSelector((state) => state.master.USER_DETAILS);
+  const tableUserDetails = useSelector((state: RootState) => state.master.USER_DETAILS);
 
   const tableSalaryDetails = useSelector(
-    (state) => state.master.SALARY_DETAILS
+    (state: RootState) => state.master.SALARY_DETAILS
   );
 
   const { control, handleSubmit } = useForm({ reValidateMode: "onBlur" });
@@ -64,10 +64,10 @@ const EmployeeMasterFormSingleItem = (props) => {
   };
 
   const [checked, setChecked] = React.useState(false);
-  const table = useSelector((state) => state.master);
+  const table = useSelector((state: RootState) => state.master);
 
   const SECTION_NAMES = APP_DATA.FORMDATA.EMPLOYEEE_MASTER.SECTIONS;
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const [notification, setNotification] = React.useState({
     open: true,

@@ -37,7 +37,7 @@ const DailyWorkReportFormSingleItem = (props) => {
     EARNING_DETAILS: EARNING_DETAILS,
     DAILY_WORK_REPORT: DAILY_WORK_REPORT,
     GENERAL_WORK_DETAILS: GENERAL_WORK_DETAILS,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // //states
   const [notification, setNotification] = React.useState({
@@ -45,14 +45,14 @@ const DailyWorkReportFormSingleItem = (props) => {
     severity: "success",
     message: "Loading Please wait",
   });
-  const table = useSelector((state) => state.master);
+  const table = useSelector((state: RootState) => state.master);
 
   const { control } = useForm({ reValidateMode: "onBlur" });
 
   const [checked, setChecked] = React.useState(false);
 
   const SECTION_NAMES = APP_DATA.FORMDATA.DAILY_WORK_REPORT_FORM.SECTIONS;
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   //handlers
 
@@ -219,11 +219,11 @@ const DailyWorkReportFormSingleItem = (props) => {
     console.log(e)
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });
   };
-  const itemsINIT = useSelector((state) => state.master.DROPDOWN_DATA_INIT);
+  const itemsINIT = useSelector((state: RootState) => state.master.DROPDOWN_DATA_INIT);
 
   return (
     <Container

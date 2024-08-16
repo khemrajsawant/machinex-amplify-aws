@@ -47,7 +47,7 @@ const ItemMasterInputForm = (props) => {
   });
   const [enableSave, setEnableSave] = React.useState(true);
 
-  const tableItemMaster = useSelector((state) => state.master.ITEM_MASTER);
+  const tableItemMaster = useSelector((state: RootState) => state.master.ITEM_MASTER);
 
   // const setDataBill_Of_Process = (k) => {
   //   //console.log("payload", k);
@@ -130,11 +130,11 @@ const ItemMasterInputForm = (props) => {
   const dispatch = useDispatch();
 
   const { ITEM_MASTER: ITEM_MASTER, BILL_OF_PROCESS: BILL_OF_PROCESS } =
-    useSelector((state) => state.master.APP_DATA);
+    useSelector((state: RootState) => state.master.APP_DATA);
 
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
-  const nextEmpID = useSelector((state) => state.master.NEXT_AVAILABLE_ID);
+  const nextEmpID = useSelector((state: RootState) => state.master.NEXT_AVAILABLE_ID);
 
   //console.log("nextEmpID", nextEmpID);
 
@@ -183,7 +183,7 @@ const ItemMasterInputForm = (props) => {
   }, [selectedItem]);
 
   const tableBillOfProcess = useSelector(
-    (state) => state.master.BILL_OF_PROCESS
+    (state: RootState) => state.master.BILL_OF_PROCESS
   );
 
   const handleRefreshDropDowns = () => {
@@ -289,7 +289,7 @@ const ItemMasterInputForm = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

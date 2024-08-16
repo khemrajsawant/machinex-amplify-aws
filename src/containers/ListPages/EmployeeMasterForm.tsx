@@ -52,14 +52,14 @@ const EmployeeMasterForm = (props) => {
   //console.log(enableSave);
   // const [nextEmpID, setNextEmpID] = React.useState({ Emp_ID: "OM000001" });
   const tableEmployeeMaster = useSelector(
-    (state) => state.master.EMPLOYEE_MASTER
+    (state: RootState) => state.master.EMPLOYEE_MASTER
   );
   // const setDataBill_Of_Process = (k) => {
   //   //console.log("payload", k);
 
   //   dispatch(fetchMaster(k, "BILL_OF_PROCESS"));
   // };
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setDataEmployeeMaster = (k) => {
     //console.log("payload", k);
@@ -126,13 +126,13 @@ const EmployeeMasterForm = (props) => {
   const dispatch = useDispatch();
 
   const { EMPLOYEE_MASTER: EMPLOYEE_MASTER } = useSelector(
-    (state) => state.master.APP_DATA
+    (state: RootState) => state.master.APP_DATA
   );
 
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const nextEmpID = useSelector(
-    (state) => state.master.NEXT_AVAILABLE_ID["EMPLOYEE_MASTER"]
+    (state: RootState) => state.master.NEXT_AVAILABLE_ID["EMPLOYEE_MASTER"]
   );
 
   //console.log("nextEmpID", nextEmpID);
@@ -220,7 +220,7 @@ const EmployeeMasterForm = (props) => {
   }, [selectedItem]);
 
   const tableBillOfProcess = useSelector(
-    (state) => state.master.BILL_OF_PROCESS
+    (state: RootState) => state.master.BILL_OF_PROCESS
   );
 
   const handleRefreshDropDowns = () => {

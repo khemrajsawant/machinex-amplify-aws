@@ -42,12 +42,12 @@ const OperationMaster = (props) => {
   const {
     WORKSTATION_MASTER: WORKSTATION_MASTER,
     OPERATION_MASTER: OPERATION_MASTER,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // states
 
   const tableOperationMaster = useSelector(
-    (state) => state.master.OPERATION_MASTER
+    (state: RootState) => state.master.OPERATION_MASTER
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
@@ -121,8 +121,8 @@ const OperationMaster = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA_INIT);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA_INIT);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
   return (
     <Container maxWidth="xl" sx={[{ marginTop: (theme) => theme.spacing(10) }]}>
       {open === true && <CustomizedBackdrop open={open} />}

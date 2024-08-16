@@ -33,7 +33,7 @@ const CompanyInfo = (props) => {
   // metadata
 
   const { COMPANY_INFORMATION: COMPANY_INFORMATION } = useSelector(
-    (state) => state.master.APP_DATA
+    (state: RootState) => state.master.APP_DATA
   );
 
   //states
@@ -45,7 +45,7 @@ const CompanyInfo = (props) => {
     duration: 0,
   });
   const tableCompanyInformation = useSelector(
-    (state) => state.master.COMPANY_INFORMATION
+    (state: RootState) => state.master.COMPANY_INFORMATION
   );
 
   const [enableSave, setEnableSave] = React.useState(true);
@@ -145,10 +145,10 @@ const CompanyInfo = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
   const companyInformationPrefilled = useSelector(
-    (state) => state.master.COMPANY_INFORMATION[0]
+    (state: RootState) => state.master.COMPANY_INFORMATION[0]
   );
 
   const setNotificationFalse = () => {

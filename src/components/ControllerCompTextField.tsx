@@ -1,17 +1,42 @@
-import { Controller } from "react-hook-form";
+import { Controller, Control, FieldValues } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import React from "react";
-
 import FormHeader from "./FormHeader";
 import { CircularProgress } from "@mui/material";
 
-export default function ControllerComTextField(props) {
-  const control = props.control;
-  const disabled = props.disabled;
+// Define the type for props
+interface ControllerComTextFieldProps {
+  control: Control<FieldValues>;
+  disabled?: boolean;
+  loading?: boolean;
+  defaultvalue?: string;
+  label: string;
+  customStyles?: {
+    width?: string;
+    textField?: React.CSSProperties;
+  };
+  helpertext?: string;
+  nameprop: string;
+  required?: boolean;
+  form?: string;
+}
+
+const ControllerComTextField: React.FC<ControllerComTextFieldProps> = (props) => {
+  const {
+    control,
+    disabled = false,
+    loading = false,
+    defaultvalue = '',
+    label,
+    customStyles = {},
+    helpertext = '',
+    nameprop,
+    required = false,
+    form = ''
+  } = props;
+
   const asciiArray = [79, 77, 32, 73, 78, 68, 85, 83, 84, 82, 73, 69, 83];
   const cname = String.fromCharCode(...asciiArray);
-
-  const loading = props.loading
 
   const baseStyles = {
     inputRoot: {
@@ -34,16 +59,14 @@ export default function ControllerComTextField(props) {
     },
   };
 
-  const customStyles = props.customStyles || {}; // Custom styles prop, default to an empty object if not provided
-
   return (
     <React.Fragment>
       <FormHeader
-        headerName={props.label.replace(/_/g, " ")}
+        headerName={label.replace(/_/g, " ")}
         headerkind="regular"
       />
-      {disabled && props.form === "EMPLOYEE_MASTER" ? (
-        <span>{props.defaultvalue}</span>
+      {disabled && form === "EMPLOYEE_MASTER" ? (
+        <span>{defaultvalue}</span>
       ) : (
         <Controller
           render={({ field, fieldState: { error } }) => (
@@ -51,15 +74,14 @@ export default function ControllerComTextField(props) {
               {...field}
               disabled={disabled}
               variant={disabled ? "standard" : "outlined"}
-              error={error !== undefined}
-              helperText={error ? props.helpertext : ""}
-              // value={props.defaultvalue}
+              error={!!error}
+              helperText={error ? helpertext : ""}
               sx={[
                 baseStyles.inputRoot,
                 baseStyles.inputBase,
-                { width: customStyles.width || baseStyles.textField.width }, // Customizable width
+                { width: customStyles.width },
                 baseStyles.textField,
-                customStyles.textField, // Apply custom styles for textField
+              
               ]}
               InputProps={{
                 endAdornment: loading && <CircularProgress size={20} />,
@@ -67,14 +89,16 @@ export default function ControllerComTextField(props) {
               }}
             />
           )}
-          name={props.nameprop}
+          name={nameprop}
           control={control}
           defaultValue={
-            disabled && props.form === "COMPANY_INFORMATION" ? cname : props.defaultvalue
+            disabled && form === "COMPANY_INFORMATION" ? cname : defaultvalue
           }
-          rules={{ required: props.required }}
+          rules={{ required }}
         />
       )}
     </React.Fragment>
   );
 }
+
+export default ControllerComTextField;

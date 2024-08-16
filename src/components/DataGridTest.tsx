@@ -1,6 +1,5 @@
 import React from "react";
 
-import * as React from "react";
 import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 // import AddIcon from "@mui/icons-material/Add";
@@ -12,6 +11,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { title } from "../utils/cardsMetaData";
+import { RootState } from "../redux/tableStateGenForm/store";
 
 import {
   GridRowModes,
@@ -35,10 +35,10 @@ import {
   deleteMaster,
   updateMaster,
   getSelectedItem,
-} from "../redux/tableStateGenForm/master/masterAction";
+} from "../redux/tableStateGenForm/master/masterReducer";
 import { Checkbox } from "@mui/material";
 
-function EditToolbar(props) {
+function EditToolbar(props:any) {
   const { setRows, setRowModesModel } = props;
 
   // const handleClick = () => {
@@ -66,62 +66,62 @@ function EditToolbar(props) {
   );
 }
 
-export default function DataGridTest(props) {
-  const initialRows = [];
+export default function DataGridTest(props:any) {
+  const initialRows:any = []
 
   const [rows, setRows] = React.useState(initialRows);
   const dispatch = useDispatch();
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
-  const handleRowEditStop = (params, event) => {
+  const handleRowEditStop = (params:any, event:any) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
     }
   };
 
-  const role = useSelector((state) =>
+  const role = useSelector((state:RootState) =>
   state.master.AUTH_DATA.ROUTES
     ? state.master.AUTH_DATA.ROUTES.label[1].ROLE
     : 'Guest'
 );
-const dateColumns = useSelector((state) => state.master.APP_DATA[props.formName].metaData.filter((c) => c.date === true)).map((column) => column.name);
+const dateColumns = useSelector((state: RootState) => state.master.APP_DATA[props.formName].metaData.filter((c) => c.date === true)).map((column) => column.name);
 
-  const handleEditClick = (id) => () => {
+  const handleEditClick = (id:any) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
-  const handleSaveClick = (id) => () => {
+  const handleSaveClick = (id:any) => () => {
     ////console.log(id);
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => () => {
+  const handleDeleteClick = (id:any) => () => {
     // //console.log(id);
     dispatch(deleteMaster({ id: id, isDeleted: true }, props.formName));
     props.onChange();
   };
 
-  const handleCancelClick = (id) => () => {
+  const handleCancelClick = (id:any) => () => {
     setRowModesModel({
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
 
-    const editedRow = rows.find((row) => row.id === id);
+    const editedRow = rows.find((row:any) => row.id === id);
     if (editedRow.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
+      setRows(rows.filter((row:any) => row.id !== id));
     }
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date:any) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
-  const processRowUpdate = (newRow) => {
+  const processRowUpdate = (newRow:any) => {
     const updatedRow = { ...newRow, isNew: false, isModified: true };
         // Parse date field if type is 'date'
         props.columns.forEach(column => {
@@ -130,7 +130,7 @@ const dateColumns = useSelector((state) => state.master.APP_DATA[props.formName]
           }
       });
     props.onChange();
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    setRows(rows.map((row:any) => (row.id === newRow.id ? updatedRow : row)));
 
     console.log("updatedRow", updatedRow);
     dispatch(updateMaster(updatedRow, props.formName));
@@ -138,7 +138,7 @@ const dateColumns = useSelector((state) => state.master.APP_DATA[props.formName]
     return updatedRow;
   };
 
-  const handleRowModesModelChange = (newRowModesModel) => {
+  const handleRowModesModelChange = (newRowModesModel:any) => {
     setRowModesModel(newRowModesModel);
   };
   const [dataClicked, setDataClicked] = React.useState({});
@@ -146,7 +146,7 @@ const dateColumns = useSelector((state) => state.master.APP_DATA[props.formName]
   const isMaster = props.isMaster;
   const pathname = props.pathname;
 
-  const onRowClickHandler = (clickedRow, e) => {
+  const onRowClickHandler = (clickedRow:any, e) => {
     e.defaultMuiPrevented = true;
     //console.log("isMaster", isMaster);
     if (isMaster) {
@@ -167,7 +167,7 @@ const dateColumns = useSelector((state) => state.master.APP_DATA[props.formName]
 
   props.formName == "DAILY_WORK_REPORT" &&
 
-    columns.forEach((col) => {
+    columns.forEach((col:any) => {
       col.editable = false
       if(col.field == 'Approval' && role=='Admin'){
         col.type='boolean'
@@ -186,7 +186,7 @@ const dateColumns = useSelector((state) => state.master.APP_DATA[props.formName]
 
   props.formName == "BILL_OF_PROCESS" &&
 
-  columns.forEach((col) => {
+  columns.forEach((col:any) => {
     col.editable = true
     if(col.field == 'Is_Scrap_Applicable'){
       col.type='boolean'
@@ -197,12 +197,12 @@ const dateColumns = useSelector((state) => state.master.APP_DATA[props.formName]
 
 
 
-columns.forEach((col) => {
+columns.forEach((col:any) => {
   col.editable = true
 
   if(dateColumns.includes(col.field)){
     col.type='date'
-    col.valueGetter = (params) => {
+    col.valueGetter = (params:any) => {
       // Your custom transformation logic for the "Date" column
       // For example, if the value is a string, convert it to a Date object
       return new Date(params.value);
@@ -255,8 +255,8 @@ columns.forEach((col) => {
             pointerEvents: isDeleted ? "none" : !isServer || isModified ? "none" : "auto",
           };
         } else {
-          var isDisabled = false;
-          var linkStyles = {
+          var isDisabled:any = false;
+          var linkStyles:any = {
             textDecoration: "none",
             color: "red",
           };

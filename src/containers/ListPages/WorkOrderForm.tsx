@@ -36,7 +36,7 @@ const WorkOrderForm = (props) => {
   // metadata
 
   const { WORK_ORDER: WORK_ORDER, WORK_ORDER_DETAILS: WORK_ORDER_DETAILS } =
-    useSelector((state) => state.master.APP_DATA);
+    useSelector((state: RootState) => state.master.APP_DATA);
   const [open, setOpen] = React.useState(false);
   // states
   const [notification, setNotification] = React.useState({
@@ -49,15 +49,15 @@ const WorkOrderForm = (props) => {
   const [enableSave, setEnableSave] = React.useState(true);
   const { control, handleSubmit } = useForm({ reValidateMode: "onBlur" });
 
-  const tableWorkOrder = useSelector((state) => state.master.WORK_ORDER);
+  const tableWorkOrder = useSelector((state: RootState) => state.master.WORK_ORDER);
   const tableWorkOrderDetails = useSelector(
-    (state) => state.master.WORK_ORDER_DETAILS
+    (state: RootState) => state.master.WORK_ORDER_DETAILS
   );
 
   const [isLoading, setIsLoading] = React.useState(true);
 
   const nextWorkOrderID = useSelector(
-    (state) => state.master.NEXT_AVAILABLE_ID["WORK_ORDER"]
+    (state: RootState) => state.master.NEXT_AVAILABLE_ID["WORK_ORDER"]
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
@@ -200,8 +200,8 @@ const WorkOrderForm = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

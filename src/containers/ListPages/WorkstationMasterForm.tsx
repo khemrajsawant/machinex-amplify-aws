@@ -34,11 +34,11 @@ const WorkstationMasterForm = (props) => {
   const {
     WORKSTATION_MASTER: WORKSTATION_MASTER,
     OPERATION_MASTER: OPERATION_MASTER,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // //states
 
-  const table = useSelector((state) => state.master);
+  const table = useSelector((state: RootState) => state.master);
   const [notification, setNotification] = React.useState({
     open: false,
     severity: "error",
@@ -53,7 +53,7 @@ const WorkstationMasterForm = (props) => {
   const [checked, setChecked] = React.useState(false);
 
   const SECTION_NAMES = APP_DATA.FORMDATA.DAILY_WORK_REPORT_FORM.SECTIONS;
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
   //handlers
 
   const handleChange = () => {
@@ -183,7 +183,7 @@ const WorkstationMasterForm = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

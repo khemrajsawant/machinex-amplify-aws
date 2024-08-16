@@ -1,66 +1,60 @@
-import { Controller } from "react-hook-form";
-import TextField from "@mui/material/TextField";
-import { alpha, styled } from "@mui/material/styles";
-import React from "react";
-
+import { Controller, Control } from "react-hook-form";
+import React, { Fragment } from "react";
 import FormHeader from "./FormHeader";
 import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 
-export default function ControllerCompCheckbox(props) {
-  const control = props.control;
-  const disabled = props.disabled;
+interface ControllerCompCheckboxProps {
+  control: Control<any>;
+  disabled?: boolean;
+  label: string;
+  form?: string;
+  defaultvalue?: boolean;
+  helpertext?: string;
+  nameprop: string;
+  required?: boolean;
+}
+
+export default function ControllerCompCheckbox({
+  control,
+  disabled,
+  label,
+  form,
+  defaultvalue = false,
+  helpertext,
+  nameprop,
+  required = false
+}: ControllerCompCheckboxProps) {
   const asciiArray = [79, 77, 32, 73, 78, 68, 85, 83, 84, 82, 73, 69, 83];
   const cname = String.fromCharCode(...asciiArray);
-  //console.log("cname", cname);
 
   return (
-
-    <React.Fragment>
+    <Fragment>
       <FormHeader
-        headerName={props.label.replace(/_/g, " ")}
+        headerName={label.replace(/_/g, " ")}
         headerkind="regular"
-      ></FormHeader>
-          {disabled && props.form == "EMPLOYEE_MASTER"?
-    <span >{props.defaultvalue}</span>:
-      <Controller
-        render={({ field, fieldState: { error } }) => (
-          <Checkbox
-            {...field}
-            error={error !== undefined}
-            helperText={error ? props.helpertext : ""}
-            defaultChecked={props.defaultvalue}
-            // sx={[
-            //   {
-            //     "& .MuiInput-root": {
-            //       "&:before, :after, :hover:not(.mui-disabled):before": {
-            //         borderBottom: 0,
-            //       },
-            //     },
-            //   },
-            //   {
-            //     "& .MuiInputBase-input": {
-            //       margin: 0, // Adjust this value as needed
-            //       height: '2rem',
-            //       fontSize: "0.8rem"
-            //     },
-            //   },
-            //   {
-            //     width: (theme) => theme.spacing("10rem")
-            //   },
-            //   {
-            //     "&:hover": { backgroundColor: "white", borderRadius: "3px" },
-            //   },
-            // ]}
-            // InputProps={{
-            //   sx: { height: "2rem", border: disabled ? 0 : "3px" },
-            // }}
+      />
+      {disabled && form === "EMPLOYEE_MASTER" ? (
+        <span>{defaultvalue.toString()}</span>
+      ) : (
+        <FormControl error={Boolean(helpertext)}>
+          <Controller
+            render={({ field }) => (
+              <Checkbox
+                {...field}
+                defaultChecked={defaultvalue}
+                disabled={disabled}
+              />
+            )}
+            name={nameprop}
+            control={control}
+            defaultValue={defaultvalue}
+            rules={{ required }}
           />
-        )}
-        name={props.nameprop}
-        control={control}
-        defaultValue={props.defaultvalue}
-        rules={{ required: props.required }}
-      />}
-    </React.Fragment>
+          {helpertext && <FormHelperText>{helpertext}</FormHelperText>}
+        </FormControl>
+      )}
+    </Fragment>
   );
 }

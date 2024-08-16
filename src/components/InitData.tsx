@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import metadataSelect from "../utils/metadataSelect.json";
 import master_data from "../utils/master_data.json";
@@ -13,8 +13,7 @@ import {
   fetchMaster,
   createDynamicDropdown,
 } from "../redux/tableStateGenForm/master/masterReducer";
-import { RootState, useAppDispatch } from "../redux/tableStateGenForm/store"; // Assuming you have a RootState type defined in your store
-
+import { RootState, useAppDispatch } from "../redux/tableStateGenForm/store"; 
 
 interface UserAuthDetails {
   Emp_ID: string;
@@ -47,8 +46,7 @@ interface NextEmpIDData {
   SALE_CHALLAN: string;
 }
 
-export default function initData() {
-  console.log("Init Data Hook");
+const InitData: React.FC = () => {
   const dispatch = useAppDispatch()
   const userEmail = useSelector<RootState, string>((state) =>
     state.master.AUTH_DATA.ROUTES?.label?.[3]?.email || ""
@@ -75,7 +73,7 @@ export default function initData() {
     dispatch(retrieveMasters(k));
   };
 
-  const setNextEmpIDData = (k: NextEmpIDData) => {
+  const setNextEmpIDData = (k: any) => {
     console.log("Dispatching getNextAvailableEmpID with data:", k);
     dispatch(getNextAvailableEmpID(k));
   };
@@ -138,7 +136,7 @@ export default function initData() {
           },
         ],
       });
-      setData(retrieveMasters({payload:master_data}));
+      setData(master_data);
       metaDataInStore(metadataLocal);
     }
 
@@ -230,7 +228,7 @@ export default function initData() {
     }
   }, []);
 
-  const setCompanyInformationData = (k: any) => {
+  const setCompanyInformationData = (k:any) => {
     dispatch(fetchMaster({payload:k,headerName:"COMPANY_INFORMATION"}));
   };
 
@@ -246,4 +244,8 @@ export default function initData() {
       console.error(error);
     }
   }, []);
-}
+
+  return null; // You can replace this with actual JSX if needed
+};
+
+export default InitData;

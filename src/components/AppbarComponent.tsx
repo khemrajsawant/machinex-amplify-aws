@@ -7,32 +7,43 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import { APP_NAME } from "../utils/constant";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateAuthData } from "../redux/tableStateGenForm/master/masterAction";
+import { updateAuthData } from "../redux/tableStateGenForm/master/masterReducer";
+import { RootState } from "../redux/tableStateGenForm/store";
 
-const isAuthenticatedUser = true
-const pages = ["home",
-  "master",
-  "transactions",
-  "reports"];
-const buttonTitle = isAuthenticatedUser?"Logout":"Login"
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+interface Props {
+  guest?: boolean;
+  isAuthenticatedUser: boolean;
+  onLoginModalOpen: (title: string) => void;
+  onLogout?: (state: boolean) => void;
+  pages: string[];
+}
 
-function ResponsiveAppBar() {
-
+const ResponsiveAppBar: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<string>("");
   const [loginModalState, setLoginModalState] = React.useState<boolean>(false);
   const dispatch = useDispatch();
+
+  let pages: string[];
+
+  if (props.guest === true) {
+    pages = ["Home"];
+  } else {
+    pages = useSelector((state: RootState) =>
+      state.master.AUTH_DATA.ROUTES.label
+        ? state.master.AUTH_DATA.ROUTES.label[0]
+        : ["Home"]
+    );
+  }
+
+  const buttonTitle = props.isAuthenticatedUser ? "Logout" : "Login";
+
+  const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   React.useEffect(() => {
     const interval = setInterval(
@@ -44,20 +55,22 @@ function ResponsiveAppBar() {
     };
   }, []);
 
-  const userName = useSelector((state: any) =>
+  const userName = useSelector((state: RootState) =>
     state.master.AUTH_DATA.userData
       ? state.master.AUTH_DATA.userData.userName
       : ""
   );
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -72,10 +85,10 @@ function ResponsiveAppBar() {
 
   const handleOpenModalClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // props.onLoginModalOpen(buttonTitle);
-    // if (buttonTitle === "Logout") {
-    //   props.onLogout(false);
-    // }
+    props.onLoginModalOpen(buttonTitle);
+    if (buttonTitle === "Logout") {
+      // props.onLogout(false);
+    }
   };
 
   return (
@@ -110,6 +123,7 @@ function ResponsiveAppBar() {
               marginBottom: "1.6rem",
               marginRight: "0.4rem",
               width: "0.05%",
+              height: "",
             }}
           >
             <span style={{ color: "#2a5fa6" }}>!</span>

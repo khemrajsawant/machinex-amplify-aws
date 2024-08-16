@@ -36,7 +36,7 @@ const JobWorkReceipt = (props) => {
   const {
     JOB_WORK_RECEIPT: JOB_WORK_RECEIPT,
     JOB_WORK_RECEIPT_DETAILS: JOB_WORK_RECEIPT_DETAILS,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // states
   const [notification, setNotification] = React.useState({
@@ -49,14 +49,14 @@ const JobWorkReceipt = (props) => {
   const [enableSave, setEnableSave] = React.useState(true);
   const [open, setOpen] = React.useState(false);
   const tableJobWorkReceipt = useSelector(
-    (state) => state.master.JOB_WORK_RECEIPT
+    (state: RootState) => state.master.JOB_WORK_RECEIPT
   );
   const tableJobWorkReceiptDetails = useSelector(
-    (state) => state.master.JOB_WORK_RECEIPT_DETAILS
+    (state: RootState) => state.master.JOB_WORK_RECEIPT_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
   const nextJobWorkReceiptID = useSelector(
-    (state) => state.master.NEXT_AVAILABLE_ID["JOB_WORK_RECEIPT"]
+    (state: RootState) => state.master.NEXT_AVAILABLE_ID["JOB_WORK_RECEIPT"]
   );
 
   // handlers
@@ -196,8 +196,8 @@ const JobWorkReceipt = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

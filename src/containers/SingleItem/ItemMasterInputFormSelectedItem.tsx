@@ -50,7 +50,7 @@ const ItemMasterInputFormSelectedItem = (props) => {
     message: "Loading Please wait",
   });
   const [enableSave, setEnableSave] = React.useState(true);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setDropDowns = (data) => {
     dispatch(updateSelectMetaData(data));
@@ -121,17 +121,17 @@ const ItemMasterInputFormSelectedItem = (props) => {
   //   }
   // }, []);
 
-  // const [tableItemMaster, settableItemMaster] = React.useState(useSelector((state) => state.master.ITEM_MASTER));
-  // const [tableBillOfProcess, settableBillOfProcess] = React.useState(useSelector((state) => state.master.BILL_OF_PROCESS));
+  // const [tableItemMaster, settableItemMaster] = React.useState(useSelector((state: RootState) => state.master.ITEM_MASTER));
+  // const [tableBillOfProcess, settableBillOfProcess] = React.useState(useSelector((state: RootState) => state.master.BILL_OF_PROCESS));
   const dispatch = useDispatch();
 
   const { ITEM_MASTER: ITEM_MASTER, BILL_OF_PROCESS: BILL_OF_PROCESS } =
-    useSelector((state) => state.master.APP_DATA);
+    useSelector((state: RootState) => state.master.APP_DATA);
 
-  const tableItemMaster = useSelector((state) => state.master.ITEM_MASTER);
+  const tableItemMaster = useSelector((state: RootState) => state.master.ITEM_MASTER);
 
   const tableBillOfProcess = useSelector(
-    (state) => state.master.BILL_OF_PROCESS
+    (state: RootState) => state.master.BILL_OF_PROCESS
   );
 
   const setBOPData = (k) => {
@@ -262,7 +262,7 @@ const ItemMasterInputFormSelectedItem = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA_INIT);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA_INIT);
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });
   };

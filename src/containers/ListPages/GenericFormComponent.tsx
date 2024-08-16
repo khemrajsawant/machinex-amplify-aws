@@ -30,7 +30,7 @@ const GenericFormComponent = () => {
     EARNING_DETAILS: EARNING_DETAILS,
     DAILY_WORK_REPORT: DAILY_WORK_REPORT,
     GENRAL_WORK_DETAILS: GENRAL_WORK_DETAILS,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // //states
 
@@ -45,11 +45,11 @@ const GenericFormComponent = () => {
 
   const [checked, setChecked] = React.useState(false);
 
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const SECTION_NAMES = APP_DATA.FORMDATA.DAILY_WORK_REPORT_FORM.SECTIONS;
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   //handlers
 
   const handleChange = () => {
@@ -77,7 +77,7 @@ const GenericFormComponent = () => {
     setEnableSave(false);
   };
 
-  const table = useSelector((state) => state.master);
+  const table = useSelector((state: RootState) => state.master);
 
   const setNotificationFalse = () =>{
     setNotification({open:false,severity:'error',message:"Failed"})

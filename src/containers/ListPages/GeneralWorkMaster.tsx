@@ -30,11 +30,11 @@ const GeneralWorkMaster = (props) => {
   // metadata
   const dispatch = useDispatch();
   const { GENERAL_WORK_LIST: GENERAL_WORK_LIST } = useSelector(
-    (state) => state.master.APP_DATA
+    (state: RootState) => state.master.APP_DATA
   );
 
   // states
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const [notification, setNotification] = React.useState({
     open: false,
@@ -47,7 +47,7 @@ const GeneralWorkMaster = (props) => {
   const [open, setOpen] = React.useState(false);
 
   const tableGeneralWorkList = useSelector(
-    (state) => state.master.GENERAL_WORK_LIST
+    (state: RootState) => state.master.GENERAL_WORK_LIST
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
@@ -143,7 +143,7 @@ const GeneralWorkMaster = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

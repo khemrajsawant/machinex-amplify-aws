@@ -5,6 +5,14 @@ const schema = a.schema({
     .model({
       content: a.string(),
     }).authorization(allow => [allow.owner()]),
+
+  RoleToRouteMapping:a
+  .model({
+    Role: a.string().array(),
+    Allowed_Routes: a.string().array(),
+    Allowed_Subroutes_Masters: a.string().array(),
+    Allowed_Subroutes_Transactions: a.string().array(),
+  }).authorization(allow => [allow.group('Admin')]),
     
   AccountMasterForm: a
     .model({

@@ -4,7 +4,7 @@ import {
 
 const initialState = {};
 
-function notificationReducer(notifications = initialState, action) {
+function notificationReducer(notifications = initialState, action:any) {
   const { type, payload } = action;
 
   switch (type) {

@@ -38,7 +38,7 @@ const SalesChallanSingleItem = (props) => {
   const {
     SALE_CHALLAN: SALE_CHALLAN,
     SALE_CHALLAN_DETAILS: SALE_CHALLAN_DETAILS,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // states
   const [notification, setNotification] = React.useState({
@@ -51,13 +51,13 @@ const SalesChallanSingleItem = (props) => {
   const [enableSave, setEnableSave] = React.useState(true);
   const [open, setOpen] = React.useState(false);
 
-  const tableSaleChallan = useSelector((state) => state.master.SALE_CHALLAN);
+  const tableSaleChallan = useSelector((state: RootState) => state.master.SALE_CHALLAN);
   const tableSaleChallanDetails = useSelector(
-    (state) => state.master.SALE_CHALLAN_DETAILS
+    (state: RootState) => state.master.SALE_CHALLAN_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
   const nextSaleChallanID = useSelector(
-    (state) => state.master.NEXT_AVAILABLE_ID["SALE_CHALLAN"]
+    (state: RootState) => state.master.NEXT_AVAILABLE_ID["SALE_CHALLAN"]
   );
 
   // handlers
@@ -198,8 +198,8 @@ const SalesChallanSingleItem = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

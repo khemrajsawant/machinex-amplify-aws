@@ -1,38 +1,37 @@
+import React from "react";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Stack from "@mui/material/Stack";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
-import { title } from "../utils/cardsMetaData";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { title } from "../utils/cardsMetaData";
 
-import React from "react";
+type TitleKeys = keyof typeof title;
 
-export default function CardComponentTile(props) {
+interface CardComponentTileProps {
+  type: "button" | "card";
+  title: TitleKeys;  // Restrict title to be one of the keys of title
+  page: string;
+}
+
+const CardComponentTile: React.FC<CardComponentTileProps> = (props) => {
   const routeText = title[props.title];
-  // ////console.log(routeText);
-  if (props.type == "button") {
+
+  if (props.type === "button") {
     return (
-      <>
-        <Button variant="outlined">
-          <Link
-            to={`/${props.page}/${props.title}`}
-            relative="path"
-            underline="hover"
-          >
-            <Typography variant="h5" component="div">
-              {props.title}
-            </Typography>
-          </Link>
-        </Button>
-      </>
+      <Button variant="outlined">
+        <Link to={`/${props.page}/${props.title}`} relative="path">
+          <Typography variant="h5" component="div">
+            {props.title}
+          </Typography>
+        </Link>
+      </Button>
     );
-  } else if (props.type == "card") {
+  } else if (props.type === "card") {
     return (
       <Card
         sx={[
@@ -40,8 +39,13 @@ export default function CardComponentTile(props) {
           { height: "5rem" },
           { backgroundColor: "#f5f5f5" },
           { transition: "background 0s, color 1s" },
-          { "&:hover": { backgroundColor: "#f5f5f5" ,padding:"0px",boxShadow: "0px 10px #f5f5f5"} },
-          // { border: "1px solid" },
+          {
+            "&:hover": {
+              backgroundColor: "#f5f5f5",
+              padding: "0px",
+              boxShadow: "0px 10px #f5f5f5",
+            },
+          },
           { padding: "10px" },
           { boxShadow: "5px 10px #f3e5f5" },
         ]}
@@ -53,15 +57,59 @@ export default function CardComponentTile(props) {
             { backgroundColor: "#2a5fa6" },
           ]}
           display="flex"
-          direction="row"
+          flexDirection="row"
         >
-          <ButtonGroup style={{marginLeft:"8rem"}}>
-          <Button sx={[{ color: "grey" },{ '&:hover':{backgroundColor: "#f3e5f5", color: "grey"}}]}>
-            <EditIcon sx={[{ color: "white" },{ '&:hover':{backgroundColor: "#f3e5f5", color: "grey", borderRadius:"2px" }}, { height: "0.8rem" }]} />
-          </Button>
-          <Button sx={[{ color: "grey" },{ '&:hover':{backgroundColor: "#f3e5f5", color: "grey"}}]}>
-            <VisibilityIcon sx={[{ color: "white" },{ '&:hover':{backgroundColor: "#f3e5f5", color: "grey", borderRadius:"2px" }}, { height: "0.8rem" }]} />
-          </Button>
+          <ButtonGroup style={{ marginLeft: "8rem" }}>
+            <Button
+              sx={[
+                { color: "grey" },
+                {
+                  "&:hover": {
+                    backgroundColor: "#f3e5f5",
+                    color: "grey",
+                  },
+                },
+              ]}
+            >
+              <EditIcon
+                sx={[
+                  { color: "white" },
+                  {
+                    "&:hover": {
+                      backgroundColor: "#f3e5f5",
+                      color: "grey",
+                      borderRadius: "2px",
+                    },
+                  },
+                  { height: "0.8rem" },
+                ]}
+              />
+            </Button>
+            <Button
+              sx={[
+                { color: "grey" },
+                {
+                  "&:hover": {
+                    backgroundColor: "#f3e5f5",
+                    color: "grey",
+                  },
+                },
+              ]}
+            >
+              <VisibilityIcon
+                sx={[
+                  { color: "white" },
+                  {
+                    "&:hover": {
+                      backgroundColor: "#f3e5f5",
+                      color: "grey",
+                      borderRadius: "2px",
+                    },
+                  },
+                  { height: "0.8rem" },
+                ]}
+              />
+            </Button>
           </ButtonGroup>
         </Box>
 
@@ -97,4 +145,8 @@ export default function CardComponentTile(props) {
       </Card>
     );
   }
-}
+
+  return null;
+};
+
+export default CardComponentTile;

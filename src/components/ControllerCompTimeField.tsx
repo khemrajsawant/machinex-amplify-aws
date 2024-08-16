@@ -1,37 +1,50 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
-import { Controller } from "react-hook-form";
+import { Controller, Control, FieldValues, Path, PathValue, UseControllerProps } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import FormHeader from "./FormHeader";
 
-export default function ControllerCompTimeField(props) {
+interface ControllerCompTimeFieldProps<T extends FieldValues> {
+  label: string;
+  helpertext?: string;
+  nameprop: Path<T>;
+  control: Control<T>;
+  defaultvalue?: PathValue<T, Path<T>>;
+  required?: boolean;
+}
+
+export default function ControllerCompTimeField<T extends FieldValues>({
+  label,
+  helpertext = "",
+  nameprop,
+  control,
+  defaultvalue,
+  required = false,
+}: ControllerCompTimeFieldProps<T>) {
   return (
     <React.Fragment>
       <Stack
         spacing={1}
-        // m={1}
-        // //margin
         display="flex"
       >
         <FormHeader
-          headerName={props.label.replace(/_/g, " ")}
+          headerName={label.replace(/_/g, " ")}
           headerkind="regular"
-        ></FormHeader>
+        />
         <Controller
           render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
-              error={error !== undefined}
+              error={!!error}
               type="time"
-              helperText={error ? props.helpertext : ""}
-              // value={props.defaultvalue}
+              helperText={error ? helpertext : ""}
               sx={[
                 { "& .MuiInputBase-input": {
-                  margin: 0, // Adjust this value as needed
+                  margin: 0,
                   height: 0,
-                  fontSize: "0.8rem"}
-                },
-                { width: (theme) => theme.spacing("10rem") },  { height: (theme) => theme.spacing("2rem") },
+                  fontSize: "0.8rem"
+                }},
+                { width: (theme) => theme.spacing(10) },  { height: (theme) => theme.spacing(2) },
                 {
                   "&:hover": { backgroundColor: "white", borderRadius: "3px" },
                 },
@@ -39,10 +52,10 @@ export default function ControllerCompTimeField(props) {
               InputProps={{ sx: { height: "2rem" } }}
             />
           )}
-          name={props.nameprop}
-          control={props.control}
-          defaultValue={props.defaultvalue}
-          rules={{ required: props.required }}
+          name={nameprop}
+          control={control}
+          defaultValue={defaultvalue}
+          rules={{ required }}
         />
       </Stack>
     </React.Fragment>

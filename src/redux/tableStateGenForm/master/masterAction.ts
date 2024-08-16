@@ -19,14 +19,7 @@ import {
   SET_IS_LOADING
 } from "./masterType";
 
-interface Action {
-  type: string;
-  payload?: any;
-  headerName?: string;
-  labelName?: string;
-}
-
-export const isLoading = (data: any, headerName: string): Action => {
+export const isLoading = () => {
   ////console.log(headerName);
 
   return {
@@ -34,7 +27,7 @@ export const isLoading = (data: any, headerName: string): Action => {
   };
 };
 
-export const createMaster = (data: any, headerName: string): Action => {
+export const createMaster = (data:any, headerName:any) => {
   ////console.log(headerName);
 
   return {
@@ -44,7 +37,7 @@ export const createMaster = (data: any, headerName: string): Action => {
   };
 };
 
-export const fetchMaster = (data: any, headerName: string): Action => {
+export const fetchMaster = (data:any, headerName:any) => {
   ////console.log(headerName);
 
   return {
@@ -54,7 +47,7 @@ export const fetchMaster = (data: any, headerName: string): Action => {
   };
 };
 
-export const updateMaster = (data: any, headerName: string): Action => {
+export const updateMaster = (data:any, headerName:any) => {
   return {
     type: UPDATE_MASTER,
     payload: data,
@@ -62,14 +55,14 @@ export const updateMaster = (data: any, headerName: string): Action => {
   };
 };
 
-export const retrieveMasters = (data: any): Action => {
+export const retrieveMasters = (data:any) => {
   return {
     type: RETRIEVE_MASTERS,
     payload: data,
   };
 };
 
-export const deleteMaster = (data: any, headerName: string): Action => {
+export const deleteMaster = (data:any, headerName:any) => {
   return {
     type: DELETE_MASTER,
     payload: data,
@@ -77,28 +70,28 @@ export const deleteMaster = (data: any, headerName: string): Action => {
   };
 };
 
-export const deleteAllMasters = (data: any): Action => {
+export const deleteAllMasters = (data:any) => () => {
   return {
     type: DELETE_ALL_MASTERS,
     payload: data,
   };
 };
 
-export const updateMetaData = (data: any): Action => {
+export const updateMetaData = (data:any) => {
   return {
     type: UPDATE_METADATA,
     payload: data,
   };
 };
 
-export const updateUserAuthDetails = (data: any): Action => {
+export const updateUserAuthDetails = (data:any) => {
   return {
     type: UPDATE_USER_INFO,
     payload: data,
   };
 };
 
-export const updateAuthData = (data: any, headerName: string, labelName: string): Action => {
+export const updateAuthData = (data:any, headerName:any, labelName:any) => {
   return {
     type: UPDATE_AUTHDATA,
     payload: data,
@@ -107,21 +100,23 @@ export const updateAuthData = (data: any, headerName: string, labelName: string)
   };
 };
 
-export const updateSelectMetaData = (data: any): Action => {
+export const updateSelectMetaData = (data:any) => {
   return {
     type: UPDATE_SELECT_METADATA,
     payload: data,
   };
 };
 
-export const createDynamicDropdown = (data: any): Action => {
+export const createDynamicDropdown = (data:any) => {
   return {
     type: DROPDOWN_INIT_DYNA,
     payload: data,
   };
 };
 
-export const updateSelectedDropdown = (data: any, headerName: string, labelName: string): Action => {
+
+
+export const updateSelectedDropdown = (data:any, headerName:any, labelName:any) => {
   return {
     type: UPDATE_SELECTED_DROPDOWN,
     payload: data,
@@ -130,7 +125,7 @@ export const updateSelectedDropdown = (data: any, headerName: string, labelName:
   };
 };
 
-export const updateSelectedDropdownDyna = (data: any, headerName: string, labelName: string): Action => {
+export const updateSelectedDropdownDyna = (data:any, headerName:any, labelName:any) => {
   return {
     type: UPDATE_SELECTED_DROPDOWN_DYNA,
     payload: data,
@@ -139,24 +134,38 @@ export const updateSelectedDropdownDyna = (data: any, headerName: string, labelN
   };
 };
 
-export const getSelectedItem = (data: any): Action => {
+export const getSelectedItem = (data:any) => {
   return {
     type: GET_SELECTED_ITEM,
     payload: data
   };
 };
 
-export const getNextAvailableEmpID = (data: any): Action => {
+
+export const getNextAvailableEmpID = (data:any) => {
   return {
     type: GET_NEXT_ID,
     payload: data
   };
 };
 
-export const localUpdateNextAvailableEmpID = (data: any, headerName: string): Action => {
+export const localUpdateNextAvailableEmpID = (data:any, headerName:any) => {
   return {
     type: LOCAL_GET_NEXT_ID,
     payload: data,
     headerName: headerName,
   };
 };
+
+// export const findTutorialsByTitle = (title) => () => {
+//   // try {
+//   //   const res = await TutorialDataService.findByTitle(title);
+
+//   dispatch({
+//     type: RETRIEVE_TUTORIALS,
+//     payload: res.data,
+//   });
+//   // } catch (err) {
+//   //   ////console.log(err);
+//   // }
+// };

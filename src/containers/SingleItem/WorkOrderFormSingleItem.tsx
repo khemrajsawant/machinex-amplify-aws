@@ -28,16 +28,16 @@ const WorkOrderFormSingleItem = (props) => {
   //states
   const dispatch = useDispatch();
   // metadata
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const { WORK_ORDER: WORK_ORDER, WORK_ORDER_DETAILS: WORK_ORDER_DETAILS } =
-    useSelector((state) => state.master.APP_DATA);
+    useSelector((state: RootState) => state.master.APP_DATA);
 
   // states
 
-  const tableWorkOrder = useSelector((state) => state.master.WORK_ORDER);
+  const tableWorkOrder = useSelector((state: RootState) => state.master.WORK_ORDER);
   const tableWorkOrderDetails = useSelector(
-    (state) => state.master.WORK_ORDER_DETAILS
+    (state: RootState) => state.master.WORK_ORDER_DETAILS
   );
   const [notification, setNotification] = React.useState({
     open: true,
@@ -168,7 +168,7 @@ const WorkOrderFormSingleItem = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA_INIT);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA_INIT);
 console.log("items dropdown data init", items.BILL_OF_PROCESS)
 //  const onClickButtonHandler= () => {
 //       dispatch(

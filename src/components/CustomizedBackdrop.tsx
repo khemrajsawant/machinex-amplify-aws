@@ -4,7 +4,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-export default function CustomizedBackdrop(props) {
+export default function CustomizedBackdrop(props: {open: boolean}) {
 
     const [open, setOpen] = React.useState(
        props.open,
@@ -15,14 +15,18 @@ export default function CustomizedBackdrop(props) {
     setOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event: React.SyntheticEvent, reason: string) => {
     if (reason === 'autoHideDuration') {
       return;
     }
+  
+    // Your logic here
+  };
+  
 
     setOpen(false);
-    props.onChange()
-  };
+    // props.onChange()
+
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>

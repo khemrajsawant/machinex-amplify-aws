@@ -1,13 +1,23 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
-import { Controller } from "react-hook-form";
+import { Controller, Control } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import FormHeader from "./FormHeader";
 
-export default function ControllerCompDateField(props) {
-  const disabled = props.disabled;
+interface ControllerCompDateFieldProps {
+  nameprop: string;
+  control: Control<any>;
+  label: string;
+  helpertext?: string;
+  disabled?: boolean;
+  required?: boolean;
+  defaultvalue?: string;
+}
 
-  const formatDate = (date) => {
+const ControllerCompDateField: React.FC<ControllerCompDateFieldProps> = (props) => {
+  const { disabled, label, nameprop, control, helpertext, required, defaultvalue } = props;
+
+  const formatDate = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
@@ -16,23 +26,15 @@ export default function ControllerCompDateField(props) {
 
   return (
     <React.Fragment>
-      <Stack
-        spacing={1}
-        // m={1}
-        // //margin
-        display="flex"
-      >
-        <FormHeader
-          headerName={props.label.replace(/_/g, " ")}
-          headerkind="regular"
-        ></FormHeader>
+      <Stack spacing={1} display="flex">
+        <FormHeader headerName={label.replace(/_/g, " ")} headerkind="regular" />
         <Controller
           render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
-              error={error !== undefined}
+              error={Boolean(error)}
               type="date"
-              helperText={error ? props.helpertext : ""}
+              helperText={error ? helpertext : ""}
               sx={[
                 {
                   "& .MuiInputBase-input": {
@@ -41,8 +43,8 @@ export default function ControllerCompDateField(props) {
                     fontSize: "0.8rem",
                   },
                 },
-                { width: (theme) => theme.spacing("10rem") },
-                { height: (theme) => theme.spacing("2rem") },
+                { width: (theme) => theme.spacing(20) },
+                { height: (theme) => theme.spacing(4) },
                 {
                   "&:hover": { backgroundColor: "white", borderRadius: "3px" },
                 },
@@ -52,18 +54,18 @@ export default function ControllerCompDateField(props) {
               }}
             />
           )}
-          name={props.nameprop}
-          control={props.control}
+          name={nameprop}
+          control={control}
           defaultValue={
             disabled
-              ? props.defaultvalue
-              : () => {
-                  return formatDate(new Date());
-                }
+              ? defaultvalue
+              : formatDate(new Date())
           }
-          rules={{ required: props.required }}
+          rules={{ required }}
         />
       </Stack>
     </React.Fragment>
   );
-}
+};
+
+export default ControllerCompDateField;

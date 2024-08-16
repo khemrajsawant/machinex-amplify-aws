@@ -513,6 +513,20 @@ export const getRejectionReportDetails = /* GraphQL */ `
     }
   }
 `;
+export const getRoleToRouteMapping = /* GraphQL */ `
+  query GetRoleToRouteMapping($id: ID!) {
+    getRoleToRouteMapping(id: $id) {
+      Allowed_Routes
+      Allowed_Subroutes_Masters
+      Allowed_Subroutes_Transactions
+      Role
+      createdAt
+      id
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getSalaryDetails = /* GraphQL */ `
   query GetSalaryDetails($id: ID!) {
     getSalaryDetails(id: $id) {
@@ -1437,6 +1451,32 @@ export const listRejectionReports = /* GraphQL */ `
         isServer
         owner
         timeStamp
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listRoleToRouteMappings = /* GraphQL */ `
+  query ListRoleToRouteMappings(
+    $filter: ModelRoleToRouteMappingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRoleToRouteMappings(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        Allowed_Routes
+        Allowed_Subroutes_Masters
+        Allowed_Subroutes_Transactions
+        Role
+        createdAt
+        id
         updatedAt
         __typename
       }

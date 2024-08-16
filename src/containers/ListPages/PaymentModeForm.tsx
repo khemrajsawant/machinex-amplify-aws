@@ -38,7 +38,7 @@ const PaymentModeForm = (props) => {
 
   const [enableSave, setEnableSave] = React.useState(true);
    
-  const tablePaymentMode = useSelector((state) => state.master.PAYMENT_MODE);
+  const tablePaymentMode = useSelector((state: RootState) => state.master.PAYMENT_MODE);
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
   // handlers
@@ -47,8 +47,8 @@ const PaymentModeForm = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () =>{
     setNotification({open:false,severity:'error',message:"Failed"})

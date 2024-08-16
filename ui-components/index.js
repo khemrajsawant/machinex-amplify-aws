@@ -1,5 +1,7 @@
 export { default as TodoCreateForm } from "./TodoCreateForm";
 export { default as TodoUpdateForm } from "./TodoUpdateForm";
+export { default as RoleToRouteMappingCreateForm } from "./RoleToRouteMappingCreateForm";
+export { default as RoleToRouteMappingUpdateForm } from "./RoleToRouteMappingUpdateForm";
 export { default as AccountMasterFormCreateForm } from "./AccountMasterFormCreateForm";
 export { default as AccountMasterFormUpdateForm } from "./AccountMasterFormUpdateForm";
 export { default as BankDetailsCreateForm } from "./BankDetailsCreateForm";

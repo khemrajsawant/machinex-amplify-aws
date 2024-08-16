@@ -46,19 +46,19 @@ const RejectionFormSingleItem = (props) => {
   const {
     REJECTION_REPORT: REJECTION_REPORT,
     REJECTION_REPORT_DETAILS: REJECTION_REPORT_DETAILS,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // states
-  const table = useSelector((state) => state.master);
+  const table = useSelector((state: RootState) => state.master);
   const tableRejectionReport = useSelector(
-    (state) => state.master.REJECTION_REPORT
+    (state: RootState) => state.master.REJECTION_REPORT
   );
   const tableRejectionReportDetails = useSelector(
-    (state) => state.master.REJECTION_REPORT_DETAILS
+    (state: RootState) => state.master.REJECTION_REPORT_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
   const nextRejectionID = useSelector(
-    (state) => state.master.NEXT_AVAILABLE_ID["REJECTION_REPORT"]
+    (state: RootState) => state.master.NEXT_AVAILABLE_ID["REJECTION_REPORT"]
   );
 
   // handlers
@@ -224,8 +224,8 @@ const RejectionFormSingleItem = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

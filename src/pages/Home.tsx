@@ -2,9 +2,8 @@ import React from "react";
 import { Container, Stack } from "@mui/material";
 import OpeningInfo from "../containers/ListPages/OpeningInfo";
 import { Copyright } from "../components/Copyright";
-import CustomizedBackdrop from "../components/CustomizedBackdrop";
 
-function Home(props) {
+function Home() {
   return (
     <Container
       maxWidth="xl"
@@ -31,7 +30,7 @@ function Home(props) {
           //   },
         ]}
       >
-        {/* <CustomizedBackdrop open={true}/> */}
+
         <OpeningInfo />
       </Stack>
       <Copyright />

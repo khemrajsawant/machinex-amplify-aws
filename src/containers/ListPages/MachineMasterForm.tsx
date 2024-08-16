@@ -23,7 +23,7 @@ const MachineMasterForm = (props) => {
   // metadata
   const dispatch = useDispatch();
   const { MACHINE_MASTER: MACHINE_MASTER } = useSelector(
-    (state) => state.master.APP_DATA
+    (state: RootState) => state.master.APP_DATA
   );
 
   // states
@@ -38,7 +38,7 @@ const MachineMasterForm = (props) => {
   const [open, setOpen] = React.useState(false);
 
   const tableMachineMaster = useSelector(
-    (state) => state.master.MACHINE_MASTER
+    (state: RootState) => state.master.MACHINE_MASTER
   );
   const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
@@ -134,9 +134,9 @@ const MachineMasterForm = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   //console.log("items", items, "tableMachineMaster", tableMachineMaster);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: "error", message: "Failed" });

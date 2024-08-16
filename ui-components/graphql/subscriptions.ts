@@ -579,6 +579,22 @@ export const onCreateRejectionReportDetails = /* GraphQL */ `
     }
   }
 `;
+export const onCreateRoleToRouteMapping = /* GraphQL */ `
+  subscription OnCreateRoleToRouteMapping(
+    $filter: ModelSubscriptionRoleToRouteMappingFilterInput
+  ) {
+    onCreateRoleToRouteMapping(filter: $filter) {
+      Allowed_Routes
+      Allowed_Subroutes_Masters
+      Allowed_Subroutes_Transactions
+      Role
+      createdAt
+      id
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateSalaryDetails = /* GraphQL */ `
   subscription OnCreateSalaryDetails(
     $filter: ModelSubscriptionSalaryDetailsFilterInput
@@ -1380,6 +1396,22 @@ export const onDeleteRejectionReportDetails = /* GraphQL */ `
     }
   }
 `;
+export const onDeleteRoleToRouteMapping = /* GraphQL */ `
+  subscription OnDeleteRoleToRouteMapping(
+    $filter: ModelSubscriptionRoleToRouteMappingFilterInput
+  ) {
+    onDeleteRoleToRouteMapping(filter: $filter) {
+      Allowed_Routes
+      Allowed_Subroutes_Masters
+      Allowed_Subroutes_Transactions
+      Role
+      createdAt
+      id
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onDeleteSalaryDetails = /* GraphQL */ `
   subscription OnDeleteSalaryDetails(
     $filter: ModelSubscriptionSalaryDetailsFilterInput
@@ -2176,6 +2208,22 @@ export const onUpdateRejectionReportDetails = /* GraphQL */ `
       isServer
       owner
       timeStamp
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateRoleToRouteMapping = /* GraphQL */ `
+  subscription OnUpdateRoleToRouteMapping(
+    $filter: ModelSubscriptionRoleToRouteMappingFilterInput
+  ) {
+    onUpdateRoleToRouteMapping(filter: $filter) {
+      Allowed_Routes
+      Allowed_Subroutes_Masters
+      Allowed_Subroutes_Transactions
+      Role
+      createdAt
+      id
       updatedAt
       __typename
     }

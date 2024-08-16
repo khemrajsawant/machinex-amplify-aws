@@ -579,6 +579,23 @@ export const createRejectionReportDetails = /* GraphQL */ `
     }
   }
 `;
+export const createRoleToRouteMapping = /* GraphQL */ `
+  mutation CreateRoleToRouteMapping(
+    $condition: ModelRoleToRouteMappingConditionInput
+    $input: CreateRoleToRouteMappingInput!
+  ) {
+    createRoleToRouteMapping(condition: $condition, input: $input) {
+      Allowed_Routes
+      Allowed_Subroutes_Masters
+      Allowed_Subroutes_Transactions
+      Role
+      createdAt
+      id
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createSalaryDetails = /* GraphQL */ `
   mutation CreateSalaryDetails(
     $condition: ModelSalaryDetailsConditionInput
@@ -1380,6 +1397,23 @@ export const deleteRejectionReportDetails = /* GraphQL */ `
     }
   }
 `;
+export const deleteRoleToRouteMapping = /* GraphQL */ `
+  mutation DeleteRoleToRouteMapping(
+    $condition: ModelRoleToRouteMappingConditionInput
+    $input: DeleteRoleToRouteMappingInput!
+  ) {
+    deleteRoleToRouteMapping(condition: $condition, input: $input) {
+      Allowed_Routes
+      Allowed_Subroutes_Masters
+      Allowed_Subroutes_Transactions
+      Role
+      createdAt
+      id
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const deleteSalaryDetails = /* GraphQL */ `
   mutation DeleteSalaryDetails(
     $condition: ModelSalaryDetailsConditionInput
@@ -2176,6 +2210,23 @@ export const updateRejectionReportDetails = /* GraphQL */ `
       isServer
       owner
       timeStamp
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateRoleToRouteMapping = /* GraphQL */ `
+  mutation UpdateRoleToRouteMapping(
+    $condition: ModelRoleToRouteMappingConditionInput
+    $input: UpdateRoleToRouteMappingInput!
+  ) {
+    updateRoleToRouteMapping(condition: $condition, input: $input) {
+      Allowed_Routes
+      Allowed_Subroutes_Masters
+      Allowed_Subroutes_Transactions
+      Role
+      createdAt
+      id
       updatedAt
       __typename
     }

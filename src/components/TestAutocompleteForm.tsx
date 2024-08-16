@@ -36,13 +36,13 @@ import {
   updateUserAuthDetails,
   updateSelectMetaData,
   updateSelectedDropdown,
-} from "../redux/tableStateGenForm/master/masterAction";
+} from "../redux/tableStateGenForm/master/masterReducer";
 import { useState, useEffect } from "react";
 
 export default function TestAutocompleteForm(props) {
   const dispatch = useDispatch();
   const disabled= props.disabled
-  const table = useSelector((state) => state.master.DROPDOWN_DATA);
+  const table = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   ////console.log(table);
   const [toggle, setToggle] = useState(false);
   // const control = props.control;

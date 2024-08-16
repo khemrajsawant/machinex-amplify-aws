@@ -43,13 +43,13 @@ const JobWorkOrderSingleItem = (props) => {
   const {
     JOB_WORK_ORDER: JOB_WORK_ORDER,
     JOB_WORK_ORDER_DETAILS: JOB_WORK_ORDER_DETAILS,
-  } = useSelector((state) => state.master.APP_DATA);
+  } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // states
 
-  const tableJobWorkOrder = useSelector((state) => state.master.JOB_WORK_ORDER);
+  const tableJobWorkOrder = useSelector((state: RootState) => state.master.JOB_WORK_ORDER);
   const tableJobWorkOrderDetails = useSelector(
-    (state) => state.master.JOB_WORK_ORDER_DETAILS
+    (state: RootState) => state.master.JOB_WORK_ORDER_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
@@ -153,8 +153,8 @@ const JobWorkOrderSingleItem = (props) => {
     setNotification({ open: false, severity: "error", message: "Failed" });
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA_INIT);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA_INIT);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
   return (
     <Container maxWidth="xl" sx={[{ marginTop: (theme) => theme.spacing(10) }]}>
       {open === true && <CustomizedBackdrop open={open} />}

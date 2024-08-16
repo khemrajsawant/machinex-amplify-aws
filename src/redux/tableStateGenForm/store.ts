@@ -1,14 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import logger from 'redux-logger';
-import rootReducer from './rootReducers';
+import masterReducer from './master/masterReducer';
+import { useDispatch } from "react-redux";
 
 const store = configureStore({
-  reducer: rootReducer,
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
-  devTools: process.env.NODE_ENV !== 'production', // enables devTools only in non-production environments
+  reducer: { master: masterReducer }
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>()
 
 export default store;

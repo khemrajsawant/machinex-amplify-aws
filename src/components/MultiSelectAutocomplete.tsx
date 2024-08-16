@@ -1,48 +1,22 @@
 import { Controller } from "react-hook-form";
-
-import React from "react";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-
-import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-
-import Autocomplete from "@mui/material/Autocomplete";
-
-import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
-import MenuItem from "@mui/material/MenuItem";
-import React from "react";
 import FormHeader from "./FormHeader";
-import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
 import React, { useState } from "react";
-
-import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import Autocomplete from "@mui/material/Autocomplete";
 import { useSelector } from "react-redux";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import ListItemText from "@mui/material/ListItemText";
-import { Icon } from "@iconify/react";
-import useLocalStorage from "./useLocalStorage";
 import { useDispatch } from "react-redux";
-import {
-  updateMetaData,
-  updateUserAuthDetails,
-  updateSelectMetaData,
-  updateSelectedDropdown,
-} from "../redux/tableStateGenForm/master/masterAction";
-import { useState, useEffect } from "react";
+import {useEffect } from "react";
+import { RootState } from "../redux/tableStateGenForm/store";
+import { Autocomplete } from "@mui/material";
 
-export default function MultiSelectAutocompleteForm(props) {
+
+export default function MultiSelectAutocompleteForm(props:any) {
   const dispatch = useDispatch();
   const disabled = props.disabled;
-  const table = useSelector((state) => state.master.DROPDOWN_DATA);
+  const table = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   ////console.log(table);
   const [toggle, setToggle] = useState(false);
   // const control = props.control;
@@ -58,7 +32,7 @@ export default function MultiSelectAutocompleteForm(props) {
     setSearchHistoryReference(table[props.formName][props.label]);
   }, [props.items]);
 
-  const handleUpdateSearchHistoryReference = (number) => {
+  const handleUpdateSearchHistoryReference = (number:any) => {
     if (searchHistoryReference.indexOf(number) === -1) {
       if (searchHistoryReference.length >= 30) {
         searchHistoryReference.length = 30;
@@ -71,20 +45,20 @@ export default function MultiSelectAutocompleteForm(props) {
   //   setToggle(!toggle);
   // };
 
-  const handleOptionDelete = (option) => {
-    setSearchHistoryReference((state) => state.filter((opt) => opt !== option));
+  const handleOptionDelete = (option:any) => {
+    setSearchHistoryReference((state:any) => state.filter((opt:any) => opt !== option));
   };
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const allSelected = searchHistoryReference.length === selectedOptions.length;
-  const handleToggleOption = (selectedOptions) =>
+  const handleToggleOption = (selectedOptions:any) =>
     setSelectedOptions(selectedOptions);
   const handleClearOptions = () => {
     setSelectedOptions([]);
     setReference([]);
   };
-  const getOptionLabel = (option) => `${option.label}`;
-  const handleSelectAll = (isSelected) => {
+  const getOptionLabel = (option:any) => `${option.label}`;
+  const handleSelectAll = (isSelected:any) => {
     if (isSelected) {
       setSelectedOptions(searchHistoryReference);
       setReference(searchHistoryReference);
@@ -100,18 +74,18 @@ export default function MultiSelectAutocompleteForm(props) {
   const handleToggleSelectAll = () => {
     handleSelectAll && handleSelectAll(!allSelected);
   };
-  const handleChange = (event, selectedOptions, reason) => {
+  const handleChange = (event:any, selectedOptions:any, reason:any) => {
     // setValue(selectedOptions);
     // setReference(selectedOptions);
     // onChange(selectedOptions);
     if (reason === "selectOption" || reason === "removeOption") {
       console.log("selectedOptions", selectedOptions);
 
-      if (selectedOptions.find((option) => option === "Select all")) {
+      if (selectedOptions.find((option:any) => option === "Select all")) {
         console.log("selected all");
         handleToggleSelectAll();
         let result = [];
-        result = searchHistoryReference.filter((el) => el !== "Select all");
+        result = searchHistoryReference.filter((el:any) => el !== "Select all");
         //console.log("all selectedOptions result", result);
         // setReference(result);
         // setValue(result);
@@ -127,7 +101,7 @@ export default function MultiSelectAutocompleteForm(props) {
       }
     } else if (reason === "clear") {
       handleClearOptions && handleClearOptions();
-      setValue([]);
+      setValue("");
     }
   };
 
@@ -146,9 +120,6 @@ export default function MultiSelectAutocompleteForm(props) {
             return (
               <Autocomplete
                 freeSolo
-                multiple
-                // limitTags={2}
-                inputRef={ref}
                 disabled={disabled}
                 ListboxProps={{
                   sx: {
@@ -173,15 +144,15 @@ export default function MultiSelectAutocompleteForm(props) {
                   },
                 }}
                 disableCloseOnSelect
-                filterOptions={(options) => ["Select all", ...options]}
+                filterOptions={(options:any) => ["Select all", ...options]}
                 value={selectedOptions}
                 onChange={(event, selectedOptions, reason) => {
                   let result = [];
                   result = searchHistoryReference.filter(
-                    (el) => el !== "Select all"
+                    (el:any) => el !== "Select all"
                   );
                   if (
-                    selectedOptions.find((option) => option === "Select all")
+                    selectedOptions.find((option:any) => option === "Select all")
                   ) {
                     onChange(result)
                   } else {
@@ -227,7 +198,6 @@ export default function MultiSelectAutocompleteForm(props) {
                             <span
                               style={{
                                 fontSize: "0.8rem",
-                                margin: 0,
                                 margin: "0.5rem",
                               }}
                             >
@@ -239,7 +209,7 @@ export default function MultiSelectAutocompleteForm(props) {
                     </>
                   );
                 }}
-                renderInput={(params) => (
+                renderInput={(params:any) => (
                   <TextField
                     {...params}
                     disabled={disabled}

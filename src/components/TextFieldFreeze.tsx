@@ -2,7 +2,7 @@ import React from "react";
 import ControllerCompTextField from "../components/ControllerCompTextField";
 import ControllerCompSelectField from "../components/ControllerCompSelect";
 
-import { createMaster } from "../redux/tableStateGenForm/master/masterAction";
+import { createMaster } from "../redux/tableStateGenForm/master/masterReducer";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
@@ -31,7 +31,7 @@ export default function TextFieldFreeze(props) {
   // //console.log("isMaster",isMaster)
   const [id, setId] = React.useState(0);
   const tableWorkStationMaster = useSelector(
-    (state) => state.master.WORKSTATION_MASTER
+    (state: RootState) => state.master.WORKSTATION_MASTER
   );
 
   const defaultValuesArray = props.prefilled ? props.prefilled : {};

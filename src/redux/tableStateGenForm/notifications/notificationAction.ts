@@ -2,7 +2,7 @@ import {
   SAVE_SUCCESSFUL
 } from "./notificationType";
 
-export const saveSuccessTrigger = (data) => {
+export const saveSuccessTrigger = (data:any) => {
   ////console.log(headerName);
 
   return {

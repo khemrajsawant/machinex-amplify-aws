@@ -37,7 +37,7 @@ const PaymentForm = (props) => {
   const location = useLocation();
 
   const { PAYMENT: PAYMENT, PAYMENT_DETAILS: PAYMENT_DETAILS } = useSelector(
-    (state) => state.master.APP_DATA
+    (state: RootState) => state.master.APP_DATA
   );
 
   // states
@@ -51,13 +51,13 @@ const PaymentForm = (props) => {
   const [enableSave, setEnableSave] = React.useState(true);
   const [open, setOpen] = React.useState(false);
 
-  const tablePayment = useSelector((state) => state.master.PAYMENT);
+  const tablePayment = useSelector((state: RootState) => state.master.PAYMENT);
   const tablePaymentDetails = useSelector(
-    (state) => state.master.PAYMENT_DETAILS
+    (state: RootState) => state.master.PAYMENT_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
   const nextPaymentID = useSelector(
-    (state) => state.master.NEXT_AVAILABLE_ID["PAYMENT"]
+    (state: RootState) => state.master.NEXT_AVAILABLE_ID["PAYMENT"]
   );
 
   // handlers
@@ -223,8 +223,8 @@ const PaymentForm = (props) => {
     setEnableSave(false);
   };
 
-  const items = useSelector((state) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state) => state.master.SELECTED_DATA);
+  const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
+  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   console.log("PAYMENT", PAYMENT);
 
