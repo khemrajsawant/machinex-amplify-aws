@@ -1,18 +1,17 @@
 import React from "react";
 //table
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 // mui library imports
 import Collapse from "@mui/material/Collapse";
-import Switch from "@mui/material/Switch";
+
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
-import Box from "@mui/material/Box";
+
 import { Icon } from "@iconify/react";
 
 // components
@@ -20,20 +19,16 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 import { APP_DATA } from "../../utils/constant";
-import InputFieldNonForm from "../../components/InputFieldNonForm";
-import data from "../../utils/metadataLocal.json";
+
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
+import { RootState } from "../../redux/tableStateGenForm/store";
 
 // const columns = columnsData.EMPLOYEE_MASTER;
-const EmployeeMasterFormSingleItem = (props) => {
+const EmployeeMasterFormSingleItem = (props:any) => {
   //states
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
   const {
@@ -43,7 +38,7 @@ const EmployeeMasterFormSingleItem = (props) => {
     BANK_DETAILS: BANK_DETAILS,
   } = useSelector((state: RootState) => state.master.APP_DATA);
 
-  const dispatch = useDispatch();
+
 
   const tableEmployeeMaster = useSelector(
     (state: RootState) => state.master.EMPLOYEE_MASTER
@@ -81,46 +76,46 @@ const EmployeeMasterFormSingleItem = (props) => {
   const preparePostData = () => {
     const prepdata = {
       EMPLOYEE_MASTER: tableEmployeeMaster.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       BANK_DETAILS: tableBankDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       USER_DETAILS: tableUserDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       SALARY_DETAILS: tableSalaryDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       EMPLOYEE_MASTER: prepdata.EMPLOYEE_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       BANK_DETAILS: prepdata.BANK_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       USER_DETAILS: prepdata.USER_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       SALARY_DETAILS: prepdata.SALARY_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       EMPLOYEE_MASTER: temp1.EMPLOYEE_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       BANK_DETAILS: temp1.BANK_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       USER_DETAILS: temp1.USER_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       SALARY_DETAILS: temp1.SALARY_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -128,13 +123,14 @@ const EmployeeMasterFormSingleItem = (props) => {
     return temp2;
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e:any) => {
     setEnableSave(false);
   };
 
-  const submitSaveHandler = (e) => {
+  const submitSaveHandler = (e:any) => {
     try {
       e.stopPropagation();
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -144,7 +140,7 @@ const EmployeeMasterFormSingleItem = (props) => {
             message: "Save Successful",
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           setNotification({
             open: true,
             severity: "warning",

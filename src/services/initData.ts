@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import metadataSelect from "../utils/metadataSelect.json";
 import master_data from "../utils/master_data.json";
 import metadataLocal from "../utils/metadataLocal.json";
@@ -37,15 +37,6 @@ interface UserAuthDetails {
   Surname: string;
 }
 
-interface NextEmpIDData {
-  PAYMENT: string;
-  WORK_ORDER: string;
-  EMPLOYEE_MASTER: string;
-  REJECTION_REPORT: string;
-  JOB_WORK_ORDER: string;
-  JOB_WORK_RECEIPT: string;
-  SALE_CHALLAN: string;
-}
 
 export default function initData() {
   console.log("Init Data Hook");
@@ -75,7 +66,7 @@ export default function initData() {
     dispatch(retrieveMasters(k));
   };
 
-  const setNextEmpIDData = (k: NextEmpIDData) => {
+  const setNextEmpIDData = (k: any) => {
     console.log("Dispatching getNextAvailableEmpID with data:", k);
     dispatch(getNextAvailableEmpID(k));
   };
@@ -83,6 +74,7 @@ export default function initData() {
   useEffect(() => {
     console.log("Init Data Hook useEffect");
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
         .withFailureHandler((er: any) => {
@@ -105,6 +97,7 @@ export default function initData() {
 
   useEffect(() => {
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(metaDataInStore)
         .withFailureHandler((er: any) => {
@@ -143,9 +136,10 @@ export default function initData() {
     }
 
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setUserInfo)
-        .withFailureHandler((er: any) => {
+        .withFailureHandler(() => {
           setUserInfo({
             userName: "Guest",
             loggedInUserData: [
@@ -204,9 +198,10 @@ export default function initData() {
     }
 
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setDropDowns)
-        .withFailureHandler((er: any) => {
+        .withFailureHandler(() => {
           setDropDowns(metadataSelect);
           alert("Select dropdown failed");
         })
@@ -217,9 +212,10 @@ export default function initData() {
     }
 
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setSelectedDropDowns)
-        .withFailureHandler((er: any) => {
+        .withFailureHandler(() => {
           setDropDowns(metadataSelect);
           alert("Multiselect dynamic dropdown failed");
         })
@@ -236,6 +232,7 @@ export default function initData() {
 
   useEffect(() => {
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setCompanyInformationData)
         .withFailureHandler((er: any) => {

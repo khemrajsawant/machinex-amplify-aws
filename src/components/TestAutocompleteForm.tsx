@@ -1,46 +1,41 @@
-import { List, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { Controller } from "react-hook-form";
 
-import React from "react";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
 
-import Autocomplete from "@mui/material/Autocomplete";
 
-import React, { useState } from "react";
+
+
 import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
-import React from "react";
+
 import FormHeader from "./FormHeader";
-import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
+
+
 import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
-import React, { useState } from "react";
+
 
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import Autocomplete from "@mui/material/Autocomplete";
+
 import { useSelector } from "react-redux";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
+
 import ListItemText from "@mui/material/ListItemText";
 import { Icon } from "@iconify/react";
 import useLocalStorage from "./useLocalStorage";
-import { useDispatch } from "react-redux";
+
 import {
   updateMetaData,
   updateUserAuthDetails,
   updateSelectMetaData,
   updateSelectedDropdown,
 } from "../redux/tableStateGenForm/master/masterReducer";
-import { useState, useEffect } from "react";
-
+import {  useEffect } from "react";
+import { RootState } from "../redux/tableStateGenForm/store";
 export default function TestAutocompleteForm(props) {
-  const dispatch = useDispatch();
+
   const disabled= props.disabled
   const table = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   ////console.log(table);
@@ -115,7 +110,6 @@ export default function TestAutocompleteForm(props) {
             return (
               <Autocomplete
                 freeSolo
-                inputRef={ref}
                 disabled={disabled}
                 ListboxProps={{
                   sx: {
@@ -152,7 +146,7 @@ export default function TestAutocompleteForm(props) {
                 {/* </ListItemSecondaryAction> */}
                     <ListItemText
                       primary={
-                        <span style={{ fontSize: "0.8rem",margin:0, margin: "0.5rem" }}>
+                        <span style={{ fontSize: "0.8rem", margin: "0.5rem" }}>
                           {option}
                         </span>
                       }

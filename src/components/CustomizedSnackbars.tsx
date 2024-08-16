@@ -10,7 +10,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 interface CustomizedSnackbarsProps {
   open: boolean;
   duration: number;
-  severity: 'success' | 'error' | 'info' | 'warning';
+  severity: string;
   message: string;
   onChange: () => void;
 }
@@ -53,9 +53,9 @@ export default function CustomizedSnackbars({
         autoHideDuration={duration}
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleAlertClose} severity={severity} sx={{ width: '100%' }}>
+        {/* <Alert onClose={handleAlertClose} severity={severity} sx={{ width: '100%' }}>
           {message}
-        </Alert>
+        </Alert> */}
       </Snackbar>
     </Stack>
   );

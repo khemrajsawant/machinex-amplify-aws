@@ -2,7 +2,7 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 // mui library imports
 
@@ -15,9 +15,9 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 
-import { fetchMaster,updateSelectedDropdown } from "../../redux/tableStateGenForm/master/masterAction";
+import { fetchMaster } from "../../redux/tableStateGenForm/master/masterReducer";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
@@ -26,7 +26,7 @@ import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 
 const WorkOrderFormSingleItem = (props) => {
   //states
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // metadata
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
@@ -49,10 +49,10 @@ const WorkOrderFormSingleItem = (props) => {
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
   // handlers
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "WORK_ORDER_DETAILS"));
+    dispatch(fetchMaster({payload:k, headerName:"WORK_ORDER_DETAILS"}));
   };
 
   // useEffect(() => {
@@ -74,6 +74,7 @@ const WorkOrderFormSingleItem = (props) => {
     try {
       if (enableSave === true) {
         selectedItem.Order_No &&
+        // @ts-ignore
           google.script.run
             .withSuccessHandler(setData)
             .withFailureHandler((er) => {
@@ -94,28 +95,28 @@ const WorkOrderFormSingleItem = (props) => {
   const preparePostData = () => {
     const prepdata = {
       // WORK_ORDER: tableWorkOrder.filter(
-      //   (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+      //   (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       // ),
       WORK_ORDER_DETAILS: tableWorkOrderDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       // WORK_ORDER: prepdata.WORK_ORDER.filter(
-      //   (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+      //   (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       // ),
       WORK_ORDER_DETAILS: prepdata.WORK_ORDER_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       // WORK_ORDER: temp1.WORK_ORDER.filter(
-      //   (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+      //   (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       // ),
       WORK_ORDER_DETAILS: temp1.WORK_ORDER_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -130,6 +131,7 @@ const WorkOrderFormSingleItem = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);

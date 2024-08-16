@@ -1,13 +1,11 @@
 import React from "react";
 // table
 
-import { useForm } from "react-hook-form";
 //store
 import { useSelector } from "react-redux";
 // mui library imports
 import Collapse from "@mui/material/Collapse";
 
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -17,26 +15,21 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 import { APP_DATA } from "../../utils/constant";
-import InputFieldNonForm from "../../components/InputFieldNonForm";
-import data from "../../utils/metadataLocal.json";
-import { Icon } from "@iconify/react";
+
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
+import { fetchMaster } from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
-
-const DailyWorkReportForm = (props) => {
-  const dispatch = useDispatch();
+import {RootState,useAppDispatch} from "../../redux/tableStateGenForm/store";
+const DailyWorkReportForm = (props:any) => {
+  const dispatch = useAppDispatch();
 
 // Metadata 
 
   const {
-    EARNING_DETAILS: EARNING_DETAILS,
     DAILY_WORK_REPORT: DAILY_WORK_REPORT,
-    GENERAL_WORK_DETAILS: GENERAL_WORK_DETAILS,
   } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // //states
@@ -51,32 +44,26 @@ const DailyWorkReportForm = (props) => {
   const [enableSave, setEnableSave] = React.useState(true);
   const [open, setOpen] = React.useState(false);
 
-  const table = useSelector((state: RootState) => state.master);
-
-  const { control } = useForm({ reValidateMode: "onBlur" });
-
   const [checked, setChecked] = React.useState(false);
   const tableDailyWorkReport = useSelector(
     (state: RootState) => state.master.DAILY_WORK_REPORT
   );
   const SECTION_NAMES = APP_DATA.FORMDATA.DAILY_WORK_REPORT_FORM.SECTIONS;
-  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
-  const userName = useSelector((state) =>
+
+  const userName = useSelector((state:RootState) =>
     state.master.AUTH_DATA.userData
       ? state.master.AUTH_DATA.userData.userName
       : ""
   );
   //handlers
 
-  const handleChange = () => {
-    setChecked((prev) => !prev);
-  };
+
 
   // handlers
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "DAILY_WORK_REPORT"));
+    dispatch(fetchMaster({payload:k, headerName:"DAILY_WORK_REPORT"}));
   };
 
   useEffect(() => {
@@ -85,9 +72,10 @@ const DailyWorkReportForm = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importDataWithSpecificRights("DAILY_WORK_REPORT",userName);
@@ -102,19 +90,19 @@ const DailyWorkReportForm = (props) => {
   const preparePostData = () => {
     const prepdata = {
       DAILY_WORK_REPORT: tableDailyWorkReport.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       DAILY_WORK_REPORT: prepdata.DAILY_WORK_REPORT.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       DAILY_WORK_REPORT: temp1.DAILY_WORK_REPORT.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -129,7 +117,7 @@ const DailyWorkReportForm = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
-  
+  // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -138,6 +126,7 @@ const DailyWorkReportForm = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000, 
           });
         })
         .withFailureHandler((er) => {
@@ -146,6 +135,7 @@ const DailyWorkReportForm = (props) => {
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000, 
           });
           // alert("save failed in ItemMaster");
         })
@@ -156,6 +146,7 @@ const DailyWorkReportForm = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000, 
       });
       setOpen(false)
     }
@@ -168,7 +159,7 @@ const DailyWorkReportForm = (props) => {
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
 
   var dailyReportPrefilled = { "Break [In Hour]": 1 };

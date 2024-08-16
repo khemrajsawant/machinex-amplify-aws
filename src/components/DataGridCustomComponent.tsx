@@ -15,21 +15,21 @@ function DataGridCustomComponent(props) {
   // };
 
   try{
-    const test1 = props.columns.filter((c) => c.showcolumnInTable !==false);
+    const test1 = props.columns.filter((c:any) => c.showcolumnInTable !==false);
     }
     catch{
       //console.log("test_1","something went wrong")
     }
 
     try{
-      const test2 = props.data.filter((c) => c.isDeleted !==true);;
+      const test2 = props.data.filter((c:any) => c.isDeleted !==true);;
       }
       catch{
         //console.log("test_2","something went wrong")
       }
-  const columns = props.columns.filter((c) => c.showcolumnInTable !==false);
+  const columns = props.columns.filter((c:any) => c.showcolumnInTable !==false);
 
-  // const rows = props.data.filter((c) => c.isDeleted !==true);;
+  // const rows = props.data.filter((c:any) => c.isDeleted !==true);;
   ////console.log(rows)
   const formName = props.formName;
   const isMaster = props.isMaster;

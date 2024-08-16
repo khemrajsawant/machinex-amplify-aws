@@ -2,7 +2,7 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 
 // mui library imports
@@ -17,19 +17,19 @@ import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 
 import {
   fetchMaster,
-  localUpdateNextAvailableEmpID,
-} from "../../redux/tableStateGenForm/master/masterAction";
+  getNextAvailableEmpID
+} from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
-
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 // const columns = columnsData.EMPLOYEE_MASTER;
 
-const RejectionFormSingleItem = (props) => {
+const RejectionFormSingleItem = (props:any) => {
   //states
   const [notification, setNotification] = React.useState({
     open: false,
@@ -41,7 +41,7 @@ const RejectionFormSingleItem = (props) => {
   const [enableSave, setEnableSave] = React.useState(true);
   const [open, setOpen] = React.useState(false);
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     REJECTION_REPORT: REJECTION_REPORT,
@@ -49,7 +49,7 @@ const RejectionFormSingleItem = (props) => {
   } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // states
-  const table = useSelector((state: RootState) => state.master);
+
   const tableRejectionReport = useSelector(
     (state: RootState) => state.master.REJECTION_REPORT
   );
@@ -57,13 +57,11 @@ const RejectionFormSingleItem = (props) => {
     (state: RootState) => state.master.REJECTION_REPORT_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
-  const nextRejectionID = useSelector(
-    (state: RootState) => state.master.NEXT_AVAILABLE_ID["REJECTION_REPORT"]
-  );
+
 
   // handlers
 
-  const setNextEmpIDData = (k) => {
+  const setNextEmpIDData = (k:any) => {
     //console.log(k);
     dispatch(getNextAvailableEmpID(k));
   };
@@ -72,9 +70,10 @@ const RejectionFormSingleItem = (props) => {
       setTimeout(function () {
         //console.log("This code runs after a delay of 2000 milliseconds.");
       }, 3000);
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           alert(er);
         })
         .getIDs();
@@ -85,10 +84,10 @@ const RejectionFormSingleItem = (props) => {
 
   // handlers
 
-  const setRejectionData = (k) => {
+  const setRejectionData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "REJECTION_REPORT"));
+    dispatch(fetchMaster({payload:k, headerName:"REJECTION_REPORT"}));
   };
 
   useEffect(() => {
@@ -97,9 +96,10 @@ const RejectionFormSingleItem = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setRejectionData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importData("REJECTION_REPORT");
@@ -109,10 +109,10 @@ const RejectionFormSingleItem = (props) => {
     }
   }, [enableSave]);
 
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "REJECTION_REPORT_DETAILS"));
+    dispatch(fetchMaster({payload:k,headerName:"REJECTION_REPORT_DETAILS"}));
   };
 
   useEffect(() => {
@@ -121,9 +121,10 @@ const RejectionFormSingleItem = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importData("REJECTION_REPORT_DETAILS");
@@ -138,28 +139,28 @@ const RejectionFormSingleItem = (props) => {
   const preparePostData = () => {
     const prepdata = {
       REJECTION_REPORT: tableRejectionReport.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       REJECTION_REPORT_DETAILS: tableRejectionReportDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       REJECTION_REPORT: prepdata.REJECTION_REPORT.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       REJECTION_REPORT_DETAILS: prepdata.REJECTION_REPORT_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       REJECTION_REPORT: temp1.REJECTION_REPORT.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       REJECTION_REPORT_DETAILS: temp1.REJECTION_REPORT_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -167,14 +168,14 @@ const RejectionFormSingleItem = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
+// @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -183,14 +184,16 @@ const RejectionFormSingleItem = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler(() => {
           setOpen(false);
           setNotification({
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 0,
           });
           // alert("save failed in ItemMaster");
         })
@@ -201,34 +204,19 @@ const RejectionFormSingleItem = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 0,
       });
       setOpen(false);
     }
   };
 
-  const onChangeHandler = (e) => {
-    //console.log("data@EmpIDr", e);
-    const maxId = parseInt(e.Report_No.split("REJ", 2)[1]) + 1;
-    //console.log(maxId);
 
-    //console.log({
-    //   Emp_ID: "OM" + "0".repeat(6 - maxId.toString().length) + maxId,
-    // });
-
-    dispatch(
-      localUpdateNextAvailableEmpID(
-        "REJ" + "0".repeat(6 - maxId.toString().length) + maxId,
-        "REJECTION_REPORT"
-      )
-    );
-    setEnableSave(false);
-  };
 
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed", duration: 0 });
   };
 
   return (
@@ -256,7 +244,7 @@ const RejectionFormSingleItem = (props) => {
               enableButton={false}
               // primarykey={{ Report_No: nextRejectionID }}
               prefilled={selectedItem}
-              // onChange={onChangeHandler}
+            // onChange={onChangeHandler}
             />
           </Stack>
         </Stack>

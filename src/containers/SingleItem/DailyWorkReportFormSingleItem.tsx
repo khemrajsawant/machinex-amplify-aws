@@ -1,9 +1,8 @@
 import React from "react";
 // table
 
-import { useForm } from "react-hook-form";
 //store
-import { useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 // mui library imports
 import Collapse from "@mui/material/Collapse";
 
@@ -17,20 +16,19 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 import { APP_DATA } from "../../utils/constant";
-import InputFieldNonForm from "../../components/InputFieldNonForm";
-import data from "../../utils/metadataLocal.json";
 import { Icon } from "@iconify/react";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
+import { fetchMaster } from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 
-const DailyWorkReportFormSingleItem = (props) => {
-  const dispatch = useDispatch();
+const DailyWorkReportFormSingleItem = (props: any) => {
+  const dispatch = useAppDispatch();
   const [enableSave, setEnableSave] = React.useState(true);
   const [open, setOpen] = React.useState(false);
   const {
@@ -47,8 +45,6 @@ const DailyWorkReportFormSingleItem = (props) => {
   });
   const table = useSelector((state: RootState) => state.master);
 
-  const { control } = useForm({ reValidateMode: "onBlur" });
-
   const [checked, setChecked] = React.useState(false);
 
   const SECTION_NAMES = APP_DATA.FORMDATA.DAILY_WORK_REPORT_FORM.SECTIONS;
@@ -60,32 +56,37 @@ const DailyWorkReportFormSingleItem = (props) => {
     setChecked((prev) => !prev);
   };
 
-  const setWorkStationData = (k) => {
+  const setWorkStationData = (k: any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "OPERATION_MASTER"));
+    dispatch(fetchMaster({payload:k, headerName:"OPERATION_MASTER"}));
   };
 
   //console.log("selectedItem", selectedItem);
 
   useEffect(() => {
     try {
-        google.script.run
-          .withSuccessHandler(setWorkStationData)
-          .withFailureHandler((er) => {
-            alert(er);
-          })
-          .importData("OPERATION_MASTER");
+
+      // @ts-ignore
+      google.script.run
+        .withSuccessHandler(setWorkStationData)
+        .withFailureHandler((er: any) => {
+          alert(er);
+        })
+        .importData("OPERATION_MASTER");
     } catch (error) {
       console.error(error); // You might send an exception to your error tracker like AppSignal
     }
   }, []);
 
   // handlers
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "EARNING_DETAILS"));
+    dispatch(fetchMaster({
+      payload: k,
+      headerName: "EARNING_DETAILS"
+    }));
   };
 
   useEffect(() => {
@@ -93,9 +94,10 @@ const DailyWorkReportFormSingleItem = (props) => {
     try {
       if (enableSave === true) {
         selectedItem.Report_No &&
+        // @ts-ignore
           google.script.run
             .withSuccessHandler(setData)
-            .withFailureHandler((er) => {
+            .withFailureHandler((er: any) => {
               alert(er);
             })
             .importDataSelectedItem(
@@ -110,10 +112,10 @@ const DailyWorkReportFormSingleItem = (props) => {
   }, [enableSave]);
 
   // handlers
-  const setDataGen = (k) => {
+  const setDataGen = (k: any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "GENERAL_WORK_DETAILS"));
+    dispatch(fetchMaster({payload:k, headerName:"GENERAL_WORK_DETAILS"}));
   };
 
   useEffect(() => {
@@ -121,9 +123,10 @@ const DailyWorkReportFormSingleItem = (props) => {
     try {
       if (enableSave === true) {
         selectedItem.Report_No &&
+        // @ts-ignore
           google.script.run
             .withSuccessHandler(setDataGen)
-            .withFailureHandler((er) => {
+            .withFailureHandler((er: any) => {
               alert(er);
             })
             .importDataSelectedItem(
@@ -142,28 +145,28 @@ const DailyWorkReportFormSingleItem = (props) => {
   const preparePostData = () => {
     const prepdata = {
       EARNING_DETAILS: table.EARNING_DETAILS.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c: any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       GENERAL_WORK_DETAILS: table.GENERAL_WORK_DETAILS.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c: any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       EARNING_DETAILS: prepdata.EARNING_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c: any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       GENERAL_WORK_DETAILS: prepdata.GENERAL_WORK_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c: any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       EARNING_DETAILS: temp1.EARNING_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c: any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       GENERAL_WORK_DETAILS: temp1.GENERAL_WORK_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c: any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -171,7 +174,7 @@ const DailyWorkReportFormSingleItem = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);
@@ -179,6 +182,7 @@ const DailyWorkReportFormSingleItem = (props) => {
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -189,7 +193,7 @@ const DailyWorkReportFormSingleItem = (props) => {
             message: "Save Successful",
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler((er: any) => {
           setOpen(false);
           setNotification({
             open: true,
@@ -209,11 +213,11 @@ const DailyWorkReportFormSingleItem = (props) => {
       setOpen(false);
     }
   };
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: any) => {
 
-    if(e.Pending_Quantity==0){
+    if (e.Pending_Quantity == 0) {
       setEnableSave(true);
-    }else{
+    } else {
       setEnableSave(false);
     }
     console.log(e)
@@ -259,7 +263,7 @@ const DailyWorkReportFormSingleItem = (props) => {
       >
         <FormHeader
           headerName="DAILY WORK REPORT"
-          // style={{ background: "#f3e5f5" }}
+        // style={{ background: "#f3e5f5" }}
         />
         <Stack
           sx={[
@@ -276,7 +280,7 @@ const DailyWorkReportFormSingleItem = (props) => {
         >
           <FormHeader
             headerName={SECTION_NAMES.SECTION_1}
-            // style={{ background: "#f3e5f5" }}
+          // style={{ background: "#f3e5f5" }}
           />
 
           <Stack
@@ -289,7 +293,7 @@ const DailyWorkReportFormSingleItem = (props) => {
                 // { background: "#90caf9" },
               ]
             }
-            // style={{ background: "#f3e5f5" }}
+          // style={{ background: "#f3e5f5" }}
           >
             {/* <InputFieldNonForm
               COMPONENTS={DAILY_WORK_REPORT.metaData}
@@ -305,7 +309,7 @@ const DailyWorkReportFormSingleItem = (props) => {
               formName={DAILY_WORK_REPORT.metaData[0].sheetname}
               prefilled={selectedItem}
               enableButton={false}
-              // onChange={onChangeHandler}
+            // onChange={onChangeHandler}
             />
           </Stack>
           {/* </Stack> */}
@@ -316,7 +320,7 @@ const DailyWorkReportFormSingleItem = (props) => {
             <Stack width="100%">
               <FormHeader
                 headerName={SECTION_NAMES.SECTION_2}
-                // style={{ background: "#f3e5f5" }}
+              // style={{ background: "#f3e5f5" }}
               />
               <FormComponent
                 COMPONENTS={EARNING_DETAILS.metaData}

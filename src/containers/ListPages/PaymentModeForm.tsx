@@ -2,7 +2,7 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 
 // mui library imports
@@ -15,8 +15,8 @@ import Button from "@mui/material/Button";
 import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
+import { RootState, useAppDispatch } from '../../redux/tableStateGenForm/store';
 
-import { useDispatch } from "react-redux";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 
 // const columns = columnsData.EMPLOYEE_MASTER;
@@ -25,7 +25,7 @@ const PaymentModeForm = (props) => {
   //states
 
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const PAYMENT_MODE = { metaData: [], columnsData: [] };
 
   // states
@@ -51,7 +51,7 @@ const PaymentModeForm = (props) => {
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () =>{
-    setNotification({open:false,severity:'error',message:"Failed"})
+    setNotification({open:false,severity:'error',message:"Failed",duration:3000});
   }
 
   return (
@@ -97,7 +97,7 @@ const PaymentModeForm = (props) => {
               { marginRight: "10rem" },
               { marginTop: "2rem" },
             ]}
-            onClick={submitSaveHandler}
+            onClick={() => {}}
           >
             Submit Form
           </Button>

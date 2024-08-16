@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
  * @param {*} tableWorkStationMaster worstation master to filter from
  * @returns per hours rate value from the table for the selected workstation
  */
-
+// @ts-ignore
 export const withCostComputation = (
   tableFormData,
   data,
@@ -39,9 +39,9 @@ export const withCostComputation = (
   results = workStationMaster.filter((t) => t.Workstation == data.Workstation);
   //console.log("filtered", tableFormData);
   //console.log(results);
-  data.Cost = parseFloat(
+  data.Cost = 
     (parseInt(data.Time_Min) * parseInt(results[0]["Per_Hrs_Rate"])) / 60
-  ).toFixed(2);
+  
   console.log("cost", data.Cost);
   return data;
 };
@@ -243,7 +243,7 @@ export const workOrderDetails = (
   return data;
 };
 
-export const workOrder = (data, id, primarykey, masterData, isMaster) => {
+export const workOrder = (data, id, primarykey, masterData, isMaster,type) => {
   //console.log(primarykey);
   //console.log(data);
   // data.id = uuidv4();
@@ -261,7 +261,7 @@ export const workOrder = (data, id, primarykey, masterData, isMaster) => {
   return data;
 };
 
-export const jobWorkOrder = (data, id, primarykey, masterData, isMaster) => {
+export const jobWorkOrder = (data, id, primarykey, masterData, isMaster,type) => {
   //console.log(primarykey);
   //console.log(data);
   // data.id = uuidv4();
@@ -305,7 +305,7 @@ export const jobWorkOrderDetails = (
   return data;
 };
 
-export const jobWorkReceipt = (data, id, primarykey, masterData, isMaster) => {
+export const jobWorkReceipt = (data, id, primarykey, masterData, isMaster,type) => {
   //console.log(primarykey);
   //console.log(data);
   // data.id = uuidv4();
@@ -349,7 +349,7 @@ export const jobWorkReceiptDetails = (
   return data;
 };
 
-export const saleChallan = (data, id, primarykey, masterData, isMaster) => {
+export const saleChallan = (data, id, primarykey, masterData, isMaster,type) => {
   //console.log(primarykey);
   //console.log(data);
   // data.id = uuidv4();
@@ -414,7 +414,7 @@ export const paymentDetails = (
   return data;
 };
 
-export const payment = (data, id, primarykey, masterData, isMaster) => {
+export const payment = (data, id, primarykey, masterData, isMaster,type) => {
   //console.log(primarykey);
   //console.log(data);
   // data.id = uuidv4();
@@ -431,7 +431,7 @@ export const payment = (data, id, primarykey, masterData, isMaster) => {
   return data;
 };
 
-export const rejection = (data, id, primarykey, masterData, isMaster) => {
+export const rejection = (data, id, primarykey, masterData, isMaster,type) => {
   //console.log(primarykey);
   //console.log(data);
   // data.id = uuidv4();

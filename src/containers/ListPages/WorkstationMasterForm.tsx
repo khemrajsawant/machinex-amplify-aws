@@ -5,9 +5,7 @@ import { useForm } from "react-hook-form";
 //store
 import { useSelector } from "react-redux";
 // mui library imports
-import Collapse from "@mui/material/Collapse";
 
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -17,23 +15,21 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 import { APP_DATA } from "../../utils/constant";
-import InputFieldNonForm from "../../components/InputFieldNonForm";
-import data from "../../utils/metadataLocal.json";
-import { Icon } from "@iconify/react";
+
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
+
+import { fetchMaster } from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
+import {RootState, useAppDispatch} from "../../redux/tableStateGenForm/store";
 
 const WorkstationMasterForm = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     WORKSTATION_MASTER: WORKSTATION_MASTER,
-    OPERATION_MASTER: OPERATION_MASTER,
   } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // //states
@@ -50,21 +46,19 @@ const WorkstationMasterForm = (props) => {
   const [open, setOpen] = React.useState(false);
   const { control } = useForm({ reValidateMode: "onBlur" });
 
-  const [checked, setChecked] = React.useState(false);
 
-  const SECTION_NAMES = APP_DATA.FORMDATA.DAILY_WORK_REPORT_FORM.SECTIONS;
+
+
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
   //handlers
 
-  const handleChange = () => {
-    setChecked((prev) => !prev);
-  };
+ 
 
   // handlers
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "WORKSTATION_MASTER"));
+    dispatch(fetchMaster({payload:k, headerName:"WORKSTATION_MASTER"}));
   };
 
   useEffect(() => {
@@ -73,9 +67,11 @@ const WorkstationMasterForm = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importData("WORKSTATION_MASTER");
@@ -85,10 +81,10 @@ const WorkstationMasterForm = (props) => {
     }
   }, [enableSave]);
 
-  const setWorkStationData = (k) => {
+  const setWorkStationData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "OPERATION_MASTER"));
+    dispatch(fetchMaster({payload:k,headerName:"OPERATION_MASTER"}));
   };
 
   //console.log("selectedItem", selectedItem);
@@ -96,9 +92,11 @@ const WorkstationMasterForm = (props) => {
   useEffect(() => {
     try {
       selectedItem.Workstation &&
+
+      // @ts-ignore
         google.script.run
           .withSuccessHandler(setWorkStationData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importDataSelectedItem("OPERATION_MASTER", selectedItem.Workstation);
@@ -112,28 +110,28 @@ const WorkstationMasterForm = (props) => {
   const preparePostData = () => {
     const prepdata = {
       WORKSTATION_MASTER: table.WORKSTATION_MASTER.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       // OPERATION_MASTER: table.OPERATION_MASTER.filter(
-      //   (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+      //   (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       // ),
     };
 
     let temp1 = {
       WORKSTATION_MASTER: prepdata.WORKSTATION_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       // OPERATION_MASTER: prepdata.OPERATION_MASTER.filter(
-      //   (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+      //   (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       // ),
     };
 
     let temp2 = {
       WORKSTATION_MASTER: temp1.WORKSTATION_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       // OPERATION_MASTER: temp1.OPERATION_MASTER.filter(
-      //   (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+      //   (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       // ),
     };
 
@@ -141,13 +139,15 @@ const WorkstationMasterForm = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);
@@ -156,14 +156,16 @@ const WorkstationMasterForm = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler(() => {
           setOpen(false);
           setNotification({
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000,
           });
           // alert("save failed in ItemMaster");
         })
@@ -175,18 +177,19 @@ const WorkstationMasterForm = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000,
       });
     }
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = () => {
     setEnableSave(false);
   };
 
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
 
   return (

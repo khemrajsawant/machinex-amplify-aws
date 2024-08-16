@@ -2,7 +2,6 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 // mui library imports
@@ -14,18 +13,19 @@ import Button from "@mui/material/Button";
 import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
-import data from "../../utils/metadataLocal.json";
+
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 
 import {
   fetchMaster,
-  localUpdateNextAvailableEmpID,
-} from "../../redux/tableStateGenForm/master/masterAction";
+  getNextAvailableEmpID
+} from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 
 // const columns = columnsData.EMPLOYEE_MASTER;
 
@@ -33,7 +33,7 @@ const SalesChallanSingleItem = (props) => {
   //states
 
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     SALE_CHALLAN: SALE_CHALLAN,
@@ -56,9 +56,7 @@ const SalesChallanSingleItem = (props) => {
     (state: RootState) => state.master.SALE_CHALLAN_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
-  const nextSaleChallanID = useSelector(
-    (state: RootState) => state.master.NEXT_AVAILABLE_ID["SALE_CHALLAN"]
-  );
+
 
   // handlers
 
@@ -71,9 +69,10 @@ const SalesChallanSingleItem = (props) => {
       setTimeout(function () {
         //console.log("This code runs after a delay of 2000 milliseconds.");
       }, 3000);
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           alert(er);
         })
         .getIDs();
@@ -83,10 +82,10 @@ const SalesChallanSingleItem = (props) => {
   }, []);
 
   // handlers
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "SALE_CHALLAN_DETAILS"));
+    dispatch(fetchMaster({payload:k, headerName:"SALE_CHALLAN_DETAILS"}));
   };
 
   useEffect(() => {
@@ -95,9 +94,10 @@ const SalesChallanSingleItem = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importData("SALE_CHALLAN_DETAILS");
@@ -112,28 +112,28 @@ const SalesChallanSingleItem = (props) => {
   const preparePostData = () => {
     const prepdata = {
       SALE_CHALLAN: tableSaleChallan.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       SALE_CHALLAN_DETAILS: tableSaleChallanDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       SALE_CHALLAN: prepdata.SALE_CHALLAN.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       SALE_CHALLAN_DETAILS: prepdata.SALE_CHALLAN_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       SALE_CHALLAN: temp1.SALE_CHALLAN.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       SALE_CHALLAN_DETAILS: temp1.SALE_CHALLAN_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -148,7 +148,7 @@ const SalesChallanSingleItem = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
+// @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -157,14 +157,16 @@ const SalesChallanSingleItem = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration:3000
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler(() => {
           setOpen(false);
           setNotification({
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration:3000
           });
           // alert("save failed in ItemMaster");
         })
@@ -175,34 +177,19 @@ const SalesChallanSingleItem = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration:3000
       });
       setOpen(false);
     }
   };
 
-  const onChangeHandler = (e) => {
-    //console.log("data@EmpIDr", e);
-    const maxId = parseInt(e.CH_NO.split("SC", 2)[1]) + 1;
-    //console.log(maxId);
-
-    //console.log({
-    //   Emp_ID: "OM" + "0".repeat(6 - maxId.toString().length) + maxId,
-    // });
-
-    dispatch(
-      localUpdateNextAvailableEmpID(
-        "SC" + "0".repeat(6 - maxId.toString().length) + maxId,
-        "SALE_CHALLAN"
-      )
-    );
-    setEnableSave(false);
-  };
+ 
 
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
 
   return (

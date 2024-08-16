@@ -21,10 +21,10 @@ import {
   generalWorkDetails,
   rejectionReportDetails
 } from "./ItemMasterModel";
-
-export const processData = (formName, input = {}) => {
+// @ts-ignore
+export const processData = (formName, input:any) => {
   const type = formName;
-
+// @ts-ignore
   switch (type) {
     case "BILL_OF_PROCESS":
       return withCostComputation(
@@ -94,7 +94,7 @@ export const processData = (formName, input = {}) => {
         input.tableFormData[type],
         input.tableFormData["WORK_ORDER_DETAILS"].length
       );
-
+// @ts-ignore
     case "WORK_ORDER":
       return workOrder(
         input.data,

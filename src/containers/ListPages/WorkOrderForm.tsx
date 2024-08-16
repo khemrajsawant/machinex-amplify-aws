@@ -2,7 +2,7 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 // mui library imports
 
@@ -16,26 +16,25 @@ import { useForm } from "react-hook-form";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 import {
   fetchMaster,
-  localUpdateNextAvailableEmpID,
-} from "../../redux/tableStateGenForm/master/masterAction";
+  localUpdateNextAvailableEmpID,getNextAvailableEmpID
+} from "../../redux/tableStateGenForm/master/masterReducer";
 import { useLocation } from "react-router-dom";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
-
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 // const columns = columnsData.EMPLOYEE_MASTER;
 
 const WorkOrderForm = (props) => {
   //states
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   //console.log(location);
   // metadata
 
-  const { WORK_ORDER: WORK_ORDER, WORK_ORDER_DETAILS: WORK_ORDER_DETAILS } =
+  const { WORK_ORDER: WORK_ORDER } =
     useSelector((state: RootState) => state.master.APP_DATA);
   const [open, setOpen] = React.useState(false);
   // states
@@ -65,7 +64,7 @@ const WorkOrderForm = (props) => {
   const setData = (k) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "WORK_ORDER"));
+    dispatch(fetchMaster({payload:k, headerName:"WORK_ORDER"}));
     setIsLoading(false);
   };
 
@@ -75,9 +74,11 @@ const WorkOrderForm = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importData("WORK_ORDER");
@@ -87,7 +88,7 @@ const WorkOrderForm = (props) => {
     }
   }, [enableSave]);
 
-  const setNextEmpIDData = (k) => {
+  const setNextEmpIDData = (k:any) => {
     //console.log(k);
     dispatch(getNextAvailableEmpID(k));
   };
@@ -96,9 +97,11 @@ const WorkOrderForm = (props) => {
       setTimeout(function () {
         //console.log("This code runs after a delay of 2000 milliseconds.");
       }, 3000);
+
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           alert(er);
         })
         .getIDs();
@@ -113,28 +116,28 @@ const WorkOrderForm = (props) => {
     //console.log("testing data to be prepared", tableWorkOrder);
     const prepdata = {
       WORK_ORDER: tableWorkOrder.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       // WORK_ORDER_DETAILS: tableWorkOrderDetails.filter(
-      //   (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+      //   (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       // ),
     };
 
     let temp1 = {
       WORK_ORDER: prepdata.WORK_ORDER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       // WORK_ORDER_DETAILS: prepdata.WORK_ORDER_DETAILS.filter(
-      //   (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+      //   (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       // ),
     };
 
     let temp2 = {
       WORK_ORDER: temp1.WORK_ORDER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       // WORK_ORDER_DETAILS: temp1.WORK_ORDER_DETAILS.filter(
-      //   (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+      //   (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       // ),
     };
 
@@ -149,6 +152,8 @@ const WorkOrderForm = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);
@@ -157,14 +162,16 @@ const WorkOrderForm = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler(() => {
           setOpen(false);
           setNotification({
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000,
           });
           // alert("save failed in ItemMaster");
         })
@@ -176,11 +183,12 @@ const WorkOrderForm = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000,
       });
     }
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = () => {
     //console.log("data@EmpIDr", e);
     const maxId = parseInt(tableWorkOrder.length) + 1;
     
@@ -192,19 +200,19 @@ const WorkOrderForm = (props) => {
     // });
 
     dispatch(
-      localUpdateNextAvailableEmpID(
-        "WO" + "0".repeat(6 - maxId.toString().length) + maxId,
-        "WORK_ORDER"
+      localUpdateNextAvailableEmpID({
+        payload:"WO" + "0".repeat(6 - maxId.toString().length) + maxId,
+        headerName:"WORK_ORDER"}
       )
     );
     setEnableSave(false);
   };
 
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
+
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
 
   return (

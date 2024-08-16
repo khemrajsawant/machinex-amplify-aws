@@ -2,7 +2,7 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 // mui library imports
 
@@ -16,7 +16,7 @@ import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { RootState,useAppDispatch } from "../../redux/tableStateGenForm/store";
 
 import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
@@ -24,11 +24,11 @@ import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 
 // const columns = columnsData.EMPLOYEE_MASTER;
 
-const GeneralWorkMaster = (props) => {
+const GeneralWorkMaster = (props:any) => {
   //states
 
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { GENERAL_WORK_LIST: GENERAL_WORK_LIST } = useSelector(
     (state: RootState) => state.master.APP_DATA
   );
@@ -64,6 +64,7 @@ const GeneralWorkMaster = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
           .withFailureHandler((er) => {
@@ -81,19 +82,19 @@ const GeneralWorkMaster = (props) => {
   const preparePostData = () => {
     const prepdata = {
       GENERAL_WORK_LIST: tableGeneralWorkList.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       GENERAL_WORK_LIST: prepdata.GENERAL_WORK_LIST.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       GENERAL_WORK_LIST: temp1.GENERAL_WORK_LIST.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -108,6 +109,7 @@ const GeneralWorkMaster = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);
@@ -116,6 +118,7 @@ const GeneralWorkMaster = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration  : 3000  
           });
         })
         .withFailureHandler((er) => {
@@ -124,6 +127,7 @@ const GeneralWorkMaster = (props) => {
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration  : 3000
           });
           // alert("save failed in ItemMaster");
         })
@@ -135,6 +139,7 @@ const GeneralWorkMaster = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration  : 3000
       });
     }
   };
@@ -146,7 +151,7 @@ const GeneralWorkMaster = (props) => {
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
 
   return (

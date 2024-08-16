@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import metadataSelect from "../utils/metadataSelect.json";
 import master_data from "../utils/master_data.json";
 import metadataLocal from "../utils/metadataLocal.json";
@@ -36,15 +36,6 @@ interface UserAuthDetails {
   Surname: string;
 }
 
-interface NextEmpIDData {
-  PAYMENT: string;
-  WORK_ORDER: string;
-  EMPLOYEE_MASTER: string;
-  REJECTION_REPORT: string;
-  JOB_WORK_ORDER: string;
-  JOB_WORK_RECEIPT: string;
-  SALE_CHALLAN: string;
-}
 
 const InitData: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -81,6 +72,7 @@ const InitData: React.FC = () => {
   useEffect(() => {
     console.log("Init Data Hook useEffect");
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
         .withFailureHandler((er: any) => {
@@ -103,6 +95,7 @@ const InitData: React.FC = () => {
 
   useEffect(() => {
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(metaDataInStore)
         .withFailureHandler((er: any) => {
@@ -141,9 +134,10 @@ const InitData: React.FC = () => {
     }
 
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setUserInfo)
-        .withFailureHandler((er: any) => {
+        .withFailureHandler(() => {
           setUserInfo({
             userName: "Guest",
             loggedInUserData: [
@@ -202,9 +196,10 @@ const InitData: React.FC = () => {
     }
 
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setDropDowns)
-        .withFailureHandler((er: any) => {
+        .withFailureHandler(() => {
           setDropDowns(metadataSelect);
           alert("Select dropdown failed");
         })
@@ -215,9 +210,10 @@ const InitData: React.FC = () => {
     }
 
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setSelectedDropDowns)
-        .withFailureHandler((er: any) => {
+        .withFailureHandler(() => {
           setDropDowns(metadataSelect);
           alert("Multiselect dynamic dropdown failed");
         })
@@ -234,6 +230,7 @@ const InitData: React.FC = () => {
 
   useEffect(() => {
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setCompanyInformationData)
         .withFailureHandler((er: any) => {

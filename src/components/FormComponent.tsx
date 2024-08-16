@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ControllerCompTextField from "../components/ControllerCompTextField";
 import { Icon } from "@iconify/react";
-import ControllerCompSelectField from "../components/ControllerCompSelect";
+
 import { useSelector } from "react-redux";
 import Tooltip from '@mui/material/Tooltip';
 import {
@@ -14,20 +14,19 @@ import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 import CompFormcontrolRadio from "./CompFormcontrolRadio";
 import ControllerCompDateField from "./ControllerCompDateField";
 import TestAutocompleteForm from "./TestAutocompleteForm";
 import MultiSelectAutocomplete from "./MultiSelectAutoComplete";
 
+
 // import {calcCostHandler} from '../business/processBusinessLogic'
 
 import { processData } from "../business/processBusinessLogic";
 
-import FormHeader from "./FormHeader";
 import ControllerCompCheckbox from "../components/ControllerCompCheckbox";
 import ControllerCompTimeField from "./ControllerCompTimeField";
-import { RootState } from "../redux/tableStateGenForm/store";
+import { RootState, useAppDispatch } from "../redux/tableStateGenForm/store";
 // var _ = require('lodash/fp');
 
 export default function FormComponent(props) {
@@ -36,14 +35,14 @@ export default function FormComponent(props) {
   });
   const { onChange } = props;
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const COMPONENTS = props.COMPONENTS.filter((c) => c.name != "ID");
+  const dispatch = useAppDispatch();
+  const COMPONENTS = props.COMPONENTS.filter((c:any) => c.name != "ID");
 
   const primary_key_name = props.COMPONENTS.filter(
-    (c) => c.isPrimaryKey === true
+    (c:any) => c.isPrimaryKey === true
   )[0].name;
   //console.log("primary_key_name", primary_key_name);
-  const headerName = props.headerValue;
+
   const formName = COMPONENTS[0].sheetname;
   const masterData = props.primarykey ? props.primarykey : {};
   const enableButton = props.enableButton;
@@ -61,16 +60,16 @@ export default function FormComponent(props) {
     M6: "Turning",
   };
 
-  const assignMachinesToOperations = (operationsToAssign, machineCodeInput) => {
+  const assignMachinesToOperations = (operationsToAssign:any, machineCodeInput:any) => {
     var OperationsData = tableFormData.OPERATION_MASTER;
 console.log("OperationsData",OperationsData)
     const filteredData = OperationsData.filter(
-      (item) => item.Workstation === OperationMapper[machineCodeInput]
+      (item:any) => item.Workstation === OperationMapper[machineCodeInput]
     );
     console.log("filteredData",filteredData,"operationsToAssign",operationsToAssign);
 
-    let filteredOperations = operationsToAssign.filter((op) =>
-      filteredData.some((data) => data.Opn_Name === op)
+    let filteredOperations = operationsToAssign.filter((op:any) =>
+      filteredData.some((data:any) => data.Opn_Name === op)
     );
     console.log("filteredOperations",filteredOperations);
     return filteredOperations;
@@ -101,7 +100,7 @@ console.log("OperationsData",OperationsData)
   const [pendingQty, setpendingQty] = React.useState(999999);
 
   if (formName == "EARNING_DETAILS") {
-    console.log("inputObject", inputObject);
+    console.log("inputObject", inputObject,pendingQty);
 
     const selectedValueMachine_Number = watch("Machine_Number");
     const selectedValueDrawing_Number = watch("Drawing_Number");
@@ -116,7 +115,7 @@ console.log("OperationsData",OperationsData)
     console.log("selectedValueMachine_Number", selectedValueMachine_Number);
 
     console.log(inputObject);
-    var itemTemp = [];
+    var itemTemp:any = [];
 
     React.useEffect(() => {
       var itemTemp =
@@ -135,7 +134,7 @@ console.log("OperationsData",OperationsData)
 
       // () => {
       // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp)
-      dispatch(updateSelectedDropdown(itemTemp, formName, "Drawing_Number"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"Drawing_Number"}));
     }, [selectedValueMachine_Number]);
 
     React.useEffect(() => {
@@ -150,7 +149,7 @@ console.log("OperationsData",OperationsData)
       }
       console.log("itemTemp", itemTemp);
 
-      dispatch(updateSelectedDropdown(itemTemp, formName, "Work_Order_Number"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"Work_Order_Number"}));
     }, [selectedValueDrawing_Number]);
 
     React.useEffect(() => {
@@ -181,14 +180,14 @@ console.log("OperationsData",OperationsData)
       }
       console.log("filtered_ops", filtered_ops);
 
-      dispatch(updateSelectedDropdown(filtered_ops, formName, "Operation"));
+      dispatch(updateSelectedDropdown({payload:filtered_ops, headerName:formName, labelName:"Operation"}));
     }, [selectedValueWork_Order_Number]);
 
     React.useEffect(() => {
       setLoading(true);
 
       console.log("tableFormData",tableFormData)
-      const setQuantity = (k) => {
+      const setQuantity = (k:any) => {
         defaultValuesArray["Pending_Quantity"] = k.Bal_Qty;
         defaultValuesArray["Operation_Details"] = k.description;
         console.log("defaultValuesArray", defaultValuesArray);
@@ -210,6 +209,8 @@ console.log("OperationsData",OperationsData)
         setValue("Operation_Details", "");
       } else {
         try {
+
+          // @ts-ignore
           google.script.run
             .withSuccessHandler(setQuantity)
             .withFailureHandler((er) => {
@@ -235,7 +236,7 @@ console.log("OperationsData",OperationsData)
         props.primarykey.PO_Ref + "_" + (len < 10 ? "0" + len : len);
       console.log("defaultValuesArray", defaultValuesArray);
       setValue("PO_Ref", defaultValuesArray["PO_Ref"]);
-      dispatch(updateSelectedDropdown(itemTemp, formName, "PO_Ref"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"PO_Ref"}));
     }, [props.prefilled, props.primarykey]);
   }
 
@@ -266,7 +267,7 @@ console.log("OperationsData",OperationsData)
 
     const selectedValue = props.primarykey.Drawing_Number;
     // console.log(Object.keys(inputObject) === selectedValue);
-    var itemTemp = [];
+    var itemTemp:any = [];
 
     React.useEffect(() => {
       var itemTemp =
@@ -284,12 +285,12 @@ console.log("OperationsData",OperationsData)
 
       // () => {
       // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp)
-      dispatch(updateSelectedDropdown(itemTemp, formName, "PO_Ref"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"PO_Ref"}));
     }, [selectedValue]);
 
     const selectedValuePO_Ref = watch("PO_Ref");
     // console.log(Object.keys(inputObject) === selectedValue);
-    var itemTemp = [];
+    var itemTemp:any = [];
 
     React.useEffect(() => {
       var itemTemp =
@@ -307,7 +308,7 @@ console.log("OperationsData",OperationsData)
 
       // () => {
       // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp)
-      dispatch(updateSelectedDropdown(itemTemp, formName, "Work_Details"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"Work_Details"}));
     }, [selectedValuePO_Ref]);
   }
 
@@ -317,7 +318,7 @@ console.log("OperationsData",OperationsData)
     const selectedValue_JWO_No = watch("JWO_No");
     const selectedValue_PO_Ref = watch("PO_Ref");
     // console.log(Object.keys(inputObject) === selectedValue);
-    var itemTemp = [];
+    var itemTemp:any = [];
 
     React.useEffect(() => {
       var itemTemp =
@@ -335,7 +336,7 @@ console.log("OperationsData",OperationsData)
 
       // () => {
       // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp)
-      dispatch(updateSelectedDropdown(itemTemp, formName, "PO_Ref"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"PO_Ref"}));
     }, [selectedValue_JWO_No]);
 
     React.useEffect(() => {
@@ -354,7 +355,7 @@ console.log("OperationsData",OperationsData)
 
       // () => {
       // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp)
-      dispatch(updateSelectedDropdown(itemTemp, formName, "Work_Details"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"Work_Details"}));
     }, [selectedValue_PO_Ref]);
   }
 
@@ -363,7 +364,7 @@ console.log("OperationsData",OperationsData)
 
     const selectedValue = watch("Drawing_Number");
     // console.log(Object.keys(inputObject) === selectedValue);
-    var itemTemp = [];
+    var itemTemp:any = [];
 
     const setOriginalSeq = (k) => {
       const originalSequence = k;
@@ -383,9 +384,9 @@ console.log("OperationsData",OperationsData)
       );
 
       // Custom comparator function for sorting based on the original sequence
-      function customComparator(a, b) {
-        const indexA = indexMap.get(a);
-        const indexB = indexMap.get(b);
+      function customComparator(a:any, b:any) {
+        const indexA:any = indexMap.get(a);
+        const indexB:any = indexMap.get(b);
 
         return indexA - indexB;
       }
@@ -395,16 +396,18 @@ console.log("OperationsData",OperationsData)
 
       // Log the sorted array
       console.log("sortedArray", sortedArray);
-      dispatch(updateSelectedDropdown(sortedArray, formName, "Work_Details"));
+      dispatch(updateSelectedDropdown({payload:sortedArray, headerName:formName, labelName:"Work_Details"}));
     };
 
     React.useEffect(() => {
       if (selectedValue === undefined || selectedValue === null) {
       } else {
         try {
+
+          // @ts-ignore
           google.script.run
             .withSuccessHandler(setOriginalSeq)
-            .withFailureHandler((er) => {
+            .withFailureHandler((er:any) => {
               alert(er);
             })
             .getLiveInfo("OperationDetails_BOP", selectedValue);
@@ -412,22 +415,8 @@ console.log("OperationsData",OperationsData)
           console.error(error); // You might send an exception to your error tracker like AppSignal
         }
       }
-      // var itemTemp =
-      //   selectedValue === undefined || selectedValue === null
-      //     ? inputObject[0]
-      //     : inputObject[selectedValue];
 
-      // if (itemTemp === undefined) {
-      //   itemTemp = [];
-      // }
-      // console.log("itemTemp", itemTemp);
-
-      // localStorage.setItem("searchHistoryReference", itemTemp);
-      // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp);
-
-      // () => {
-      // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp)
-      dispatch(updateSelectedDropdown(itemTemp, formName, "Work_Details"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"Work_Details"}));
     }, [selectedValue]);
   }
 
@@ -436,7 +425,7 @@ console.log("OperationsData",OperationsData)
 
     const selectedValue = watch("Workstation");
     // console.log(Object.keys(inputObject) === selectedValue);
-    var itemTemp = [];
+    var itemTemp:any = [];
 
     React.useEffect(() => {
       var itemTemp =
@@ -455,7 +444,7 @@ console.log("OperationsData",OperationsData)
       // localStorage.setItem("searchHistoryReference", itemTemp);
       // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp);
 
-      dispatch(updateSelectedDropdown(itemTemp, formName, "Opn_Name"));
+      dispatch(updateSelectedDropdown({payload:itemTemp, headerName:formName, labelName:"Opn_Name"}));
     }, [selectedValue]);
   }
 
@@ -474,44 +463,20 @@ console.log("OperationsData",OperationsData)
         var date = new Date();
 
         // Get the year, month, and day components
-        var year = date.getFullYear();
-        var month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-based
-        var day = String(date.getDate()).padStart(2, "0");
+        var year:any = date.getFullYear();
+        var month:any = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-based
+        var day:any = String(date.getDate()).padStart(2, "0");
       }
       setValue(
         "Report_No",
         "DWR-" + props.prefilled.Worker_No + `-${day}-${month}-${year}`
       );
 
-      //   var itemTemp =
-      //   selectedValue === undefined || selectedValue === null
-      //     ? inputObject[0]
-      //     : inputObject[selectedValue];
-
-      // if (itemTemp === undefined) {
-      //   itemTemp = [];
-      // }
-      // console.log("itemTemp", itemTemp);
-
-      //   // localStorage.setItem("searchHistoryReference", itemTemp);
-      //   // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp);
-      //   onChange(
-      //     // () => {
-      //     // setValue("Work_Details", itemTemp === undefined ? [] : itemTemp)
-      //     dispatch(updateSelectedDropdown(itemTemp, formName, "Opn_Name"))
-      //   // }
-      //   );
+     
     }, [inputDate]);
   }
 
-  ////console.log("tableWorkStationMaster", tableWorkStationMaster);
 
-  // function pad(num, size, wNo) {
-  //   num = num.toString();
-  //   while (num.length < size) num = "0" + num;
-
-  //   return wNo + "-" + num;
-  // }
   const [reloadFlag, setReloadFlag] = useState(false);
   const onSubmit = async (data) => {
     ////console.log(data)
@@ -533,8 +498,8 @@ console.log("OperationsData",OperationsData)
     console.log("primary_key_name", primary_key_name);
     setLoading(true);
     console.log("data[primary_key_name.name]", data[primary_key_name], data);
-    var column_to_search;
-    var col_to_watch
+    var column_to_search:any;
+    var col_to_watch:any
     if (formName == "WORK_ORDER") {
       col_to_watch = "PO_Ref"
       column_to_search = data["PO_Ref"];
@@ -546,7 +511,7 @@ console.log("OperationsData",OperationsData)
     // var reportNumbers = data.map(item => item.Report_No);
 
      const existingValues = tableFormData[formName].map(
-        (item) => item[col_to_watch]
+        (item:any) => item[col_to_watch]
       );
 
   
@@ -557,8 +522,8 @@ console.log("OperationsData",OperationsData)
       if (isMaster === false) {
         const processedData = processData(formName, input);
         processedData.isUpdateMaster === true
-          ? dispatch(updateMaster(processedData, formName))
-          : dispatch(createMaster(processedData, formName));
+          ? dispatch(updateMaster({payload:processedData, headerName:formName}))
+          : dispatch(createMaster({payload:processedData, headerName:formName}));
 
         setId(id + 1);
         onChange(processedData);
@@ -568,15 +533,17 @@ console.log("OperationsData",OperationsData)
       } else {
         try {
           await new Promise((resolve) => setTimeout(resolve, 2000));
+
+          // @ts-ignore
           google.script.run
-            .withSuccessHandler((k) => {
+            .withSuccessHandler((k:any) => {
               // this logic needs correction
               if (k.keyExists === false) {
                 console.log("is duplicate key", k);
                 const processedData = processData(formName, input);
                 processedData.isUpdateMaster === true
-                  ? dispatch(updateMaster(processedData, formName))
-                  : dispatch(createMaster(processedData, formName));
+                  ? dispatch(updateMaster({payload:processedData, headerName:formName}))
+                  : dispatch(createMaster({payload:processedData, headerName:formName}));
 
                 setId(id + 1);
                 onChange(processedData);
@@ -588,7 +555,7 @@ console.log("OperationsData",OperationsData)
                 setLoading(false);
               }
             })
-            .withFailureHandler((er) => {})
+            .withFailureHandler(() => {})
             .getLiveInfoKey(
               "1HzTapPUdISUKfjzudW9PAiIJAQ3iYpUylWngSyIyeNw",
               formName,
@@ -600,8 +567,8 @@ console.log("OperationsData",OperationsData)
           console.error(error); // You might send an exception to your error tracker like AppSignal
           const processedData = processData(formName, input);
           processedData.isUpdateMaster === true
-            ? dispatch(updateMaster(processedData, formName))
-            : dispatch(createMaster(processedData, formName));
+            ? dispatch(updateMaster({payload:processedData, headerName:formName}))
+            : dispatch(createMaster({payload:processedData, headerName:formName}));
   
           setId(id + 1);
           onChange(processedData);
@@ -618,7 +585,7 @@ console.log("OperationsData",OperationsData)
 
   ////console.log("itemsData",items)
   return (
-    <React.Fragment key={reloadFlag}>
+    <React.Fragment key={reloadFlag.toString()}>
       {/* {//console.log("printing from" +`${formName}`)} */}
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Stack
@@ -674,9 +641,9 @@ console.log("OperationsData",OperationsData)
           useFlexGap
           flexWrap="wrap"
         >
-          {COMPONENTS.map((cmp) => {
+          {COMPONENTS.map((cmp:any) => {
             const COMPONENTS_COLUMNSDATA = props.COMPONENTS_COLUMNSDATA
-              ? props.COMPONENTS_COLUMNSDATA.filter((c) => c.field == cmp.name)
+              ? props.COMPONENTS_COLUMNSDATA.filter((c:any) => c.field == cmp.name)
               : [];
             console.log(COMPONENTS_COLUMNSDATA);
             //console.log("isDisabled", cmp.label, cmp.isDisabled);
@@ -796,7 +763,6 @@ console.log("OperationsData",OperationsData)
                         control={control}
                         label={cmp.label}
                         nameprop={cmp.name}
-                        helpertext={cmp.helpertext}
                         disabled={cmp.isDisabled}
                         defaultvalue={defaultValuesArray[cmp.label]}
                         required={cmp.required}
@@ -883,7 +849,6 @@ console.log("OperationsData",OperationsData)
                         label={cmp.label}
                         nameprop={cmp.name}
                         helpertext={cmp.helpertext}
-                        disabled={cmp.isDisabled}
                         required={cmp.required}
                         defaultvalue={defaultValuesArray[cmp.label]}
                       />

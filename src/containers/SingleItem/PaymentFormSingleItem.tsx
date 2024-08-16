@@ -15,21 +15,19 @@ import Button from "@mui/material/Button";
 import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
+import { RootState } from "../../redux/tableStateGenForm/store";
 
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 import {
-  fetchMaster,
-  localUpdateNextAvailableEmpID,
-} from "../../redux/tableStateGenForm/master/masterAction";
+  fetchMaster, getNextAvailableEmpID
+} from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
 
 // const columns = columnsData.EMPLOYEE_MASTER;
 
-const PaymentFormSingleItem = (props) => {
+const PaymentFormSingleItem = (props?:any) => {
   //states
   // const items = {PAYMENT:["Google Pay", "PhonePay", "Bank Transfer", "Cash"],PAYMENT_DETAILS:[]};
   // metadata
@@ -55,13 +53,10 @@ const PaymentFormSingleItem = (props) => {
     (state: RootState) => state.master.PAYMENT_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
-  const nextPaymentID = useSelector(
-    (state: RootState) => state.master.NEXT_AVAILABLE_ID["PAYMENT"]
-  );
 
   // handlers
 
-  const setNextEmpIDData = (k) => {
+  const setNextEmpIDData = (k:any) => {
     //console.log(k);
     dispatch(getNextAvailableEmpID(k));
   };
@@ -70,9 +65,10 @@ const PaymentFormSingleItem = (props) => {
       setTimeout(function () {
         //console.log("This code runs after a delay of 2000 milliseconds.");
       }, 3000);
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           alert(er);
         })
         .getIDs();
@@ -86,7 +82,10 @@ const PaymentFormSingleItem = (props) => {
   const setPaymentData = (k) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "PAYMENT"));
+    dispatch(fetchMaster({
+      payload: k,
+      headerName: "PAYMENT"
+    }));
   };
 
   useEffect(() => {
@@ -95,9 +94,10 @@ const PaymentFormSingleItem = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setPaymentData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importData("PAYMENT");
@@ -107,10 +107,13 @@ const PaymentFormSingleItem = (props) => {
     }
   }, [enableSave]);
 
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "PAYMENT_DETAILS"));
+    dispatch(fetchMaster({
+      payload: k,
+      headerName: "PAYMENT"
+    }));
   };
 
   useEffect(() => {
@@ -119,9 +122,11 @@ const PaymentFormSingleItem = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importData("PAYMENT_DETAILS");
@@ -136,28 +141,28 @@ const PaymentFormSingleItem = (props) => {
   const preparePostData = () => {
     const prepdata = {
       PAYMENT: tablePayment.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       PAYMENT_DETAILS: tablePaymentDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       PAYMENT: prepdata.PAYMENT.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       PAYMENT_DETAILS: prepdata.PAYMENT_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       PAYMENT: temp1.PAYMENT.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       PAYMENT_DETAILS: temp1.PAYMENT_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -165,7 +170,7 @@ const PaymentFormSingleItem = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);
@@ -173,6 +178,7 @@ const PaymentFormSingleItem = (props) => {
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -181,14 +187,16 @@ const PaymentFormSingleItem = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           setOpen(false);
           setNotification({
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000
           });
           // alert("save failed in ItemMaster");
         })
@@ -199,28 +207,13 @@ const PaymentFormSingleItem = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000
       });
       setOpen(false);
     }
   };
 
-  // const onChangeHandler = (e) => {
-  //   //console.log("data@EmpIDr", e);
-  //   const maxId = parseInt(e.Reference_Number.split("PAY", 2)[1]) + 1;
-  //   //console.log(maxId);
 
-  //   //console.log({
-  //   //   Emp_ID: "OM" + "0".repeat(6 - maxId.toString().length) + maxId,
-  //   // });
-
-  //   dispatch(
-  //     localUpdateNextAvailableEmpID(
-  //       "PAY" + "0".repeat(6 - maxId.toString().length) + maxId,
-  //       "PAYMENT"
-  //     )
-  //   );
-  //   setEnableSave(false);
-  // };
 
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
@@ -228,7 +221,7 @@ const PaymentFormSingleItem = (props) => {
   console.log("PAYMENT", PAYMENT);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed" , duration: 3000});
   };
 
   return (
@@ -256,7 +249,7 @@ const PaymentFormSingleItem = (props) => {
               enableButton={false}
               // primarykey={{ Reference_Number: nextPaymentID }}
               prefilled={selectedItem}
-              // onChange={onChangeHandler}
+            // onChange={onChangeHandler}
             />
           </Stack>
         </Stack>

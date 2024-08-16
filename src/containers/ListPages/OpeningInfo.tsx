@@ -1,11 +1,11 @@
-import React from "react";
+
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+
 import { APP_NAME } from "../../utils/constant";
 
 

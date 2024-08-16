@@ -12,19 +12,20 @@ import Button from "@mui/material/Button";
 
 // components
 import FormHeader from "../../components/FormHeader";
-import DataGridCustomComponent from "../../components/DataGridCustomComponent";
+
 import FormComponent from "../../components/FormComponent";
-import data from "../../utils/metadataLocal.json";
+
 
 import { useEffect } from "react";
 
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
+import { fetchMaster } from "../../redux/tableStateGenForm/master/masterReducer";
 
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 
-import CircularProgress from "@mui/material/CircularProgress";
+
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 
+import { RootState } from "../../redux/tableStateGenForm/store";
 // const columns = columnsData.EMPLOYEE_MASTER;
 
 const CompanyInfo = (props) => {
@@ -52,14 +53,15 @@ const CompanyInfo = (props) => {
   const [open, setOpen] = React.useState(false);
   // handlers
 
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "COMPANY_INFORMATION"));
+    dispatch(fetchMaster({payload:k, headerName:"COMPANY_INFORMATION"}));
   };
 
   useEffect(() => {
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setData)
         .withFailureHandler((er) => {
@@ -77,19 +79,19 @@ const CompanyInfo = (props) => {
     //console.log("testing data to be prepared", tableCompanyInformation);
     const prepdata = {
       COMPANY_INFORMATION: tableCompanyInformation.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       COMPANY_INFORMATION: prepdata.COMPANY_INFORMATION.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       COMPANY_INFORMATION: temp1.COMPANY_INFORMATION.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -104,6 +106,7 @@ const CompanyInfo = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);
@@ -112,6 +115,7 @@ const CompanyInfo = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
         .withFailureHandler((er) => {
@@ -120,6 +124,7 @@ const CompanyInfo = (props) => {
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000,
           });
           // alert("save failed in ItemMaster");
         })
@@ -131,6 +136,7 @@ const CompanyInfo = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration : 3000
       });
     }
   };
@@ -152,7 +158,7 @@ const CompanyInfo = (props) => {
   );
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
 
   return (

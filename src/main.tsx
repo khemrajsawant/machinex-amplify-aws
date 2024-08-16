@@ -13,15 +13,18 @@ import store from "./redux/tableStateGenForm/store.ts";
 import InitData from "./components/InitData.tsx";
 
 Amplify.configure(outputs);
-
+import AccountMasterFormCreateForm from '../ui-components/AccountMasterFormCreateForm'
+import AccountMasterFormUpdateForm from '../ui-components/AccountMasterFormUpdateForm'
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider>
       <BrowserRouter>
         <Provider store={store}>
           {/* <Authenticator> */}
-          <InitData/>
-            <AuthenticatedApp />
+          {/* <InitData/> */}
+          <AccountMasterFormCreateForm/>
+          <AccountMasterFormUpdateForm id='e058dfbb-4640-491f-9abd-6478983d45fe'/>
+            {/* <AuthenticatedApp /> */}
           {/* </Authenticator> */}
         </Provider>
       </BrowserRouter>

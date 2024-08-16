@@ -2,7 +2,7 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 // mui library imports
 
@@ -16,24 +16,26 @@ import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 
 import {
   fetchMaster,
-  localUpdateNextAvailableEmpID,
-} from "../../redux/tableStateGenForm/master/masterAction";
+  getNextAvailableEmpID,
+} from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 
 import TextFieldFreeze from "../../components/TextFieldFreeze";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
+
 // const columns = columnsData.EMPLOYEE_MASTER;
 
-const JobWorkReceiptSingleItem = (props) => {
+const JobWorkReceiptSingleItem = (props:any) => {
   //states
 
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     JOB_WORK_RECEIPT: JOB_WORK_RECEIPT,
     JOB_WORK_RECEIPT_DETAILS: JOB_WORK_RECEIPT_DETAILS,
@@ -56,13 +58,11 @@ const JobWorkReceiptSingleItem = (props) => {
     (state: RootState) => state.master.JOB_WORK_RECEIPT_DETAILS
   );
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
-  const nextJobWorkReceiptID = useSelector(
-    (state: RootState) => state.master.NEXT_AVAILABLE_ID["JOB_WORK_RECEIPT"]
-  );
+ 
 
   // handlers
 
-  const setNextEmpIDData = (k) => {
+  const setNextEmpIDData = (k:any) => {
     //console.log(k);
     dispatch(getNextAvailableEmpID(k));
   };
@@ -71,9 +71,11 @@ const JobWorkReceiptSingleItem = (props) => {
       setTimeout(function () {
         //console.log("This code runs after a delay of 2000 milliseconds.");
       }, 3000);
+
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           alert(er);
         })
         .getIDs();
@@ -82,10 +84,10 @@ const JobWorkReceiptSingleItem = (props) => {
     }
   }, []);
 
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "JOB_WORK_RECEIPT_DETAILS"));
+    dispatch(fetchMaster({payload:k, headerName:"JOB_WORK_RECEIPT_DETAILS"}));
   };
 
   useEffect(() => {
@@ -94,9 +96,11 @@ const JobWorkReceiptSingleItem = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er:any) => {
             alert(er);
           })
           .importData("JOB_WORK_RECEIPT_DETAILS");
@@ -111,28 +115,28 @@ const JobWorkReceiptSingleItem = (props) => {
   const preparePostData = () => {
     const prepdata = {
       JOB_WORK_RECEIPT: tableJobWorkReceipt.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       JOB_WORK_RECEIPT_DETAILS: tableJobWorkReceiptDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       JOB_WORK_RECEIPT: prepdata.JOB_WORK_RECEIPT.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       JOB_WORK_RECEIPT_DETAILS: prepdata.JOB_WORK_RECEIPT_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       JOB_WORK_RECEIPT: temp1.JOB_WORK_RECEIPT.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       JOB_WORK_RECEIPT_DETAILS: temp1.JOB_WORK_RECEIPT_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -140,7 +144,7 @@ const JobWorkReceiptSingleItem = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);
@@ -148,6 +152,7 @@ const JobWorkReceiptSingleItem = (props) => {
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -156,14 +161,16 @@ const JobWorkReceiptSingleItem = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           setOpen(false);
           setNotification({
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000
           });
           // alert("save failed in ItemMaster");
         })
@@ -174,12 +181,13 @@ const JobWorkReceiptSingleItem = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000
       });
       setOpen(false);
     }
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e:any) => {
     setEnableSave(false);
   };
 
@@ -187,7 +195,7 @@ const JobWorkReceiptSingleItem = (props) => {
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration: 0 });
   };
   return (
     <Container maxWidth="xl" sx={[{ marginTop: (theme) => theme.spacing(10) }]}>

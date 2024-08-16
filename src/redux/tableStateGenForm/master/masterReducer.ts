@@ -24,11 +24,7 @@ const initialState: MasterState = {
 };
 
 // Define action payload types
-interface CostRecalcPayload {
-  Workstation: string;
-  Time_Min: string;
-  [key: string]: any;
-}
+
 
 // Define a slice
 const masterReducer = createSlice({

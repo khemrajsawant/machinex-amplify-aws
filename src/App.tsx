@@ -55,11 +55,11 @@ import React, { useEffect, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import ResponsiveAppBar from "./components/AppbarComponent";
 import Container from "@mui/material/Container";
-import initData from "./services/initData";
+
 import RoutesAllComponent from "./components/RoutesAllComponent";
 import CustomizedSnackbars from "./components/CustomizedSnackbars";
 import { useSelector } from "react-redux";
-import CustomizedBackdrop from "./components/CustomizedBackdrop";
+
 import { isLoading } from "./redux/tableStateGenForm/master/masterReducer";
 import { RootState, useAppDispatch } from "./redux/tableStateGenForm/store";
 
@@ -104,17 +104,17 @@ const App: React.FC<AppProps> = (props) => {
 console.log("runnig init data");
   // initData();
 
-  useEffect(() => {
-    try {
-      google.script.run
-        .withSuccessHandler(handleCloseBackDrop)
-        .isLoadingSuccessful();
-    } catch {
-      handleCloseBackDrop();
-      console.log("offline mode");
-      alert("You are offline, try again");
-    }
-  }, [open]);
+  // useEffect(() => {
+  //   try {
+  //     google.script.run
+  //       .withSuccessHandler(handleCloseBackDrop)
+  //       .isLoadingSuccessful();
+  //   } catch {
+  //     handleCloseBackDrop();
+  //     console.log("offline mode");
+  //     alert("You are offline, try again");
+  //   }
+  // }, [open]);
   const masterData = useSelector(
     (state: RootState) => state.master
   );

@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 
 export default function InputFieldNonForm(props) {
   const control = props.control;
-  const COMPONENTS = props.COMPONENTS.filter((c) => c.show !==false);
+  const COMPONENTS = props.COMPONENTS.filter((c:any) => c.show !==false);
   const items = props.items;
   const formName = props.formName;
   return (
@@ -87,7 +87,6 @@ export default function InputFieldNonForm(props) {
                     control={control}
                     label={cmp.label}
                     nameprop={cmp.name}
-                    helpertext={cmp.helpertext}
                   />
                 </Stack>
               </Box>

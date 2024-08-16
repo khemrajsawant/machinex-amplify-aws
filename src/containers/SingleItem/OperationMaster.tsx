@@ -2,7 +2,7 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 
 // mui library imports
@@ -16,18 +16,14 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
-import { useLocation } from "react-router-dom";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
-
+import {RootState} from "../../redux/tableStateGenForm/store";
 // const columns = columnsData.EMPLOYEE_MASTER;
 
-const OperationMaster = (props) => {
+const OperationMaster = (props:any) => {
   //states
   const [notification, setNotification] = React.useState({
     open: true,
@@ -37,8 +33,7 @@ const OperationMaster = (props) => {
   const [open, setOpen] = React.useState(false);
   const [enableSave, setEnableSave] = React.useState(true);
   // metadata
-  const dispatch = useDispatch();
-  const location = useLocation();
+
   const {
     WORKSTATION_MASTER: WORKSTATION_MASTER,
     OPERATION_MASTER: OPERATION_MASTER,
@@ -56,19 +51,19 @@ const OperationMaster = (props) => {
   const preparePostData = () => {
     const prepdata = {
       OPERATION_MASTER: tableOperationMaster.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       OPERATION_MASTER: prepdata.OPERATION_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       OPERATION_MASTER: temp1.OPERATION_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -76,13 +71,14 @@ const OperationMaster = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);
@@ -93,7 +89,7 @@ const OperationMaster = (props) => {
             message: "Save Successful",
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           setOpen(false);
           setNotification({
             open: true,
@@ -114,10 +110,10 @@ const OperationMaster = (props) => {
     }
   };
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed"});
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e:any) => {
     setEnableSave(false);
   };
 

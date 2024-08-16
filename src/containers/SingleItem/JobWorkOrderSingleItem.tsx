@@ -1,8 +1,8 @@
 import React from "react";
 //table
-import { useForm, Controller } from "react-hook-form";
+
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 // mui library imports
 
@@ -15,19 +15,19 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 
-import data from "../../utils/metadataLocal.json";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
+
+import { fetchMaster } from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 
 // const columns = columnsData.EMPLOYEE_MASTER;
 
-const JobWorkOrderSingleItem = (props) => {
+const JobWorkOrderSingleItem = (props:any) => {
   //states
   const [enableSave, setEnableSave] = React.useState(true);
   const [open, setOpen] = React.useState(false);
@@ -39,7 +39,7 @@ const JobWorkOrderSingleItem = (props) => {
   });
 
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     JOB_WORK_ORDER: JOB_WORK_ORDER,
     JOB_WORK_ORDER_DETAILS: JOB_WORK_ORDER_DETAILS,
@@ -54,17 +54,19 @@ const JobWorkOrderSingleItem = (props) => {
   // const SECTION_NAMES = APP_DATA.FORMDATA.MACHINE_MASTER.SECTIONS;
 
   // handlers
-  const setData = (k) => {
+  const setData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "JOB_WORK_ORDER_DETAILS"));
+    dispatch(fetchMaster({payload:k, headerName:"JOB_WORK_ORDER_DETAILS"}));
   };
 
   useEffect(() => {
     try {
+
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setData)
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           alert(er);
         })
         .importData("JOB_WORK_ORDER_DETAILS");
@@ -78,28 +80,28 @@ const JobWorkOrderSingleItem = (props) => {
   const preparePostData = () => {
     const prepdata = {
       JOB_WORK_ORDER: tableJobWorkOrder.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       JOB_WORK_ORDER_DETAILS: tableJobWorkOrderDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       JOB_WORK_ORDER: prepdata.JOB_WORK_ORDER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       JOB_WORK_ORDER_DETAILS: prepdata.JOB_WORK_ORDER_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       JOB_WORK_ORDER: temp1.JOB_WORK_ORDER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       JOB_WORK_ORDER_DETAILS: temp1.JOB_WORK_ORDER_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -107,7 +109,7 @@ const JobWorkOrderSingleItem = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);
@@ -115,6 +117,7 @@ const JobWorkOrderSingleItem = (props) => {
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -123,14 +126,16 @@ const JobWorkOrderSingleItem = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           setOpen(false);
           setNotification({
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000
           });
           // alert("save failed in ItemMaster");
         })
@@ -141,16 +146,17 @@ const JobWorkOrderSingleItem = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000
       });
       setOpen(false);
     }
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e:any) => {
     setEnableSave(false);
   };
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed", duration:0 });
   };
 
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA_INIT);

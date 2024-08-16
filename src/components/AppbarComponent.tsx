@@ -12,8 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import { APP_NAME } from "../utils/constant";
-import { useSelector, useDispatch } from "react-redux";
-import { updateAuthData } from "../redux/tableStateGenForm/master/masterReducer";
+import { useSelector } from "react-redux";
+
 import { RootState } from "../redux/tableStateGenForm/store";
 
 interface Props {
@@ -26,8 +26,6 @@ interface Props {
 
 const ResponsiveAppBar: React.FC<Props> = (props) => {
   const [time, setTime] = React.useState<string>("");
-  const [loginModalState, setLoginModalState] = React.useState<boolean>(false);
-  const dispatch = useDispatch();
 
   let pages: string[];
 
@@ -42,8 +40,6 @@ const ResponsiveAppBar: React.FC<Props> = (props) => {
   }
 
   const buttonTitle = props.isAuthenticatedUser ? "Logout" : "Login";
-
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   React.useEffect(() => {
     const interval = setInterval(
@@ -64,24 +60,18 @@ const ResponsiveAppBar: React.FC<Props> = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+
 
   const handleOpenModalClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

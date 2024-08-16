@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -10,8 +10,8 @@ import DataGridCustomComponent from '../../components/DataGridCustomComponent';
 import FormComponent from '../../components/FormComponent';
 import CustomizedSnackbars from '../../components/CustomizedSnackbars';
 import CustomizedBackdrop from '../../components/CustomizedBackdrop';
-import { fetchMaster, localUpdateNextAvailableEmpID } from '../../redux/tableStateGenForm/master/masterAction';
-
+import { fetchMaster, localUpdateNextAvailableEmpID } from '../../redux/tableStateGenForm/master/masterReducer';
+import { RootState, useAppDispatch } from '../../redux/tableStateGenForm/store';
 interface Notification {
   open: boolean;
   severity: 'error' | 'warning' | 'success';
@@ -36,17 +36,17 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
   const [open, setOpen] = React.useState<boolean>(false);
   
   // Metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   
-  const REJECTION_REPORT = useSelector((state: any) => state.master.APP_DATA.REJECTION_REPORT);
-  const REJECTION_REPORT_DETAILS = useSelector((state: any) => state.master.APP_DATA.REJECTION_REPORT_DETAILS);
+  const REJECTION_REPORT = useSelector((state: RootState) => state.master.APP_DATA.REJECTION_REPORT);
+  const REJECTION_REPORT_DETAILS = useSelector((state: RootState) => state.master.APP_DATA.REJECTION_REPORT_DETAILS);
   
-  const table = useSelector((state: any) => state.master);
-  const tableRejectionReport = useSelector((state: any) => state.master.REJECTION_REPORT);
-  const tableRejectionReportDetails = useSelector((state: any) => state.master.REJECTION_REPORT_DETAILS);
+  const table = useSelector((state: RootState) => state.master);
+  const tableRejectionReport = useSelector((state: RootState) => state.master.REJECTION_REPORT);
+  const tableRejectionReportDetails = useSelector((state: RootState) => state.master.REJECTION_REPORT_DETAILS);
   
-  const nextRejectionID = useSelector((state: any) => state.master.NEXT_AVAILABLE_ID['REJECTION_REPORT']);
+  const nextRejectionID = useSelector((state: RootState) => state.master.NEXT_AVAILABLE_ID['REJECTION_REPORT']);
   
   // Handlers
   const setNextEmpIDData = (k: any) => {
@@ -58,7 +58,7 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
       setTimeout(() => {
         // Placeholder for delayed action
       }, 3000);
-      
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
         .withFailureHandler((er: any) => {
@@ -71,7 +71,7 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
   }, []);
 
   const setRejectionData = (k: any) => {
-    dispatch(fetchMaster(k, 'REJECTION_REPORT'));
+    dispatch(fetchMaster({payload:k, headerName:'REJECTION_REPORT'}));
   };
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
         setTimeout(() => {
           // Placeholder for delayed action
         }, 3000);
-        
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setRejectionData)
           .withFailureHandler((er: any) => {
@@ -94,7 +94,7 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
   }, [enableSave]);
 
   const setData = (k: any) => {
-    dispatch(fetchMaster(k, 'REJECTION_REPORT_DETAILS'));
+    dispatch(fetchMaster({payload:k, headerName:'REJECTION_REPORT_DETAILS'}));
   };
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
         setTimeout(() => {
           // Placeholder for delayed action
         }, 3000);
-        
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
           .withFailureHandler((er: any) => {
@@ -153,7 +153,7 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
       setOpen(true);
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
+// @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -165,7 +165,7 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
             duration:0
           });
         })
-        .withFailureHandler((er: any) => {
+        .withFailureHandler(() => {
           setOpen(false);
           setNotification({
             open: true,
@@ -189,16 +189,16 @@ const RejectionForm: React.FC<RejectionFormProps> = (props) => {
   const onChangeHandler = (e: any) => {
     const maxId = parseInt(e.Report_No.split('REJ', 2)[1], 10) + 1;
     dispatch(
-      localUpdateNextAvailableEmpID(
-        'REJ' + '0'.repeat(6 - maxId.toString().length) + maxId,
-        'REJECTION_REPORT'
+      localUpdateNextAvailableEmpID({
+        payload:'REJ' + '0'.repeat(6 - maxId.toString().length) + maxId,
+        headerName:'REJECTION_REPORT'}
       )
     );
     setEnableSave(false);
   };
 
   const items = useSelector((state: any) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state: any) => state.master.SELECTED_DATA);
+
 
   const setNotificationFalse = () => {
     setNotification({ open: false, severity: 'error', message: 'Failed', duration:0 });

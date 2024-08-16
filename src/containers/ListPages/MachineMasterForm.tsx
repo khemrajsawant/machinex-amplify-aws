@@ -10,18 +10,19 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 import { APP_DATA } from "../../utils/constant";
-import data from "../../utils/metadataLocal.json";
+
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import Button from "@mui/material/Button";
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
+import { fetchMaster } from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
+import { RootState,useAppDispatch } from "../../redux/tableStateGenForm/store";
 
-const MachineMasterForm = (props) => {
+const MachineMasterForm = (props:any) => {
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { MACHINE_MASTER: MACHINE_MASTER } = useSelector(
     (state: RootState) => state.master.APP_DATA
   );
@@ -46,7 +47,7 @@ const MachineMasterForm = (props) => {
   const setData = (k) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "MACHINE_MASTER"));
+    dispatch(fetchMaster({payload:k, headerName:"MACHINE_MASTER"}));
   };
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const MachineMasterForm = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
           .withFailureHandler((er) => {
@@ -72,19 +74,19 @@ const MachineMasterForm = (props) => {
   const preparePostData = () => {
     const prepdata = {
       MACHINE_MASTER: tableMachineMaster.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       MACHINE_MASTER: prepdata.MACHINE_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       MACHINE_MASTER: temp1.MACHINE_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -99,6 +101,7 @@ const MachineMasterForm = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);
@@ -107,6 +110,7 @@ const MachineMasterForm = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
         .withFailureHandler((er) => {
@@ -115,6 +119,7 @@ const MachineMasterForm = (props) => {
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000,
           });
           // alert("save failed in ItemMaster");
         })
@@ -126,11 +131,12 @@ const MachineMasterForm = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000,
       });
     }
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = () => {
     setEnableSave(false);
   };
 
@@ -139,7 +145,7 @@ const MachineMasterForm = (props) => {
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
 
   return (

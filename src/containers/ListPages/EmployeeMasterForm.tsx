@@ -15,29 +15,26 @@ import Box from "@mui/material/Box";
 import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
-import InputFieldNonForm from "../../components/InputFieldNonForm";
-import data from "../../utils/metadataLocal.json";
+
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 // import metadataSelect from "../utils/metadataSelect.json";
 import { useLocation } from "react-router-dom";
-import {
-  updateMetaData,
-  updateUserAuthDetails,
-  updateSelectMetaData,
-} from "../../redux/tableStateGenForm/master/masterAction";
 
 import {
   fetchMaster,
+  updateSelectMetaData,
   getNextAvailableEmpID,
   localUpdateNextAvailableEmpID,
-} from "../../redux/tableStateGenForm/master/masterAction";
+} from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
-import { max } from "lodash";
-import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 
-const EmployeeMasterForm = (props) => {
+import CustomizedBackdrop from "../../components/CustomizedBackdrop";
+import { RootState,useAppDispatch } from "../../redux/tableStateGenForm/store";
+
+const EmployeeMasterForm = (props:any) => {
   // fetch Data from server'
+  const dispatch = useAppDispatch();
   const location = useLocation();
   //console.log(location);
   const [open, setOpen] = React.useState(false);
@@ -64,24 +61,22 @@ const EmployeeMasterForm = (props) => {
   const setDataEmployeeMaster = (k) => {
     //console.log("payload", k);
 
-    dispatch(fetchMaster(k, "EMPLOYEE_MASTER"));
+    dispatch(fetchMaster({payload:k, headerName:"EMPLOYEE_MASTER"}));
   };
 
-  const setDropDowns = (data) => {
-    dispatch(updateSelectMetaData(data));
+  const setDropDowns = (data:any) => {
+    dispatch(updateSelectMetaData({payload:data}));
     setRefreshDropDowns(false);
   };
 
   // handlers
-  const setWorkstationData = (k) => {
-    ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "WORKSTATION_MASTER"));
-  };
 
   useEffect(() => {
     // if (refreshDropDowns === true) {
     try {
+
+        // @ts-ignore
       google.script.run
         .withSuccessHandler(setDropDowns)
         .withFailureHandler((er) => {
@@ -110,7 +105,7 @@ const EmployeeMasterForm = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
-
+// @ts-ignore
         google.script.run
           .withSuccessHandler(setDataEmployeeMaster)
           .withFailureHandler((er) => {
@@ -123,7 +118,7 @@ const EmployeeMasterForm = (props) => {
     }
   }, [enableSave]);
 
-  const dispatch = useDispatch();
+
 
   const { EMPLOYEE_MASTER: EMPLOYEE_MASTER } = useSelector(
     (state: RootState) => state.master.APP_DATA
@@ -137,25 +132,25 @@ const EmployeeMasterForm = (props) => {
 
   //console.log("nextEmpID", nextEmpID);
 
-  const setSalaryData = (k) => {
+  const setSalaryData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "SALARY_DETAILS"));
+    dispatch(fetchMaster({payload:k, headerName:"SALARY_DETAILS"}));
   };
 
-  const setBankData = (k) => {
+  const setBankData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "BANK_DETAILS"));
+    dispatch(fetchMaster({payload:k, headerName:"BANK_DETAILS"}));
   };
 
-  const setUserData = (k) => {
+  const setUserData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "USER_DETAILS"));
+    dispatch(fetchMaster({payload:k, headerName:"USER_DETAILS"}));
   };
 
-  const setNextEmpIDData = (k) => {
+  const setNextEmpIDData = (k:any) => {
     //console.log(k);
     dispatch(getNextAvailableEmpID(k));
   };
@@ -164,6 +159,7 @@ const EmployeeMasterForm = (props) => {
       setTimeout(function () {
         //console.log("This code runs after a delay of 2000 milliseconds.");
       }, 3000);
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
         .withFailureHandler((er) => {
@@ -179,7 +175,9 @@ const EmployeeMasterForm = (props) => {
 
   useEffect(() => {
     try {
+      // @ts-ignore
       selectedItem.Emp_ID &&
+      // @ts-ignore
         google.script.run
           .withSuccessHandler(setSalaryData)
           .withFailureHandler((er) => {
@@ -194,6 +192,7 @@ const EmployeeMasterForm = (props) => {
   useEffect(() => {
     try {
       selectedItem.Emp_ID &&
+      // @ts-ignore
         google.script.run
           .withSuccessHandler(setBankData)
           .withFailureHandler((er) => {
@@ -208,6 +207,7 @@ const EmployeeMasterForm = (props) => {
   useEffect(() => {
     try {
       selectedItem.Emp_ID &&
+      // @ts-ignore
         google.script.run
           .withSuccessHandler(setUserData)
           .withFailureHandler((er) => {
@@ -255,28 +255,28 @@ const EmployeeMasterForm = (props) => {
   const preparePostData = () => {
     const prepdata = {
       EMPLOYEE_MASTER: tableEmployeeMaster.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       // BILL_OF_PROCESS: tableBillOfProcess.filter(
-      //   (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+      //   (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       // ),
     };
 
     let temp1 = {
       EMPLOYEE_MASTER: prepdata.EMPLOYEE_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       // BILL_OF_PROCESS: prepdata.BILL_OF_PROCESS.filter(
-      //   (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+      //   (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       // ),
     };
 
     let temp2 = {
       EMPLOYEE_MASTER: temp1.EMPLOYEE_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       // BILL_OF_PROCESS: temp1.BILL_OF_PROCESS.filter(
-      //   (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+      //   (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       // ),
     };
 
@@ -292,7 +292,7 @@ const EmployeeMasterForm = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
-  
+  // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -335,8 +335,8 @@ const EmployeeMasterForm = (props) => {
 
     dispatch(
       localUpdateNextAvailableEmpID(
-        "OM" + "0".repeat(6 - maxId.toString().length) + maxId,
-        "EMPLOYEE_MASTER"
+        {payload:"OM" + "0".repeat(6 - maxId.toString().length) + maxId,
+        headerName:"EMPLOYEE_MASTER"}
       )
     );
     setEnableSave(false);

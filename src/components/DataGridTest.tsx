@@ -85,7 +85,7 @@ export default function DataGridTest(props:any) {
     ? state.master.AUTH_DATA.ROUTES.label[1].ROLE
     : 'Guest'
 );
-const dateColumns = useSelector((state: RootState) => state.master.APP_DATA[props.formName].metaData.filter((c) => c.date === true)).map((column) => column.name);
+const dateColumns = useSelector((state: RootState) => state.master.APP_DATA[props.formName].metaData.filter((c:any) => c.date === true)).map((column) => column.name);
 
   const handleEditClick = (id:any) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
@@ -98,7 +98,7 @@ const dateColumns = useSelector((state: RootState) => state.master.APP_DATA[prop
 
   const handleDeleteClick = (id:any) => () => {
     // //console.log(id);
-    dispatch(deleteMaster({ id: id, isDeleted: true }, props.formName));
+    dispatch(deleteMaster({payload:{ id: id, isDeleted: true }, headerName:props.formName}));
     props.onChange();
   };
 
@@ -133,7 +133,7 @@ const dateColumns = useSelector((state: RootState) => state.master.APP_DATA[prop
     setRows(rows.map((row:any) => (row.id === newRow.id ? updatedRow : row)));
 
     console.log("updatedRow", updatedRow);
-    dispatch(updateMaster(updatedRow, props.formName));
+    dispatch(updateMaster({payload:updatedRow, headerName:props.formName}));
     console.log("updatedRow", updatedRow);
     return updatedRow;
   };
@@ -231,7 +231,7 @@ columns.forEach((col:any) => {
         });
         //console.log("testing", id, indexToIdMapping[id]);
         let selected_row = props.rows.filter(
-          (c) => c.ID == indexToIdMapping[id]
+          (c:any) => c.ID == indexToIdMapping[id]
         );
         console.log("selected_row", selected_row);
         if (selected_row.length > 0) {
@@ -256,9 +256,11 @@ columns.forEach((col:any) => {
           };
         } else {
           var isDisabled:any = false;
-          var linkStyles:any = {
+          var linkStyles = {
             textDecoration: "none",
             color: "red",
+            cursor: "not-allowed",
+            pointerEvents: "none",
           };
         }
 
@@ -304,9 +306,9 @@ columns.forEach((col:any) => {
                 {/* {//console.log("props.rows", id, props.rows[id - 1])} */}
                 <Link
                   // to={props.rows[id-1].isServer?generatePath(id):alert("save before")}
-                  to={generatePath(id)}
+                  to={generatePath()}
                   relative="path"
-                  style={linkStyles}
+                  // style={linkStyles} // to disable the link
                 >
                   <LinkIcon />
                 </Link>
@@ -349,9 +351,9 @@ columns.forEach((col:any) => {
           toolbar: EditToolbar,
         }}
         slotProps={{
-          toolbar1: {
-            showQuickFilter: true,
-          },
+          // toolbar1: {
+          //   showQuickFilter: true,
+          // },
           toolbar: { setRows, setRowModesModel },
         }}
       />

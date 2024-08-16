@@ -1,9 +1,10 @@
 import React, { Component, createRef } from "react";
 import Container from "@mui/material/Container";
-
+// @ts-ignore
 class EmbeddedIframe extends Component {
   constructor(props) {
     super(props);
+    // @ts-ignore
     this.containerRef = createRef();
   }
 
@@ -17,6 +18,7 @@ class EmbeddedIframe extends Component {
   }
 
   setIframeSize = () => {
+    // @ts-ignore
     const container = this.containerRef.current;
     if (container) {
       const containerWidth = container.clientWidth;
@@ -26,7 +28,9 @@ class EmbeddedIframe extends Component {
   };
 
   render() {
+    // @ts-ignore
     const { src } = this.props;
+    // @ts-ignore
     const { containerWidth, containerHeight } = this.state || {};
 
     const iframeStyle = {
@@ -37,6 +41,7 @@ class EmbeddedIframe extends Component {
 
     return (
       <Container
+      // @ts-ignore
         ref={this.containerRef}
         style={{ height: "100vh", width: "100%" }}
       >

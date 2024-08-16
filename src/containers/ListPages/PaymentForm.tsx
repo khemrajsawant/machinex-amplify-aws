@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 
 // mui library imports
@@ -17,23 +17,24 @@ import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import { useLocation } from "react-router-dom";
 
 import {
-  fetchMaster,
+  fetchMaster, getNextAvailableEmpID,
   localUpdateNextAvailableEmpID,
-} from "../../redux/tableStateGenForm/master/masterAction";
+} from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 
 // const columns = columnsData.EMPLOYEE_MASTER;
 
-const PaymentForm = (props) => {
+const PaymentForm = (props: any) => {
   //states
   // const items = {PAYMENT:["Google Pay", "PhonePay", "Bank Transfer", "Cash"],PAYMENT_DETAILS:[]};
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
 
   const { PAYMENT: PAYMENT, PAYMENT_DETAILS: PAYMENT_DETAILS } = useSelector(
@@ -71,6 +72,7 @@ const PaymentForm = (props) => {
       setTimeout(function () {
         //console.log("This code runs after a delay of 2000 milliseconds.");
       }, 3000);
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
         .withFailureHandler((er) => {
@@ -84,10 +86,10 @@ const PaymentForm = (props) => {
 
   // handlers
 
-  const setPaymentData = (k) => {
+  const setPaymentData = (k: any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "PAYMENT"));
+    dispatch(fetchMaster({ payload: k, headerName: "PAYMENT" }));
   };
 
   useEffect(() => {
@@ -96,9 +98,10 @@ const PaymentForm = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setPaymentData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er: any) => {
             alert(er);
           })
           .importData("PAYMENT");
@@ -108,10 +111,10 @@ const PaymentForm = (props) => {
     }
   }, [enableSave]);
 
-  const setData = (k) => {
+  const setData = (k: any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "PAYMENT_DETAILS"));
+    dispatch(fetchMaster({ payload: k, headerName: "PAYMENT_DETAILS" }));
   };
 
   useEffect(() => {
@@ -120,9 +123,10 @@ const PaymentForm = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
-          .withFailureHandler((er) => {
+          .withFailureHandler((er: any) => {
             alert(er);
           })
           .importData("PAYMENT_DETAILS");
@@ -137,28 +141,28 @@ const PaymentForm = (props) => {
   const preparePostData = () => {
     const prepdata = {
       PAYMENT: tablePayment.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c: any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       PAYMENT_DETAILS: tablePaymentDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c: any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       PAYMENT: prepdata.PAYMENT.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c: any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       PAYMENT_DETAILS: prepdata.PAYMENT_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c: any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       PAYMENT: temp1.PAYMENT.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c: any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       PAYMENT_DETAILS: temp1.PAYMENT_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c: any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -166,14 +170,14 @@ const PaymentForm = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e: any) => {
     try {
       e.stopPropagation();
       setOpen(true);
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
+// @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -182,14 +186,16 @@ const PaymentForm = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler(() => {
           setOpen(false);
           setNotification({
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000,
           });
           // alert("save failed in ItemMaster");
         })
@@ -200,6 +206,7 @@ const PaymentForm = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000,
       });
       setOpen(false);
     }
@@ -216,20 +223,22 @@ const PaymentForm = (props) => {
 
     dispatch(
       localUpdateNextAvailableEmpID(
-        "PAY" + "0".repeat(6 - maxId.toString().length) + maxId,
-        "PAYMENT"
+        {
+          payload: "PAY" + "0".repeat(6 - maxId.toString().length) + maxId,
+          headerName: "PAYMENT"
+        }
       )
     );
     setEnableSave(false);
   };
 
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
+
 
   console.log("PAYMENT", PAYMENT);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed", duration: 3000 });
   };
 
   return (

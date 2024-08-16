@@ -1,7 +1,6 @@
 import React from "react";
 // table
 
-import { useForm } from "react-hook-form";
 //store
 import { useSelector } from "react-redux";
 // mui library imports
@@ -16,26 +15,24 @@ import Box from "@mui/material/Box";
 import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
-import InputFieldNonForm from "../../components/InputFieldNonForm";
-import data from "../../utils/metadataLocal.json";
+
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 // import { useLocation } from 'react-router-dom';
 // import { useParams } from "react-router-dom";
 // import metadataSelect from "../utils/metadataSelect.json";
 
 import {
-  updateMetaData,
-  updateUserAuthDetails,
   updateSelectMetaData,
-} from "../../redux/tableStateGenForm/master/masterAction";
+} from "../../redux/tableStateGenForm/master/masterReducer";
 
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
+import { fetchMaster } from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import TextFieldFreeze from "../../components/TextFieldFreeze";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 
-const ItemMasterInputFormSelectedItem = (props) => {
+const ItemMasterInputFormSelectedItem = (props:any) => {
   //query params
   // const location = useLocation();
   // const queryParams = new URLSearchParams(location.search);
@@ -52,23 +49,24 @@ const ItemMasterInputFormSelectedItem = (props) => {
   const [enableSave, setEnableSave] = React.useState(true);
   const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
 
-  const setDropDowns = (data) => {
+  const setDropDowns = (data:any) => {
     dispatch(updateSelectMetaData(data));
     setRefreshDropDowns(false);
   };
 
   // handlers
-  const setWorkstationData = (k) => {
+  const setWorkstationData = (k:any) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "WORKSTATION_MASTER"));
+    dispatch(fetchMaster({payload:k, headerName:"WORKSTATION_MASTER"}));
   };
 
   useEffect(() => {
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setWorkstationData)
-        .withFailureHandler((er) => {
+        .withFailureHandler((er:any) => {
           alert(er);
         })
         .importData("WORKSTATION_MASTER");
@@ -85,9 +83,10 @@ const ItemMasterInputFormSelectedItem = (props) => {
   useEffect(() => {
     // if (refreshDropDowns === true) {
     try {
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setDropDowns)
-        .withFailureHandler((er) => {
+        .withFailureHandler(() => {
           ////console.log("using local copy of configlocalhost");
           // setUserInfo({userName:"Guest"})
 
@@ -107,23 +106,9 @@ const ItemMasterInputFormSelectedItem = (props) => {
     // }
   }, [refreshDropDowns]);
 
-  // useEffect(() => {
-  //   try {
-  //     google.script.run
-  //       .withSuccessHandler(setWorkstationData)
-  //       .withFailureHandler((er) => {
-  //         alert(er);
-  //       })
-  //       .importSpecificKeyData("ITEM_MASTER");
-  //   } catch (error) {
-  //     setNotification({open:true,severity:'error',message:"Couldn't Import Server Data"})
-  //     console.error(error); // You might send an exception to your error tracker like AppSignal
-  //   }
-  // }, []);
-
-  // const [tableItemMaster, settableItemMaster] = React.useState(useSelector((state: RootState) => state.master.ITEM_MASTER));
-  // const [tableBillOfProcess, settableBillOfProcess] = React.useState(useSelector((state: RootState) => state.master.BILL_OF_PROCESS));
-  const dispatch = useDispatch();
+ 
+ 
+  const dispatch = useAppDispatch();
 
   const { ITEM_MASTER: ITEM_MASTER, BILL_OF_PROCESS: BILL_OF_PROCESS } =
     useSelector((state: RootState) => state.master.APP_DATA);
@@ -134,19 +119,21 @@ const ItemMasterInputFormSelectedItem = (props) => {
     (state: RootState) => state.master.BILL_OF_PROCESS
   );
 
-  const setBOPData = (k) => {
+  const setBOPData = (k:any) => {
     //console.log("payload", k);
-    dispatch(fetchMaster(k, "BILL_OF_PROCESS"));
+    dispatch(fetchMaster({payload:k, headerName:"BILL_OF_PROCESS"}));
   };
 
   useEffect(() => {
     console.log("running on save");
     try {
+      // @ts-ignore
       if (enableSave === true) {
         selectedItem.Drawing_Number &&
+        // @ts-ignore
           google.script.run
             .withSuccessHandler(setBOPData)
-            .withFailureHandler((er) => {
+            .withFailureHandler((er:any) => {
               alert(er);
             })
             .importDataSelectedItem(
@@ -159,10 +146,6 @@ const ItemMasterInputFormSelectedItem = (props) => {
     }
   }, [enableSave]);
 
-  const handleRefreshDropDowns = () => {
-    setRefreshDropDowns(true);
-    handlerSave();
-  };
 
   const handlerSave = () => {
     return setEnableSave(false);
@@ -170,7 +153,7 @@ const ItemMasterInputFormSelectedItem = (props) => {
 
   // //states
 
-  const { control, handleSubmit } = useForm({ reValidateMode: "onBlur" });
+ 
 
   const [checked, setChecked] = React.useState(false);
 
@@ -184,35 +167,35 @@ const ItemMasterInputFormSelectedItem = (props) => {
   // ];
   //handlers
 
-  const handleChange = (props) => {
+  const handleChange = () => {
     setChecked((prev) => !prev);
   };
 
   const preparePostData = () => {
     const prepdata = {
       ITEM_MASTER: tableItemMaster.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       BILL_OF_PROCESS: tableBillOfProcess.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       ITEM_MASTER: prepdata.ITEM_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       BILL_OF_PROCESS: prepdata.BILL_OF_PROCESS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       ITEM_MASTER: temp1.ITEM_MASTER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       BILL_OF_PROCESS: temp1.BILL_OF_PROCESS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -220,13 +203,14 @@ const ItemMasterInputFormSelectedItem = (props) => {
     return temp2;
   };
 
-  const submitSaveHandler = async (e) => {
+  const submitSaveHandler = async (e:any) => {
     try {
       e.stopPropagation();
       setOpen(true);
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);
@@ -237,7 +221,7 @@ const ItemMasterInputFormSelectedItem = (props) => {
             message: "Save Successful",
           });
         })
-        .withFailureHandler((er) => {
+        .withFailureHandler(() => {
           setOpen(false);
           setNotification({
             open: true,
@@ -258,7 +242,7 @@ const ItemMasterInputFormSelectedItem = (props) => {
     }
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = () => {
     setEnableSave(false);
   };
 

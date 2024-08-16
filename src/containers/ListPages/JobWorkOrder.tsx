@@ -1,8 +1,8 @@
 import React from "react";
 //table
-import { useForm, Controller } from "react-hook-form";
+
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 // mui library imports
 
@@ -15,29 +15,29 @@ import FormHeader from "../../components/FormHeader";
 import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 
-import data from "../../utils/metadataLocal.json";
+
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import { useLocation } from "react-router-dom";
 
 import {
   fetchMaster,
   localUpdateNextAvailableEmpID,
-} from "../../redux/tableStateGenForm/master/masterAction";
+  getNextAvailableEmpID
+} from "../../redux/tableStateGenForm/master/masterReducer";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
-
+import { RootState, useAppDispatch } from "../../redux/tableStateGenForm/store";
 // const columns = columnsData.EMPLOYEE_MASTER;
 
 const JobWorkOrder = (props) => {
   //states
   const location = useLocation();
   // metadata
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     JOB_WORK_ORDER: JOB_WORK_ORDER,
-    JOB_WORK_ORDER_DETAILS: JOB_WORK_ORDER_DETAILS,
   } = useSelector((state: RootState) => state.master.APP_DATA);
 
   // states
@@ -70,6 +70,7 @@ const JobWorkOrder = (props) => {
       setTimeout(function () {
         //console.log("This code runs after a delay of 2000 milliseconds.");
       }, 3000);
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(setNextEmpIDData)
         .withFailureHandler((er) => {
@@ -84,7 +85,7 @@ const JobWorkOrder = (props) => {
   const setData = (k) => {
     ////console.log("payload", k);
 
-    dispatch(fetchMaster(k, "JOB_WORK_ORDER"));
+    dispatch(fetchMaster({payload:k, headerName:"JOB_WORK_ORDER"}));
   };
 
   useEffect(() => {
@@ -93,6 +94,7 @@ const JobWorkOrder = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
           .withFailureHandler((er) => {
@@ -110,28 +112,28 @@ const JobWorkOrder = (props) => {
   const preparePostData = () => {
     const prepdata = {
       JOB_WORK_ORDER: tableJobWorkOrder.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
       JOB_WORK_ORDER_DETAILS: tableJobWorkOrderDetails.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       JOB_WORK_ORDER: prepdata.JOB_WORK_ORDER.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
       JOB_WORK_ORDER_DETAILS: prepdata.JOB_WORK_ORDER_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       JOB_WORK_ORDER: temp1.JOB_WORK_ORDER.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
       JOB_WORK_ORDER_DETAILS: temp1.JOB_WORK_ORDER_DETAILS.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -146,7 +148,7 @@ const JobWorkOrder = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
+// @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
@@ -155,6 +157,7 @@ const JobWorkOrder = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
         .withFailureHandler((er) => {
@@ -163,6 +166,7 @@ const JobWorkOrder = (props) => {
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000,
           });
           // alert("save failed in ItemMaster");
         })
@@ -173,6 +177,7 @@ const JobWorkOrder = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000,
       });
       setOpen(false);
     }
@@ -188,17 +193,17 @@ const JobWorkOrder = (props) => {
 
     dispatch(
       localUpdateNextAvailableEmpID(
-        "JWO" + "0".repeat(6 - maxId.toString().length) + maxId,
-        "JOB_WORK_ORDER"
+      {payload: "JWO" + "0".repeat(6 - maxId.toString().length) + maxId,
+        headerName:"JOB_WORK_ORDER"}
       )
     );
     setEnableSave(false);
   };
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
-  const selectedItem = useSelector((state: RootState) => state.master.SELECTED_DATA);
+ 
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
   return (
     <Container maxWidth="xl" sx={[{ marginTop: (theme) => theme.spacing(10) }]}>

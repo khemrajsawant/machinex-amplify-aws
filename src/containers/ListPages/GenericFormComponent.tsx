@@ -1,7 +1,7 @@
 import React from "react";
 // table
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 //store
 import { useSelector } from "react-redux";
 // mui library imports
@@ -18,14 +18,10 @@ import DataGridCustomComponent from "../../components/DataGridCustomComponent";
 import FormComponent from "../../components/FormComponent";
 import { APP_DATA } from "../../utils/constant";
 import InputFieldNonForm from "../../components/InputFieldNonForm";
-import data from "../../utils/metadataLocal.json";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
-import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
-
-const GenericFormComponent = () => {
+import { RootState } from "../../redux/tableStateGenForm/store";
+const GenericFormComponent = (props:any) => {
   const {
     EARNING_DETAILS: EARNING_DETAILS,
     DAILY_WORK_REPORT: DAILY_WORK_REPORT,
@@ -59,10 +55,11 @@ const GenericFormComponent = () => {
   const submitSaveHandler = (e) => {
     try {
       e.stopPropagation();
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setEnableSave(true);
-          setNotification({open:true,severity:'success',message:"Save Successful"})
+          setNotification({open:true,severity:'success',message:"Save Successful",duration:3000})
         })
         .withFailureHandler((er) => {
           alert("save failed in GenericCOmp");
@@ -73,14 +70,14 @@ const GenericFormComponent = () => {
       return "Failed!";
     }
   };
-  const onChangeHandler = (e) => {
+  const onChangeHandler = () => {
     setEnableSave(false);
   };
 
   const table = useSelector((state: RootState) => state.master);
 
   const setNotificationFalse = () =>{
-    setNotification({open:false,severity:'error',message:"Failed"})
+    setNotification({open:false,severity:'error',message:"Failed",duration:0})
   }
 
   return (

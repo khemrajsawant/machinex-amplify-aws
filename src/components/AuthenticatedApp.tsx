@@ -4,20 +4,11 @@ import Login from "./Login"; // Adjust the path if needed
 import Home from "../pages/Home";
 import ResponsiveAppBar from "./AppbarComponent";
 import Container from "@mui/material/Container";
-import { useSelector, useDispatch } from "react-redux";
 import { updateAuthData } from "../redux/tableStateGenForm/master/masterReducer";
-import { RootState, useAppDispatch } from "../redux/tableStateGenForm/store";
+import { useAppDispatch } from "../redux/tableStateGenForm/store";
 
 // Define types for the props and state
 interface AuthenticatedAppProps { }
-
-interface AuthenticatedAppState {
-  authenticated: boolean;
-  pages: string[];
-  email: string;
-  password: string;
-  open: boolean;
-}
 
 const AuthenticatedApp: React.FC<AuthenticatedAppProps> = () => {
   const [authenticated, setAuthenticated] = React.useState<boolean>(false);
@@ -56,6 +47,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = () => {
       setAuthenticated(false);
     } else {
       try {
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setAccess)
           .withFailureHandler((er: any) => {

@@ -1,6 +1,5 @@
 import React from "react";
-import ControllerCompTextField from "../components/ControllerCompTextField";
-import ControllerCompSelectField from "../components/ControllerCompSelect";
+
 
 import { createMaster } from "../redux/tableStateGenForm/master/masterReducer";
 import Stack from "@mui/material/Stack";
@@ -8,20 +7,18 @@ import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import CompFormcontrolRadio from "./CompFormcontrolRadio";
-import ControllerCompDateField from "./ControllerCompDateField";
-import TestAutocompleteForm from "./TestAutocompleteForm";
+
 
 import FormHeader from "./FormHeader";
 // import {calcCostHandler} from '../business/processBusinessLogic'
 import { useSelector } from "react-redux";
 import { processData } from "../business/processBusinessLogic";
+import { RootState, useAppDispatch } from "../redux/tableStateGenForm/store";
 // var _ = require('lodash/fp');
 
 export default function TextFieldFreeze(props) {
   const { control, handleSubmit } = useForm({ reValidateMode: "onBlur" });
-  const COMPONENTS = props.COMPONENTS.filter((c) => c.name != "ID");
+  const COMPONENTS = props.COMPONENTS.filter((c:any) => c.name != "ID");
   const headerName = props.headerValue;
   const formName = COMPONENTS[0].sheetname;
   const primarykey = props.primarykey;
@@ -37,7 +34,7 @@ export default function TextFieldFreeze(props) {
   const defaultValuesArray = props.prefilled ? props.prefilled : {};
   ////console.log("tableWorkStationMaster", tableWorkStationMaster);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // function pad(num, size, wNo) {
   //   num = num.toString();
@@ -51,7 +48,7 @@ export default function TextFieldFreeze(props) {
     let input = { data, tableWorkStationMaster, id, primarykey };
 
     const processedData = processData(formName, input);
-    dispatch(createMaster(processedData, formName));
+    dispatch(createMaster({payload:processedData, headerName:formName}));
     setId(id + 1);
   };
 
@@ -113,7 +110,7 @@ export default function TextFieldFreeze(props) {
                         headerName={cmp.label.replace(/_/g, " ")}
                         headerkind="regular"
                       ></FormHeader>
-                      <span name={cmp.name} style={{ fontSize: "0.8rem" }}>
+                      <span style={{ fontSize: "0.8rem" }}>
                         {defaultValuesArray[cmp.name]}
                       </span>
                     </Stack>
@@ -134,7 +131,7 @@ export default function TextFieldFreeze(props) {
                         headerName={cmp.label.replace(/_/g, " ")}
                         headerkind="regular"
                       ></FormHeader>
-                      <span name={cmp.name} style={{ fontSize: "0.8rem" }}>
+                      <span  style={{ fontSize: "0.8rem" }}>
                         {defaultValuesArray[cmp.name]}
                       </span>
                     </Stack>
@@ -155,7 +152,7 @@ export default function TextFieldFreeze(props) {
                         headerName={cmp.label.replace(/_/g, " ")}
                         headerkind="regular"
                       ></FormHeader>
-                      <span name={cmp.name} style={{ fontSize: "0.8rem" }}>
+                      <span  style={{ fontSize: "0.8rem" }}>
                         {defaultValuesArray[cmp.name]}
                       </span>
                     </Stack>
@@ -185,7 +182,7 @@ export default function TextFieldFreeze(props) {
                         headerName={cmp.label.replace(/_/g, " ")}
                         headerkind="regular"
                       ></FormHeader>
-                      <span name={cmp.name} style={{ fontSize: "0.8rem" }}>
+                      <span style={{ fontSize: "0.8rem" }}>
                         {defaultValuesArray[cmp.name]}
                       </span>
                     </Stack>

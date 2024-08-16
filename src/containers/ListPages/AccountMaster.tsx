@@ -2,7 +2,7 @@ import React from "react";
 //table
 
 //store
-import { useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 // mui library imports
 
@@ -17,18 +17,19 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { Icon } from "@iconify/react";
 import FormComponent from "../../components/FormComponent";
 
-import data from "../../utils/metadataLocal.json";
+
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 
 import { fetchMaster } from "../../redux/tableStateGenForm/master/masterAction";
 import CustomizedSnackbars from "../../components/CustomizedSnackbars";
 import CustomizedBackdrop from "../../components/CustomizedBackdrop";
 import { Box, Collapse } from "@mui/material";
+import { RootState,useAppDispatch } from "../../redux/tableStateGenForm/store";
 
 const AccountMaster = (props) => {
   //states
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // metadata
 
   const { ACCOUNT_MASTER_FORM: ACCOUNT_MASTER_FORM } = useSelector(
@@ -69,6 +70,7 @@ const AccountMaster = (props) => {
         setTimeout(function () {
           //console.log("This code runs after a delay of 3000 milliseconds.");
         }, 3000);
+        // @ts-ignore
         google.script.run
           .withSuccessHandler(setData)
           .withFailureHandler((er) => {
@@ -86,19 +88,19 @@ const AccountMaster = (props) => {
   const preparePostData = () => {
     const prepdata = {
       ACCOUNT_MASTER_FORM: tableAccountMaster.filter(
-        (c) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
+        (c:any) => !(c.isServer && !c.isDeleted && !c.isNew && !c.isModified)
       ),
     };
 
     let temp1 = {
       ACCOUNT_MASTER_FORM: prepdata.ACCOUNT_MASTER_FORM.filter(
-        (c) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && c.isNew && !c.isModified)
       ),
     };
 
     let temp2 = {
       ACCOUNT_MASTER_FORM: temp1.ACCOUNT_MASTER_FORM.filter(
-        (c) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
+        (c:any) => !(!c.isServer && c.isDeleted && !c.isNew && c.isModified)
       ),
     };
 
@@ -113,6 +115,7 @@ const AccountMaster = (props) => {
 
       // Simulate a time-consuming task
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      // @ts-ignore
       google.script.run
         .withSuccessHandler(() => {
           setOpen(false);
@@ -121,6 +124,7 @@ const AccountMaster = (props) => {
             open: true,
             severity: "success",
             message: "Save Successful",
+            duration: 3000,
           });
         })
         .withFailureHandler((er) => {
@@ -129,6 +133,7 @@ const AccountMaster = (props) => {
             open: true,
             severity: "warning",
             message: "Save Failed...Try again",
+            duration: 3000,
           });
           // alert("save failed in ItemMaster");
         })
@@ -140,18 +145,19 @@ const AccountMaster = (props) => {
         open: true,
         severity: "warning",
         message: "Save Failed..Couldn't Connect to Server",
+        duration: 3000,
       });
     }
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = () => {
     setEnableSave(false);
   };
 
   const items = useSelector((state: RootState) => state.master.DROPDOWN_DATA);
 
   const setNotificationFalse = () => {
-    setNotification({ open: false, severity: "error", message: "Failed" });
+    setNotification({ open: false, severity: "error", message: "Failed",duration:3000 });
   };
 
   return (

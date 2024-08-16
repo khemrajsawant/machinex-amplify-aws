@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
+
 import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+
 import Container from "@mui/material/Container";
 import Modal from "@mui/material/Modal";
 import { Authenticator } from '@aws-amplify/ui-react'
 import outputs from "../../amplify_outputs.json";
 import { updateAuthData } from "../redux/tableStateGenForm/master/masterReducer";
-import { RootState, useAppDispatch } from "../redux/tableStateGenForm/store";
+import { useAppDispatch } from "../redux/tableStateGenForm/store";
 Amplify.configure(outputs);
 
 
@@ -30,9 +29,11 @@ const Login: React.FC<LoginProps> = ({ open, handleKeyDown, onLogin }) => {
   const dispatch = useAppDispatch();
   const handleLoginClick = async () => {
     setLoading(true);
-
+    setEmail("")
+    setPassword("")
+   
     try {
-      console.log("Triggering onLogin with ", email, " and ", password);
+      console.log("Triggering onLogin with ", email, " and ", password,"loading",loading);
       onLogin(email, password);
       dispatch(updateAuthData({payload:[
         ["home", "master", "transactions", "reports"],
