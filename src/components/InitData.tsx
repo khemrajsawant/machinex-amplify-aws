@@ -34,11 +34,11 @@ const InitData: React.FC = () => {
   };
 
   const setDropDowns = (data:any) => {
-    dispatch(updateSelectMetaData(data));
+    dispatch(updateSelectMetaData({payload:data}));
   };
 
   const setSelectedDropDowns = (data:any) => {
-    dispatch(createDynamicDropdown(data));
+    dispatch(createDynamicDropdown({payload:data}));
   };
 
   const setData = (k: any) => {
@@ -48,7 +48,7 @@ const InitData: React.FC = () => {
 
   const setNextEmpIDData = (k: any) => {
     console.log("Dispatching getNextAvailableEmpID with data:", k);
-    dispatch(getNextAvailableEmpID(k));
+    dispatch(getNextAvailableEmpID({payload:k}));
   };
 
   useEffect(() => {

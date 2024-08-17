@@ -163,53 +163,53 @@ const dateColumns = useSelector((state: RootState) => state.master.APP_DATA[prop
   }
   let columns = props.columns;
 
-  console.log("props.columns",props.columns)
+  // console.log("props.columns",props.columns)
 
-  props.formName == "DAILY_WORK_REPORT" &&
+  // props.formName == "DAILY_WORK_REPORT" &&
 
-    columns.forEach((col:any) => {
-      col.editable = false
-      if(col.field == 'Approval' && role=='Admin'){
-        col.type='boolean'
-        col.editable = true
-      }else if(col.field == 'Approval' || col.field == 'Worker_No'){
-       if (col.field == 'Approval'){
-          col.type='boolean'
-        }
+  //   columns.forEach((col:any) => {
+  //     // col.editable = false
+  //     if(col.field == 'Approval' && role=='Admin'){
+  //       col.type='boolean'
+  //       // col.editable = true
+  //     }else if(col.field == 'Approval' || col.field == 'Worker_No'){
+  //      if (col.field == 'Approval'){
+  //         col.type='boolean'
+  //       }
 
-        col.editable = false
-      }else{
-        col.editable = true  
-      }
-  });
-
-
-  props.formName == "BILL_OF_PROCESS" &&
-
-  columns.forEach((col:any) => {
-    col.editable = true
-    if(col.field == 'Is_Scrap_Applicable'){
-      col.type='boolean'
-    }else{
-      col.editable = true  
-    }
-});
+  //       // col.editable = false
+  //     }else{
+  //       // col.editable = true  
+  //     }
+  // });
 
 
+//   props.formName == "BILL_OF_PROCESS" &&
 
-columns.forEach((col:any) => {
-  col.editable = true
+//   columns.forEach((col:any) => {
+//     col.editable = true
+//     if(col.field == 'Is_Scrap_Applicable'){
+//       col.type='boolean'
+//     }else{
+//       // col.editable = true  
+//     }
+// });
 
-  if(dateColumns.includes(col.field)){
-    col.type='date'
-    col.valueGetter = (params:any) => {
-      // Your custom transformation logic for the "Date" column
-      // For example, if the value is a string, convert it to a Date object
-      return new Date(params.value);
-    }
-  }
-});
+console.log("***********************",columns)
 
+// columns.forEach((col:any) => {
+  // col.editable = true
+
+//   if(dateColumns.includes(col.field)){
+//     col.type='date'
+//     col.valueGetter = (params:any) => {
+//       // Your custom transformation logic for the "Date" column
+//       // For example, if the value is a string, convert it to a Date object
+//       return new Date(params.value);
+//     }
+//   }
+// });
+console.log("***********************",columns)
   // //console.log("test_rows", dataClicked);
 
   columns = [

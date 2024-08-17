@@ -26,7 +26,7 @@ const schema = a.schema({
       isNew: a.boolean(),
       isModified: a.boolean(),
       isDeleted: a.boolean(),
-    }).authorization(allow => [allow.owner()]),
+    }).authorization(allow => [allow.group('Admin')]),
 
   BankDetails: a
     .model({
@@ -40,7 +40,7 @@ const schema = a.schema({
       isNew: a.boolean(),
       isModified: a.boolean(),
       isDeleted: a.boolean(),
-    }).authorization(allow => [allow.owner()]),
+    }).authorization(allow => [allow.group('Admin')]),
 
   BillOfProces: a
     .model({

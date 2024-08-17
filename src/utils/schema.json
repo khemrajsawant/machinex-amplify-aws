@@ -1,0 +1,83 @@
+{
+    "AccountMasterForm": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "Account_Name": {
+          "type": "string"
+        },
+        "Address": {
+          "type": "string"
+        },
+        "Mobile": {
+          "type": "string"
+        },
+        "Email": {
+          "type": "string"
+        },
+        "timeStamp": {
+          "type": "string"
+        },
+        "isServer": {
+          "type": "boolean"
+        },
+        "isNew": {
+          "type": "boolean"
+        },
+        "isModified": {
+          "type": "boolean"
+        },
+        "isDeleted": {
+          "type": "boolean"
+        },
+        "__typename": {
+            "type": "string"
+          }
+      },
+      "locations": "machinex-data/ACCOUNT_MASTER_FORM.csv",
+      "table_name": "AccountMasterForm-u4kxnv3qazfalifw2n6iiomzii-NONE"
+    },
+    "BankDetails": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "Emp_ID": {
+          "type": "string"
+        },
+        "Account_No": {
+          "type": "string"
+        },
+        "IFSC_Code": {
+          "type": "string"
+        },
+        "Bank_Name": {
+          "type": "string"
+        },
+        "timeStamp": {
+          "type": "string"
+        },
+        "isServer": {
+          "type": "boolean"
+        },
+        "isNew": {
+          "type": "boolean"
+        },
+        "isModified": {
+          "type": "boolean"
+        },
+        "isDeleted": {
+          "type": "boolean"
+        },
+        "__typename": {
+          "type": "string"
+        }
+      },
+      "locations": "machinex-data/BANK_DETAILS.csv",
+      "table_name": "BankDetails-u4kxnv3qazfalifw2n6iiomzii-NONE"
+    }
+  }
+  

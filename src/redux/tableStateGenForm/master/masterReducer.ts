@@ -142,7 +142,7 @@ const masterReducer = createSlice({
     getSelectedItem(state, action: PayloadAction<any>) {
       state.SELECTED_DATA = action.payload;
     },
-    getNextAvailableEmpID(state, action: PayloadAction<string>) {
+    getNextAvailableEmpID(state, action: PayloadAction<any>) {
       state.NEXT_AVAILABLE_ID = action.payload;
     },
     localUpdateNextAvailableEmpID(
