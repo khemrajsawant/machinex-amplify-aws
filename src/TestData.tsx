@@ -6,12 +6,14 @@ Amplify.configure(outputs);
 const client = generateClient<Schema>();
 
 // list all items
+
+
+
+const  TestData:any  = async () => {
+    
 const { data: accountmaster  } = await client.models.AccountMasterForm.list();
 
 console.log(accountmaster);
-
-
-const TestData: React.FC = () => {
 
     return (<>
     {console.log("Data Hook useEffect",accountmaster)}
