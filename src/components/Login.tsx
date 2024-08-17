@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Button from "@mui/material/Button";
 
 import Container from "@mui/material/Container";
 import Modal from "@mui/material/Modal";
-import { Authenticator } from '@aws-amplify/ui-react'
-import outputs from "../../amplify_outputs.json";
+
+
+
 import { updateAuthData } from "../redux/tableStateGenForm/master/masterReducer";
 import { useAppDispatch } from "../redux/tableStateGenForm/store";
-Amplify.configure(outputs);
 
+import { Authenticator } from '@aws-amplify/ui-react'
+import outputs from "../../amplify_outputs.json";
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '../../amplify/data/resource';
+Amplify.configure(outputs);
+const client = generateClient<Schema>();
+import TestData from "../TestData.tsx";
 
 import { Amplify } from 'aws-amplify';
 
@@ -83,6 +90,16 @@ const Login: React.FC<LoginProps> = ({ open, handleKeyDown, onLogin }) => {
       handleKeyDown();
     }
   };
+  useEffect( () => {
+    console.log("Init Data Hook useEffect");
+    try {
+
+       client.models.Todo.list().then((data) => {console.log("test",data)});
+    } catch (error) {
+      console.log("offline mode");
+      alert("You are offline, try again");  
+    }
+  }, []);
 
   return (
     <Modal open={open} onClose={onClose} onKeyDown={setHandleKey}>
@@ -95,7 +112,7 @@ const Login: React.FC<LoginProps> = ({ open, handleKeyDown, onLogin }) => {
         {({ signOut, user }) => (
         <main>
           <h1>Hello {user?.signInDetails?.loginId}</h1>
-      
+          <TestData/>
           <Button
               variant="contained"
               onClick={handleLoginClick}

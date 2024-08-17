@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Provider store={store}>
           {/* <Authenticator> */}
-      
+      <InitData/>
             <AuthenticatedApp />
           {/* </Authenticator> */}
         </Provider>
