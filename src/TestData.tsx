@@ -11,9 +11,9 @@ const client = generateClient<Schema>();
 
 const  TestData:any  = async () => {
     
-const { data: accountmaster  } = await client.models.AccountMasterForm.list();
+const accountmaster:any = await client.models.AccountMasterForm.list();
 
-console.log(accountmaster);
+console.log("test",accountmaster);
 
     return (<>
     {console.log("Data Hook useEffect",accountmaster)}

@@ -63,7 +63,7 @@ import { useSelector } from "react-redux";
 import { isLoading } from "./redux/tableStateGenForm/master/masterReducer";
 import { RootState, useAppDispatch } from "./redux/tableStateGenForm/store";
 
-
+import TestData from "./TestData.tsx";
 
 interface Notification {
   open: boolean;
@@ -134,7 +134,8 @@ console.log("runnig init data");
       <ResponsiveAppBar
         onLogout={props.onLogout} pages={props.pages} guest={false} onLoginModalOpen={props.onLoginModalOpen} isAuthenticatedUser={props.isAuthenticatedUser}
       />
-  
+
+      <TestData/>
       <RoutesAllComponent />
     </Container>
   );

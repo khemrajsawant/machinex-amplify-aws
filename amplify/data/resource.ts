@@ -4,7 +4,7 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
-    }).authorization(allow => [allow.owner()]),
+    }).authorization(allow => [allow.guest()]),
 
   RoleToRouteMapping:a
   .model({
@@ -26,7 +26,7 @@ const schema = a.schema({
       isNew: a.boolean(),
       isModified: a.boolean(),
       isDeleted: a.boolean(),
-    }).authorization(allow => [allow.group('Admin')]),
+    }).authorization(allow => [allow.guest()]),
 
   BankDetails: a
     .model({
@@ -40,7 +40,7 @@ const schema = a.schema({
       isNew: a.boolean(),
       isModified: a.boolean(),
       isDeleted: a.boolean(),
-    }).authorization(allow => [allow.group('Admin')]),
+    }).authorization(allow => [allow.guest()]),
 
   BillOfProces: a
     .model({
